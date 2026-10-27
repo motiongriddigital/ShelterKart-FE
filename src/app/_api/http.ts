@@ -1,4 +1,4 @@
-import { API_ORIGIN } from '@/app/configs/env';
+import { API_ORIGIN } from '@/configs/env';
 
 export class ApiError extends Error {
   constructor(
@@ -17,7 +17,10 @@ type Options = Omit<RequestInit, 'body'> & { body?: unknown; next?: NextOpts; ti
 // Server (RSC) calls the API origin directly; the browser uses same-origin /api/* via rewrites.
 const base = () => (typeof window === 'undefined' ? API_ORIGIN : '');
 
-export async function http<T>(path: string, { body, timeoutMs = 15000, headers, ...init }: Options = {}): Promise<T> {
+export async function http<T>(
+  path: string,
+  { body, timeoutMs = 15000, headers, ...init }: Options = {},
+): Promise<T> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
