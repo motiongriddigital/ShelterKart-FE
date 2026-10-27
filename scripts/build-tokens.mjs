@@ -1,8 +1,16 @@
 // Derives src/styles/_theme.scss from the brand system's generated tokens.css,
 // so brand/tokens.json stays the single source of truth for colours and type.
-import { readFileSync, writeFileSync } from 'node:fs';
+// The brand folder lives outside this repo; when it is absent (e.g. CI) the
+// committed _theme.scss is used as-is.
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
-const css = readFileSync(new URL('../../brand/dist/tokens.css', import.meta.url), 'utf8');
+const source = new URL('../../brand/dist/tokens.css', import.meta.url);
+if (!existsSync(source)) {
+  console.log('brand/dist/tokens.css not found; keeping committed src/styles/_theme.scss');
+  process.exit(0);
+}
+
+const css = readFileSync(source, 'utf8');
 const root = css.match(/:root\{([^}]*)\}/)?.[1];
 if (!root) throw new Error('No :root block found in brand/dist/tokens.css');
 
