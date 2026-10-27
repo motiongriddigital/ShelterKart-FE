@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Masthead } from '@/components/layout/Masthead';
+import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SITE_URL } from '@/configs/env';
 import '@/styles/globals.scss';
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Masthead />
         <main>{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

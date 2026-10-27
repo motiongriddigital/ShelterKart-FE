@@ -1,0 +1,54 @@
+@use 'breakpoints' as bp;
+
+.doc {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 2.5rem;
+  color: var(--sk-ink);
+
+  h1 {
+    font-size: 1.875rem;
+    line-height: 1.25;
+    margin: 0 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    line-height: 1.25;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  h4 {
+    font-size: 1.05rem;
+    line-height: 1.25;
+    margin: 1.4rem 0 0.4rem;
+  }
+
+  a {
+    color: var(--sk-inference);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.5rem 0.4rem;
+    border-bottom: 1px solid var(--sk-rule);
+  }
+
+  th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sk-slate);
+  }
+
+  @include bp.up(bp.$bp-md) {
+    padding-top: 2.25rem;
+  }
+}
