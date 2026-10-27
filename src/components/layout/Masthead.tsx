@@ -5,7 +5,7 @@ export function Masthead() {
   return (
     <header className={styles.masthead}>
       <Link href="/" className={styles.brand}>
-        ShelterKart
+        Shelter<span>Kart</span>
       </Link>
     </header>
   );
