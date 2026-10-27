@@ -1,0 +1,15 @@
+@use 'theme';
+@use 'typography';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--sk-paper);
+}
+
+img, svg { max-width: 100%; height: auto; }
+
+a { color: inherit; }
