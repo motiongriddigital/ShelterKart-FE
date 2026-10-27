@@ -6,7 +6,9 @@
 @mixin fade-in {
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity var(--sk-fade), transform var(--sk-fade);
+  transition:
+    opacity var(--sk-fade),
+    transform var(--sk-fade);
 
   &[data-visible='true'] {
     opacity: 1;

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import { Masthead } from '@/app/components/layout/Masthead';
-import { SITE_URL } from '@/app/configs/env';
-import '@/app/styles/globals.scss';
+import { Masthead } from '@/components/layout/Masthead';
+import { SITE_URL } from '@/configs/env';
+import '@/styles/globals.scss';
 
 const fraunces = localFont({
   src: '../../public/fonts/fraunces-latin-600-normal.woff2',
