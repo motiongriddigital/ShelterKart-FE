@@ -1,11 +1,5 @@
-@use 'theme';
+@use 'tokens';
 @use 'typography';
-
-// next/font renames the families, so point the brand font tokens at its CSS variables.
-:root {
-  --sk-font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
-  --sk-font-text: var(--font-instrument), system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-}
 
 *,
 *::before,

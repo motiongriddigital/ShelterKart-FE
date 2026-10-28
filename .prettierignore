@@ -6,3 +6,10 @@ coverage
 package-lock.json
 next-env.d.ts
 src/styles/_theme.scss
+
+# Legacy stylesheets ported verbatim; reformatting them would only churn the diff.
+src/app/(home)/styles
+src/app/(admin)/admin/styles
+public/guide
+public/admin
+public/samples
