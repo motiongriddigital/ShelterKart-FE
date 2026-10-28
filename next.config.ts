@@ -10,7 +10,16 @@ const nextConfig: NextConfig = {
     includePaths: [path.join(process.cwd(), 'src/styles')],
   },
   async rewrites() {
-    return [{ source: '/api/:path*', destination: `${API_ORIGIN}/api/:path*` }];
+    // Everything the Express backend serves itself: its API, the live report pages and the guide's downloads.
+    return [
+      '/api/:path*',
+      '/r/:path*',
+      '/samples/:path*',
+      '/assets/:path*',
+      '/guide/pdf',
+      '/guide/card.png',
+      '/guide/card.pdf',
+    ].map((source) => ({ source, destination: `${API_ORIGIN}${source}` }));
   },
 };
 

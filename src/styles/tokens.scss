@@ -1,0 +1,19 @@
+@use 'theme';
+
+// next/font renames the families, so point the brand font tokens at its CSS variables.
+:root {
+  --sk-font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --sk-font-text:
+    var(--font-instrument), 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Arabic', 'Noto Sans JP',
+    'Noto Sans TC', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

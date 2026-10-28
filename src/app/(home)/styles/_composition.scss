@@ -1,0 +1,675 @@
+// Editorial composition, motion, polish, gilding, trust seal, plate, masthead, centred axis.
+// Ported verbatim from shelterkart-frontend.html; the cascade order across these partials is intentional.
+
+/* Masthead rule — the hairline-and-small-caps device that reads as
+     a publication or a terms sheet rather than a landing page. */
+  .masthead-rule{ display:flex; align-items:center; justify-content:space-between; gap:20px;
+    padding-bottom:12px; margin-bottom:24px; border-bottom:1px solid var(--hairline);
+    width:100%; }
+  .mh-label{ font-family:var(--sk-font-text);font-variant-numeric:tabular-nums; font-size:11px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--stone); }
+  .mh-meta{ display:flex; align-items:center; gap:7px; font-family:var(--sk-font-text);font-variant-numeric:tabular-nums;
+    font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--stone-light); white-space:nowrap; }
+  .mh-dot{ width:5px; height:5px; border-radius:50%; background:var(--ok); flex-shrink:0; }
+
+  /* Two-column body: the action column carries the search, the side
+     column carries method. Asymmetric on purpose — a centred single
+     column is the most generic layout there is. */
+  /* Single centred column. A right-hand seal column would pull the
+     optical centre off the axis the nameplate establishes; on a title
+     page the seal sits below the text, on the same line. */
+  .hero-body{ display:flex; flex-direction:column; align-items:center; gap:34px; width:100%; }
+  .hero-col-main{ min-width:0; width:100%; }
+
+  .hero-col-side{ border-left:1px solid var(--hairline); padding-left:24px; }
+
+  @media (max-width:1100px){
+    .hero-body{ grid-template-columns:1fr; gap:34px; }
+    .hero-col-side{ border-left:none; border-top:1px solid var(--hairline); padding-left:0; padding-top:24px;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  }
+  @media (max-width:760px){
+    .masthead-rule{ margin-bottom:20px; padding-bottom:10px; }
+    .mh-label{ font-size:10px; letter-spacing:0.12em; }
+    .mh-meta{ font-size:10px; }
+    .hero-col-side{ grid-template-columns:1fr; gap:0; padding-top:20px; }
+  }
+
+
+  /* ==========================================================
+     DARK HERO — inverted surface treatment
+     Only the entry screen is dark. Reports stay on paper, because a
+     due-diligence report should read like a printed document. The
+     drama belongs at the door, not inside the filing cabinet.
+     ========================================================== */
+  .hero .brand.on-light .brand-name{ color:var(--gold-100); }
+
+  .masthead-rule{ border-bottom-color:rgba(211,162,69,0.26); }
+  .mh-label{ color:rgba(245,230,194,0.62); }
+  .mh-meta{ color:rgba(245,230,194,0.42); }
+  .mh-dot{ background:var(--ok); box-shadow:0 0 8px rgba(82,101,127,0.7); }
+
+  .hero-headline{ color:var(--gold-100); text-shadow:0 1px 40px rgba(0,0,0,0.4); }
+  .hero-headline em{ color:var(--gold-400); font-style:normal; }
+  .hero-sub{ color:rgba(245,230,194,0.66); }
+
+  /* Market buttons: dark glass with a brass hairline. The selected
+     state lifts to a brass fill so the choice is unmistakable even
+     at a glance across a room. */
+
+  /* Search: the one lit object on the page. */
+  .search-card{
+    background:rgba(255,255,255,0.045); border:1px solid rgba(211,162,69,0.24);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 26px 70px -26px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.07); }
+  .search-field input{ color:var(--gold-100); }
+  .search-field input::placeholder{ color:rgba(245,230,194,0.38); }
+  .search-hint{ color:rgba(245,230,194,0.42); }
+  .locale-select{ color:var(--gold-100); border-bottom-color:rgba(211,162,69,0.35); }
+  .locale-row .static{ color:rgba(245,230,194,0.5); }
+  .search-go{
+    background:linear-gradient(180deg, var(--gold-400) 0%, var(--gold-500) 100%); color:var(--navy-900);
+    box-shadow:0 6px 20px -8px rgba(211,162,69,0.6); }
+  .search-go:hover{ background:linear-gradient(180deg, var(--gold-300) 0%, var(--gold-400) 100%); color:var(--navy-900); }
+
+  /* Method column */
+  .hero-col-side{ border-left-color:rgba(211,162,69,0.22); }
+
+  .hero-foot-links a{ color:rgba(245,230,194,0.62); }
+  .hero-foot-links a:hover{ color:var(--gold-400); border-bottom-color:var(--gold-400); }
+  .hero-foot-note{ color:rgba(245,230,194,0.34); }
+  @media (max-width:1100px){ .hero-col-side{ border-top-color:rgba(211,162,69,0.22); } }
+
+
+  /* ==========================================================
+     MOTION SYSTEM
+     Apple's easing is slow-out, not bouncy: a long tail on a shallow
+     curve. Reveals travel ~40px over 1s — further and slower than a
+     typical fade-in, which is what makes it read as weight rather
+     than as a web animation. Nothing loops; everything settles once.
+     ========================================================== */
+  :root{ --ease-apple:cubic-bezier(0.28,0.11,0.32,1); }
+
+  /* Reveal-on-scroll. Class is added by IntersectionObserver, so
+     nothing is hidden if JS fails — .reveal starts visible and is
+     only hidden once the observer confirms it can animate it back in. */
+  .js-reveal .reveal{ opacity:0; transform:translateY(40px); }
+  .js-reveal .reveal.in{ opacity:1; transform:none;
+    transition:opacity 1s var(--ease-apple), transform 1s var(--ease-apple); }
+  .js-reveal .reveal[data-d="1"].in{ transition-delay:0.08s; }
+  .js-reveal .reveal[data-d="2"].in{ transition-delay:0.16s; }
+  .js-reveal .reveal[data-d="3"].in{ transition-delay:0.24s; }
+  .js-reveal .reveal[data-d="4"].in{ transition-delay:0.32s; }
+  .js-reveal .reveal[data-d="5"].in{ transition-delay:0.40s; }
+  @media (prefers-reduced-motion: reduce){
+    .js-reveal .reveal{ opacity:1; transform:none; }
+  }
+
+  @media (max-width:1100px){ }
+  @media (max-width:760px){
+  }
+
+
+  /* ==========================================================
+     POLISH LAYER — navy / brass / signal red
+     Depth here comes from coloured light, not from lightening the
+     black: a brass key light upper-left, a navy fill right, and a
+     faint red bounce lower-left. Red stays meaningful — the wordmark
+     and the "insufficient evidence" line only — so that when a real
+     risk flag appears in a report it still reads as a warning.
+     ========================================================== */
+
+  /* Navy horizon: the rule at the base of the hero now carries all
+     three colours, brass through navy, so the edge has depth. */
+  .hero::after{
+    background:linear-gradient(90deg,
+      transparent 0%,
+      rgba(211,162,69,0.50) 18%,
+      rgba(211,162,69,0.20) 42%,
+      rgba(6,20,40,0.42) 68%,
+      transparent 100%);
+    height:1px; }
+
+  /* Brand mark: navy shield, brass rule, red tick — the logo's own
+     three colours, now echoed by the surface behind it. */
+
+  .mh-dot{ background:var(--ok); box-shadow:0 0 10px rgba(82,101,127,0.85); }
+
+  /* Headline: a whisper of navy in the text shadow reads as ambient
+     room light rather than a drop shadow. */
+  .hero-headline{ text-shadow:0 2px 60px rgba(47,68,96,0.55); }
+  .hero-headline em{ color:var(--gold-400); }
+
+  /* Market buttons. Resting state carries a navy tint so the tiles sit
+     in the scene rather than floating on it. Hover lifts toward brass. */
+
+  /* Search card — the lit object. Navy glass, brass edge, and an inner
+     top highlight so the surface reads as having thickness. */
+  .search-card{
+    background:linear-gradient(180deg, rgba(47,68,96,0.38) 0%, rgba(6,20,40,0.44) 100%);
+    border:1px solid rgba(211,162,69,0.28);
+    box-shadow:0 34px 90px -32px rgba(0,0,0,0.9),
+               0 0 60px -24px rgba(6,20,40,0.55),
+               inset 0 1px 0 rgba(255,255,255,0.10); }
+
+  .search-go{
+    background:linear-gradient(180deg, var(--gold-300) 0%, var(--gold-500) 100%); color:var(--navy-900);
+    box-shadow:0 8px 26px -10px rgba(211,162,69,0.65), inset 0 1px 0 rgba(255,255,255,0.35); }
+  .search-go:hover{
+    background:linear-gradient(180deg, var(--gold-300) 0%, var(--gold-500) 100%);
+    box-shadow:0 12px 34px -10px rgba(211,162,69,0.8), inset 0 1px 0 rgba(255,255,255,0.45); }
+
+  /* Method column: navy divider, brass numerals, red only on the
+     evidence line — the one place it carries meaning. */
+  .hero-col-side{ border-left-color:rgba(82,101,127,0.24); }
+
+  .masthead-rule{ border-bottom-color:rgba(228,221,209,0.24); }
+  .hero-foot-links a:hover{ color:var(--gold-400); border-bottom-color:var(--gold-400); }
+
+
+  /* ==========================================================
+     GILDING
+     Gold does the structural work here, not just accents: the rules,
+     the numerals, the active states, the edges of every lit surface.
+     Two-stop gradients on every gold fill — a flat gold reads as
+     yellow plastic; gold with a light and a shadow side reads as metal.
+     ========================================================== */
+
+  /* Headline: gilded gradient rather than flat gold, so the letterforms
+     have a highlight along the top edge like struck metal. */
+  .hero-headline em{
+    background:linear-gradient(178deg, var(--gold-200) 0%, var(--gold-300) 42%, var(--gold-500) 100%);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:var(--gold-300); }
+
+  /* Masthead: a gold rule that fades at both ends, like a rule struck
+     on a plate rather than a CSS border. */
+  .masthead-rule{ border-bottom:none; position:relative; }
+  .masthead-rule::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:1px;
+    background:linear-gradient(90deg, rgba(211,162,69,0.70) 0%, rgba(211,162,69,0.28) 46%, rgba(6,20,40,0.34) 78%, transparent 100%); }
+  .mh-label{ color:rgba(245,230,194,0.80); }
+  .mh-meta{ color:rgba(211,162,69,0.62); }
+
+  /* Base horizon: brighter, with a soft bloom above it. */
+  .hero::after{
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(211,162,69,0.75) 16%, rgba(211,162,69,0.34) 46%, rgba(6,20,40,0.46) 74%, transparent 100%);
+    box-shadow:0 -14px 40px -10px rgba(211,162,69,0.20); }
+
+  /* Market tiles: darker glass, gold hairline, gold bloom on hover. */
+
+  /* Search card: the brightest object. Gold edge, inner gold glow,
+     deep shadow beneath so it sits above the surface. */
+  .search-card{
+    background:linear-gradient(180deg, rgba(10,28,51,0.52) 0%, rgba(6,20,40,0.62) 100%);
+    border:1px solid rgba(211,162,69,0.34);
+    box-shadow:0 44px 110px -38px rgba(0,0,0,0.95),
+               0 0 70px -28px rgba(211,162,69,0.28),
+               0 0 40px -20px rgba(6,20,40,0.55),
+               inset 0 1px 0 rgba(255,255,255,0.12); }
+  .search-field input{ color:var(--gold-100); }
+  .locale-select{ color:var(--gold-100); border-bottom-color:rgba(211,162,69,0.42); }
+
+  .search-go{
+    background:linear-gradient(178deg, var(--gold-200) 0%, var(--gold-300) 38%, var(--gold-500) 100%); color:var(--navy-900);
+    box-shadow:0 10px 30px -10px rgba(211,162,69,0.7),
+               inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(138,99,33,0.45); }
+  .search-go:hover{
+    background:linear-gradient(178deg, var(--gold-100) 0%, var(--gold-300) 38%, var(--gold-500) 100%);
+    box-shadow:0 16px 42px -10px rgba(211,162,69,0.9),
+               0 0 30px -6px rgba(211,162,69,0.45),
+               inset 0 1px 0 rgba(255,255,255,0.6); }
+
+  /* Method column */
+  .hero-col-side{ border-left-color:rgba(211,162,69,0.24); }
+
+  .hero .brand.on-light .brand-name{ color:var(--gold-100); }
+  .hero-foot-links a{ color:rgba(245,230,194,0.58); }
+  .hero-foot-links a:hover{ color:var(--gold-300); border-bottom-color:var(--gold-300); }
+  .hero-foot-note{ color:rgba(245,230,194,0.30); }
+
+
+  /* Gold presence, corrected.
+     Measuring the render showed the darker base had *reduced* the gold
+     area rather than making it glow — the light was there but had
+     nothing to fall on. Gold now needs surfaces to catch it, so it is
+     applied structurally: every rule, every divider, every numeral,
+     the tile edges, and a gilded frame around the lit card. */
+
+  /* Gold hairline framing the whole composition — a plate edge. */
+  .hero-inner::before{
+    content:""; position:absolute; left:52px; right:52px; top:0; height:1px; z-index:3;
+    background:linear-gradient(90deg, transparent, rgba(211,162,69,0.45) 30%, rgba(211,162,69,0.45) 70%, transparent); }
+
+  /* Every tile gets a lit top edge, so six surfaces catch the light
+     instead of one. */
+
+  /* Search card: gilded top edge + a warm inner floor glow. */
+  .search-card{ position:relative; }
+  .search-card::before{
+    content:""; position:absolute; left:0; right:0; top:0; height:1px; z-index:2;
+    background:linear-gradient(90deg, transparent, rgba(211,162,69,0.8) 24%, rgba(211,162,69,0.8) 76%, transparent); }
+  .search-card::after{
+    content:""; position:absolute; left:12%; right:12%; bottom:-1px; height:70px; pointer-events:none;
+    background:radial-gradient(ellipse 100% 100% at 50% 100%, rgba(211,162,69,0.16), transparent 70%); }
+
+  /* Method column: gold numerals larger, and a gold cap on the divider. */
+  .hero-col-side{ position:relative; }
+  .hero-col-side::before{
+    content:""; position:absolute; left:-1px; top:0; width:1px; height:64px;
+    background:linear-gradient(180deg, rgba(211,162,69,0.85), transparent); }
+
+  .mh-label{ color:rgba(211,162,69,0.72); }
+  .lr-k,
+  .search-hint{ color:rgba(211,162,69,0.42); }
+  .locale-row .static{ color:rgba(211,162,69,0.55); }
+
+  @media (max-width:1100px){ .hero-inner::before{ left:40px; right:40px; } }
+  @media (max-width:760px){
+    .hero-inner::before{ left:22px; right:22px; }
+    .hero-col-side::before{ display:none; }
+  }
+
+
+  /* The real correction.
+     Measuring showed gold confined to two active elements while every
+     other pixel was grey-white — which is why the page still read cold
+     despite gold lighting. The fix isn't more gold objects, it's warm
+     type: on a near-black ground, cool white text is what makes a page
+     look like a dev console rather than an engraved plate. Every text
+     tone below now carries a warm cast. */
+  .hero-headline{ color:var(--gold-100); }
+  .hero-sub{ color:rgba(245,230,194,0.78); }
+  .search-field input{ color:var(--gold-100); }
+  .search-field input::placeholder{ color:rgba(245,230,194,0.46); }
+  .search-hint{ color:rgba(245,230,194,0.52); }
+  .locale-select{ color:var(--gold-100); }
+  .hero .brand.on-light .brand-name{ color:var(--gold-100); }
+  .hero-foot-links a{ color:rgba(245,230,194,0.66); }
+  .hero-foot-note{ color:rgba(245,230,194,0.40); }
+  .mh-meta{ color:rgba(211,162,69,0.70); }
+
+  /* Idle tiles get a faint warm wash so six surfaces read as gilded
+     metal at rest, not just on hover. */
+
+
+  /* ==========================================================
+     MATTE GILT — the correction
+     Every glow, bloom and light-pass has been removed. Old money does
+     not emit light: a Coutts letterhead, a Christie's catalogue, the
+     spine of a bound ledger. Gold there is MATERIAL, not illumination
+     — foil, engraving, a gilt edge. So gold here is now flat, matte,
+     and thin; depth comes from shadow beneath objects, never from
+     halo around them. The single test applied throughout: could this
+     be printed and struck on paper? If it needs a screen to glow,
+     it's out.
+     ========================================================== */
+
+  /* Surfaces: matte. Shadow sits under an object like weight on a
+     desk — no coloured bloom, no ambient halo. */
+  .search-card{
+    background:linear-gradient(180deg, rgba(10,28,51,0.72) 0%, rgba(6,20,40,0.78) 100%);
+    border:1px solid rgba(211,162,69,0.30);
+    box-shadow:0 30px 60px -34px rgba(0,0,0,0.85); }
+  .search-card::before{
+    background:linear-gradient(90deg, transparent, rgba(211,162,69,0.55) 26%, rgba(211,162,69,0.55) 74%, transparent); }
+  .search-card::after{ display:none; }          /* floor glow — removed */
+
+
+  /* Selected market: gilt foil, not a lamp. A flat two-stop gold with
+     a hairline top edge — the way foil catches on an embossed card. */
+
+  .search-go{
+    background:linear-gradient(180deg, var(--gold-400) 0%, var(--gold-500) 100%); color:var(--navy-900);
+    box-shadow:0 8px 18px -12px rgba(0,0,0,0.7), inset 0 1px 0 rgba(245,230,194,0.42); }
+  .search-go:hover{
+    background:linear-gradient(180deg, var(--gold-300) 0%, var(--gold-500) 100%);
+    box-shadow:0 10px 22px -12px rgba(0,0,0,0.75), inset 0 1px 0 rgba(245,230,194,0.5); }
+  .search-go::after{ display:none; }            /* light sweep — removed */
+
+  /* Headline: engraved, not gilded-glowing. A single flat foil tone
+     reads as struck metal; a gradient with a highlight reads as a
+     screen effect. */
+  .hero-headline em{
+    background:none; -webkit-text-fill-color:currentColor; color:var(--gold-400); }
+  .hero-headline{ text-shadow:none; }
+
+  /* Rules: thin, matte, no bloom. */
+  .hero::after{
+    background:linear-gradient(90deg, transparent, rgba(211,162,69,0.42) 18%, rgba(211,162,69,0.20) 52%, transparent);
+    box-shadow:none; }
+  .masthead-rule::after{
+    background:linear-gradient(90deg, rgba(211,162,69,0.50) 0%, rgba(211,162,69,0.22) 52%, transparent 100%); }
+  .hero-inner::before{
+    background:linear-gradient(90deg, transparent, rgba(211,162,69,0.28) 30%, rgba(211,162,69,0.28) 70%, transparent); }
+  .hero-col-side::before{ background:linear-gradient(180deg, rgba(211,162,69,0.55), transparent); }
+
+  .mh-dot{ background:var(--ok); box-shadow:none; }   /* status dot — no halo */
+
+  /* Ground: lights pulled well back. They now set a mood at the edges
+     rather than lighting the page. */
+  .hero{
+    background:
+      radial-gradient(ellipse 760px 520px at 12% -8%, rgba(211,162,69,0.13), transparent 62%),
+      radial-gradient(ellipse 800px 660px at 104% 40%, rgba(10,28,51,0.44), transparent 62%),
+      radial-gradient(ellipse 520px 400px at 0% 108%, rgba(6,20,40,0.22), transparent 60%),
+      linear-gradient(166deg, var(--navy-900) 0%, var(--navy-900) 48%, var(--navy-900) 100%); }
+  .hero-vignette{
+    background:radial-gradient(ellipse 92% 82% at 50% 46%, transparent 46%, rgba(0,0,0,0.48) 100%); }
+
+
+  /* ==========================================================
+     REPORT — the same brand, printed
+     The hero is the binding; the report is the page inside. Dark
+     leather outside, laid cream within, with the identical gilt
+     rules, mono small-caps and numeral treatment carried across so
+     the two read as one object rather than two websites.
+     ========================================================== */
+  .note{ background:var(--paper); box-shadow:0 30px 70px -40px rgba(6,20,40,0.45); }
+
+  /* Gilt head rule on the report card — the same struck line as the
+     masthead, printed rather than lit. */
+  .note::before{
+    content:""; position:absolute; left:0; right:0; top:0; height:2px;
+    background:linear-gradient(90deg, var(--gold-500) 0%, var(--gold-400) 26%, rgba(211,162,69,0.30) 72%, transparent 100%); }
+
+  .letterhead{ border-bottom:1px solid rgba(211,162,69,0.28); }
+  .subject-kicker{ color:var(--gold-deep); letter-spacing:0.18em; }
+  .section-num{ border-color:rgba(211,162,69,0.55); color:var(--gold-deep); }
+  .section-head{ border-bottom-color:rgba(211,162,69,0.24); }
+  .findings-panel{ border-left-color:var(--gold-500); }
+  .litigation-case{ border-color:rgba(211,162,69,0.30); background:var(--marble-deep); }
+  .sources{ border-top:1px solid rgba(211,162,69,0.28); }
+  .cta-band{ background:linear-gradient(168deg, var(--navy-800) 0%, var(--navy-900) 100%); }
+  .cta-single{ background:linear-gradient(180deg, var(--gold-400) 0%, var(--gold-500) 100%); color:var(--navy-900);
+    box-shadow:0 8px 18px -12px rgba(0,0,0,0.7), inset 0 1px 0 rgba(245,230,194,0.42); }
+  .report-topbar{ background:linear-gradient(168deg, var(--navy-800) 0%, var(--navy-900) 100%);
+    border-bottom:1px solid rgba(211,162,69,0.30); }
+
+
+  /* ==========================================================
+     TRUST SEAL
+     Replaces a three-block text column with a single struck object.
+     The reference is an assay mark on silver or the intaglio on a
+     share certificate: concentric hairlines, engine-turned ticks,
+     and type set around the circumference. It states the same three
+     principles in a fraction of the space — and a seal carries more
+     authority than a list, because a seal is something applied to a
+     document by someone willing to stand behind it.
+     ========================================================== */
+  /* Turns once every two-and-a-bit minutes — slow enough that you
+     never catch it moving, only notice it has. */
+  @media (prefers-reduced-motion: reduce){ }
+
+  @media (max-width:1100px){
+  }
+  @media (max-width:600px){
+  }
+
+
+  /* Seal polish: a slow brass sheen crossing the die, and a soft
+     shadow beneath so it reads as struck metal sitting on the page
+     rather than as line art printed on it. */
+  .trust-seal::after{
+    content:""; position:absolute; top:0; right:0; bottom:0; left:0;
+    border-radius:50%; pointer-events:none;
+    background:linear-gradient(115deg, transparent 38%, rgba(245,230,194,0.09) 48%, transparent 58%);
+    animation:sealSheen 9s var(--ease-apple) infinite; }
+  @media (prefers-reduced-motion: reduce){ .trust-seal::after{ animation:none; opacity:0; } }
+
+
+
+  /* ==========================================================
+     PLATE COMPOSITION
+     The page was a stack of centred blocks — which is the layout a
+     generator produces, because it requires no decisions. This is an
+     engraved plate instead: registration marks at the corners, a
+     vertical rail carrying the imprint, and a visible structural grid.
+     Every element is derived from printing rather than from UI.
+     ========================================================== */
+
+  /* Registration marks. On a printing plate these align the colour
+     passes; here they frame the composition and are the single
+     clearest signal that a person set this page. */
+  .plate-mark{ position:absolute; width:26px; height:26px; pointer-events:none; z-index:4; opacity:0.75; }
+  .plate-mark::before, .plate-mark::after{
+    content:""; position:absolute; background:rgba(211,162,69,0.55); }
+  .plate-mark::before{ width:100%; height:1px; top:0; left:0; }
+  .plate-mark::after{ width:1px; height:100%; top:0; left:0; }
+  .plate-tl{ top:22px; left:22px; }
+  .plate-tr{ top:22px; right:22px; transform:scaleX(-1); }
+  .plate-bl{ bottom:22px; left:22px; transform:scaleY(-1); }
+  .plate-br{ bottom:22px; right:22px; transform:scale(-1,-1); }
+
+  /* Vertical imprint rail — the spine text on a bound volume. Runs the
+     full height at the left margin, reading bottom-to-top. */
+  .plate-rail{
+    position:absolute; left:30px; top:0; bottom:0; width:1px; z-index:3;
+    background:linear-gradient(180deg, transparent, rgba(211,162,69,0.30) 18%,
+      rgba(211,162,69,0.30) 82%, transparent); pointer-events:none; }
+  .plate-imprint{
+    position:absolute; left:0; top:50%; z-index:3; pointer-events:none;
+    transform-origin:left center; transform:translateY(-50%) rotate(-90deg) translateX(-50%);
+    display:inline-block; font-family:var(--sk-font-text);font-variant-numeric:tabular-nums; font-size:9px;
+    letter-spacing:0.34em; text-transform:uppercase; color:rgba(211,162,69,0.42);
+    white-space:nowrap; padding-left:28px; }
+
+  /* Content clears the rail. */
+  .hero-inner{ padding-left:72px; padding-right:56px; max-width:1240px; }
+
+  @media (max-width:900px){
+    .plate-rail, .plate-imprint{ display:none; }
+    .hero-inner{ padding-left:40px; padding-right:40px; }
+    .plate-mark{ width:18px; height:18px; }
+    .plate-tl, .plate-tr{ top:14px; } .plate-bl, .plate-br{ bottom:14px; }
+    .plate-tl, .plate-bl{ left:14px; } .plate-tr, .plate-br{ right:14px; }
+  }
+  @media (max-width:600px){
+    .hero-inner{ padding-left:24px; padding-right:24px; }
+    .plate-mark{ width:14px; height:14px; opacity:0.6; }
+  }
+
+
+
+  /* ==========================================================
+     MASTHEAD
+     Nameplate structure, not a website header. Three devices do the
+     work, and all three are borrowed from print rather than UI:
+
+       1. Flanking metadata. Provenance left, standing right, the mark
+          held between them. Symmetry around a centred device is what
+          the eye reads as an institution rather than a company.
+       2. The double rule — one heavy, one hair, with a set gap. This
+          is the single most recognisable "publication of record"
+          device in existence, and almost nothing on the web uses it.
+       3. A strap line beneath, in wide small caps, stating function
+          plainly. Institutions describe what they do; brands describe
+          how they feel.
+     ========================================================== */
+  .masthead{ position:relative; z-index:2; width:100%;
+    padding:32px 0 0; margin-bottom:40px; text-align:center; }
+
+  /* Hair rule above, fading at both ends so it reads as struck rather
+     than as a border. */
+  .mh-top-rule{ height:1px; width:100%;
+    background:linear-gradient(90deg, transparent, rgba(211,162,69,0.34) 18%,
+      rgba(211,162,69,0.34) 82%, transparent);
+    transform-origin:center; animation:ruleDraw 1.6s var(--ease-apple) 0.15s backwards; }
+
+  .mh-row{ display:flex; align-items:center; justify-content:space-between;
+    gap:24px; padding:20px 0 16px; }
+
+  .mh-flank{ flex:1 1 0; font-family:var(--sk-font-text);font-variant-numeric:tabular-nums; font-size:9px;
+    letter-spacing:0.28em; text-transform:uppercase; color:rgba(211,162,69,0.55);
+    white-space:nowrap; }
+  .mh-flank-l{ text-align:left; }
+  .mh-flank-r{ text-align:right; display:flex; align-items:center; justify-content:flex-end; gap:8px; }
+  .mh-dot{ width:5px; height:5px; border-radius:50%; background:var(--ok); flex-shrink:0; }
+
+  .mh-centre{ flex:0 0 auto; display:flex; flex-direction:column; align-items:center; }
+  .brand-mark{ width:38px; height:42px; margin-bottom:8px; }
+  .brand-name{ font-family:var(--sk-font-display); font-size:clamp(38px,4.6vw,54px);
+    font-weight:600; letter-spacing:-0.012em; line-height:1; margin:0; color:var(--gold-100); }
+  .brand-sub{ display:block; margin-top:6px; font-family:var(--sk-font-text);font-variant-numeric:tabular-nums;
+    font-size:8px; letter-spacing:0.32em; text-transform:uppercase;
+    color:rgba(211,162,69,0.62); }
+
+  /* The double rule. 2px over 1px with a 3px channel — the proportion
+     matters; equal weights read as a mistake. */
+  .mh-double-rule{ display:block; }
+  .mh-double-rule span{ display:block; width:100%;
+    background:linear-gradient(90deg, transparent, rgba(211,162,69,0.55) 12%,
+      rgba(211,162,69,0.55) 88%, transparent);
+    transform-origin:center; }
+  .mh-double-rule span:first-child{ height:2px;
+    animation:ruleDraw 1.9s var(--ease-apple) 0.3s backwards; }
+  .mh-double-rule span:last-child{ height:1px; margin-top:2px; opacity:0.6;
+    animation:ruleDraw 1.9s var(--ease-apple) 0.42s backwards; }
+
+  .mh-strap{ padding-top:12px; font-family:var(--sk-font-text);font-variant-numeric:tabular-nums; font-size:9px;
+    letter-spacing:0.3em; text-transform:uppercase; color:rgba(245,230,194,0.50); }
+  .mh-count-m{ display:none; justify-content:center; align-items:center; gap:8px; margin-top:8px;
+    font-family:var(--sk-font-text);font-variant-numeric:tabular-nums; font-size:8.5px; letter-spacing:0.22em;
+    text-transform:uppercase; color:rgba(245,230,194,0.75); }
+  .mh-count-m .mh-dot{ margin-right:6px; }
+
+  @media (max-width:760px){
+    .masthead{ padding-top:calc(22px + env(safe-area-inset-top)); margin-bottom:28px; }
+    .mh-row{ padding:16px 0 16px; gap:10px; }
+    .mh-flank{ font-size:8px; letter-spacing:0.16em; }
+    .brand-mark{ width:32px; height:35px; margin-bottom:6px; }
+    .brand-sub{ font-size:9px; letter-spacing:0.28em; }
+    .mh-strap{ font-size:8px; letter-spacing:0.2em; padding-top:10px; }
+  }
+  @media (max-width:480px){
+    /* Flanks would crowd the mark; drop them below the strap so the
+       nameplate keeps its symmetry. */
+    /* With the flanks removed the flex row no longer has anything to
+       balance against, so the nameplate drifts left. Centre it
+       explicitly and fold the provenance into the strap. */
+    .mh-flank{ display:none; }
+    /* The market count used to vanish here with the flanks; the
+       provenance line was folded into the strap but the count wasn't.
+       It now gets its own centred line under the strap. */
+    .mh-count-m{ display:flex; }
+    .mh-row{ justify-content:center; }
+    .mh-centre{ flex:1 1 auto; }
+    .mh-strap::after{ content:" \00B7 Est. 2026"; opacity:0.7; }
+  }
+
+
+  /* ==========================================================
+     CENTRED AXIS
+     The nameplate was centred while everything beneath it was ranged
+     left — two competing axes on one page, which reads as unresolved
+     regardless of how well each part is set. Everything now hangs from
+     a single centre line, which is the title-page structure: mark,
+     name, rule, statement, instrument. It is also the arrangement used
+     on certificates and deeds, where symmetry itself carries authority.
+     ========================================================== */
+  .hero-main{ align-items:center; text-align:center; }
+
+  .hero-headline{
+    margin-left:auto; margin-right:auto; max-width:22ch;
+    /* Slightly lighter than before. At display size a heavy serif reads
+       as promotional; the lighter cut reads as engraved. */
+    font-weight:500; letter-spacing:-0.028em; }
+  .hero-headline em{ font-weight:600; }
+
+  /* A short centred rule between the statement and the standfirst —
+     the ornament a title page uses instead of extra space. */
+  .hero-divider{
+    display:block; width:64px; height:1px; margin:24px auto 24px;
+    background:linear-gradient(90deg, transparent, rgba(211,162,69,0.95), transparent);
+    transform-origin:center; animation:ruleDraw 1.4s var(--ease-apple) 0.5s backwards; }
+
+  /* Standfirst set in the serif, not the sans. A sans standfirst under
+     a serif headline is the most common tell of a template; setting
+     both in the text face is what a printed document does. */
+  .hero-sub{
+    margin-left:auto; margin-right:auto; max-width:46ch; text-align:center;
+    font-family:var(--sk-font-display); font-weight:400;
+    font-size:clamp(16px,1.75vw,18.5px); line-height:1.66;
+    letter-spacing:0.002em; color:rgba(245,230,194,0.72); }
+
+  /* The instrument and the rail hang from the same centre line. */
+  .market-grid{ justify-content:center; }
+  .search-card{ margin-left:auto; margin-right:auto; }
+  .hero-col-main{ display:flex; flex-direction:column; align-items:center; }
+  .locale-row{ justify-content:center; }
+  .search-hint{ text-align:center; }
+
+  @media (max-width:760px){
+    .hero-headline{ max-width:20ch; }
+    .hero-sub{ max-width:38ch; font-size:16px; line-height:1.6; }
+    .hero-divider{ width:42px; margin-bottom:16px; }
+  }
+
+
+  
+
+
+/* ---------- EVIDENCE STATE ----------
+     Excluded findings are shown, not hidden. Withholding them would be
+     the opposite failure: the reader loses information the record
+     actually contains. They are set apart instead — a rule at the left
+     edge and a plain-language note — so what the report used and what it
+     did not are distinguishable at a glance. */
+  .ev-mark{ font-family:var(--sk-font-text);font-variant-numeric:tabular-nums; font-size:12px; vertical-align:super;
+    margin-left:4px; font-weight:600; cursor:help; }
+  .ev-verified{ color:var(--gold-deep); }
+  .ev-unverified{ color:var(--caution); }
+  .ev-single{ color:var(--stone-light); }
+  .ev-conflict{ color:var(--accent); }
+  .ev-review{ color:var(--accent); }
+  .ev-stale{ color:var(--stone-light); }
+
+  .fact-excluded{ padding-left:12px; border-left:2px solid var(--hairline); }
+  .ev-note{ display:block; margin-top:2px; font-size:12px; line-height:1.5;
+    color:var(--stone-light); font-style:italic; }
+
+  .ev-ledger{ margin-top:12px; padding-top:10px; border-top:1px solid var(--hairline);
+    font-family:var(--sk-font-text);font-variant-numeric:tabular-nums; font-size:11px; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--stone-light); }
+
+
+
+  /* Retained for state, removed from view: country is chosen on the
+     market rail and city is now asked reactively, but both selects stay
+     in the DOM so the value is still available to the API layer. */
+  .visually-hidden{ position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+  /* ---------- DISAMBIGUATION ----------
+     Presented as a list of records to choose between, not as an error.
+     Being asked which of two buildings you meant is a normal step in
+     due diligence, and the alternative — guessing — is the failure. */
+  .disambig{ padding:4px; }
+  .disambig-head{ font-family:var(--sk-font-text); font-size:14px; font-weight:600;
+    color:var(--ink); padding:12px 16px 2px; }
+  .disambig-sub{ font-size:12px; color:var(--stone-light); padding:0 16px 10px;
+    border-bottom:1px solid var(--hairline); }
+  .disambig-row{ display:flex; flex-direction:column; align-items:flex-start; gap:2px;
+    width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    padding:12px 16px; border-bottom:1px solid var(--hairline);
+    transition:background 0.2s var(--ease-apple); }
+  .disambig-row:last-child{ border-bottom:none; }
+  .disambig-row:hover, .disambig-row:focus-visible{ background:var(--marble-deep); }
+  .disambig-name{ font-size:15px; font-weight:600; color:var(--ink); }
+  .disambig-meta{ font-family:var(--sk-font-text);font-variant-numeric:tabular-nums; font-size:11px;
+    letter-spacing:0.06em; text-transform:uppercase; color:var(--stone-light); }
+
+
+  /* ==========================================================
+     THE PLATE — giving the content a surface
+     Measured: 94% of the page was near-black void with content
+     floating on it. That is why no amount of palette or spacing work
+     made it read as rich. Richness is a property of MATERIAL, and
+     there was no material — only darkness with small type on it.
+
+     An engraved certificate, a share warrant, a bank's letterhead:
+     the thing that makes them feel valuable is that the content sits
+     ON something with edges, weight and a lit face. So the hero now
+     has a plate. The void becomes the surround, not the substrate.
+     ========================================================== */
