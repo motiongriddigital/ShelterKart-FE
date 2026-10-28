@@ -1,5 +1,9 @@
 'use client';
 import { useCallback, useEffect, useRef } from 'react';
+import { useBuyerCountry } from '@/hooks/useBuyerCountry';
+import { useStartCheckout } from '@/hooks/useCheckout';
+import { useCheckoutStore } from '@/store/checkout';
+import { useModalStore } from '@/store/modal';
 import { useDossierFlow } from '@/hooks/useDossierFlow';
 import { useDossierHtml } from '@/hooks/useDossierHtml';
 import { useT } from '@/hooks/useT';
@@ -12,14 +16,18 @@ import { ShadowReport } from './ShadowReport';
 export function ReportPanel() {
   const t = useT();
   const view = useReportStore((s) => s.view);
-  const { steps, showFull } = useDossierFlow();
+  const { steps } = useDossierFlow();
   const ref = useRef<HTMLElement>(null);
   const id = view.kind === 'none' ? null : view.id;
   const dossier = id ? dossierById(id) : undefined;
   const { html, failed } = useDossierHtml(
     view.kind === 'preview' || view.kind === 'full' ? id : null,
   );
-  const unlock = useCallback(() => id && showFull(id), [id, showFull]);
+  useBuyerCountry(); // settle the buyer's country early, so the checkout price is ready when asked
+  const startCheckout = useStartCheckout();
+  const paidContact = useCheckoutStore((s) => s.paidContact);
+  const openModal = useModalStore((s) => s.open);
+  const unlock = useCallback(() => id && startCheckout(id), [id, startCheckout]);
 
   // Bring each stage into view, as before; reduced-motion users get an instant jump.
   useEffect(() => {
@@ -47,9 +55,26 @@ export function ReportPanel() {
           <div className="sk-dossier-bar">
             <span className="sk-dossier-tag">{place}</span>
             {view.kind === 'full' && (
-              <a className="lb-act" href={`/sample-reports/${dossier.pdf}`} download>
-                {t('Download PDF')}
-              </a>
+              <>
+                <a className="lb-act" href={`/sample-reports/${dossier.pdf}`} download>
+                  {t('Download PDF')}
+                </a>
+                <a
+                  className="lb-act"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openModal('disputeModal')}
+                >
+                  {t('Report an inaccuracy')}
+                </a>
+                {paidContact && (
+                  <p className="sk-dossier-sent">
+                    {t('In the live product, the report and its PDF are sent to {email}.', {
+                      email: paidContact.email,
+                    })}
+                  </p>
+                )}
+              </>
             )}
           </div>
           {failed && <p className="lb-small">{t('This report could not be loaded. Try again.')}</p>}

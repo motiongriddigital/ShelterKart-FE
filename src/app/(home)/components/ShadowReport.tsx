@@ -2,6 +2,8 @@
 import { useEffect, useRef } from 'react';
 import { useGuide } from '@/hooks/useGuide';
 import { useT } from '@/hooks/useT';
+import { useModalStore } from '@/store/modal';
+import { useReportStore } from '@/store/report';
 
 type Props = { html: string; onUnlock?: () => void };
 
@@ -13,6 +15,8 @@ export function ShadowReport({ html, onUnlock }: Props) {
   const t = useT();
   const hostRef = useRef<HTMLDivElement>(null);
   const { openGuide, downloadGuide } = useGuide();
+  const openModal = useModalStore((s) => s.open);
+  const setReply = useReportStore((s) => s.setReply);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -20,7 +24,7 @@ export function ShadowReport({ html, onUnlock }: Props) {
     const root = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
     root.innerHTML = html;
 
-    // Links inside the report: the free guide opens in its reader; the right of reply arrives with checkout (phase 3).
+    // Links inside the report: the free guide opens in its reader; the right of reply opens its own window.
     const onClick = (e: Event) => {
       const el = (e.target as Element | null)?.closest?.(
         'a[data-guide], a[data-guide-pdf], a[data-reply]',
@@ -29,6 +33,10 @@ export function ShadowReport({ html, onUnlock }: Props) {
       e.preventDefault();
       if (el.hasAttribute('data-guide')) openGuide(el.getAttribute('data-guide') ?? '');
       else if (el.hasAttribute('data-guide-pdf')) downloadGuide();
+      else {
+        setReply(el.getAttribute('data-ref') ?? '', el.getAttribute('data-claim') ?? '');
+        openModal('replyModal');
+      }
     };
     root.addEventListener('click', onClick);
 
@@ -49,7 +57,7 @@ export function ShadowReport({ html, onUnlock }: Props) {
       root.removeEventListener('click', onClick);
       btn?.removeEventListener('click', onUnlockClick);
     };
-  }, [html, onUnlock, openGuide, downloadGuide, t]);
+  }, [html, onUnlock, openGuide, downloadGuide, openModal, setReply, t]);
 
   // The report is English: left to right on an Arabic page too.
   return <div ref={hostRef} className="sk-dossier-host" dir="ltr" lang="en" />;

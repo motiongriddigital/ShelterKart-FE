@@ -9,6 +9,7 @@ const MODAL_LINKS: { id: ModalId; label: string }[] = [
   { id: 'principlesModal', label: 'Our Principles' },
   { id: 'tncModal', label: 'Terms & Conditions' },
   { id: 'privacyModal', label: 'Privacy Policy' },
+  { id: 'restoreModal', label: 'Restore a purchase' },
 ];
 
 const PAGE_LINKS = [

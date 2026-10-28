@@ -29,7 +29,7 @@ function Body({ view, onDidYouMean, onPick, onBack }: Omit<Props, 'visible'>) {
     case 'idle':
       return null;
     case 'live':
-      return <Hint>{t('Live research opens here once the report flow is connected.')}</Hint>;
+      return <Hint>{view.message}</Hint>;
     case 'empty':
       return (
         <>

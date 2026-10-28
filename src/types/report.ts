@@ -1,3 +1,5 @@
+import type { RawQuote } from './checkout';
+
 export type SampleDossier = {
   id: string;
   title: string;
@@ -10,7 +12,12 @@ export type SampleDossier = {
 };
 
 /** The product renderer's output for one report: HTML escaped at build time, mounted in a shadow root. */
-export type DossierHtml = { preview: string; full: string };
+export type DossierHtml = {
+  preview: string;
+  full: string;
+  quotes: Record<string, RawQuote>;
+  pricing: { depthLabel?: string };
+};
 
 export type ReportView =
   | { kind: 'none' }
