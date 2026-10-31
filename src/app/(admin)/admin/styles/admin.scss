@@ -1,74 +1,546 @@
-  :root{
-    --navy-900:#061428; --navy-800:#0A1C33; --navy-600:#163C64; --ink:#0A1C33; --ink-2:#2F4460; --ink-3:#52657F;
-    --paper:#FAF8F5; --paper-2:#F1EDE6; --rule:#E4DDD1; --gold:#D3A245; --gold-deep:#865E1D;
-    --ok:#1D6338; --ok-bg:#E3F0E8; --warn:#865E1D; --warn-bg:#F6ECD6; --bad:#A32B1C; --bad-bg:#F7E3DF; --mute-bg:#ECEEF1;
-    --chart-1:#163C64; --chart-2:#D3A245; --chart-3:#1D6338;
+// Admin panel. Colours and repeated patterns are Sass variables and mixins; the CSS custom properties in :root
+// stay because components reference them (for example var(--chart-1) in the chart legend).
+@use 'sass:list';
+
+$white: #fff;
+$cream: #f5e6c2;
+$accent-red: #bc6055;
+$demo-bg: #fbf6ea;
+$demo-border: #e9d7ae;
+$radius-sm: 8px;
+$radius-md: 10px;
+$radius-lg: 12px;
+$mobile: 640px;
+
+:root {
+  --navy-900: #061428;
+  --navy-800: #0a1c33;
+  --navy-600: #163c64;
+  --ink: #0a1c33;
+  --ink-2: #2f4460;
+  --ink-3: #52657f;
+  --paper: #faf8f5;
+  --paper-2: #f1ede6;
+  --rule: #e4ddd1;
+  --gold: #d3a245;
+  --gold-deep: #865e1d;
+  --ok: #1d6338;
+  --ok-bg: #e3f0e8;
+  --warn: #865e1d;
+  --warn-bg: #f6ecd6;
+  --bad: #a32b1c;
+  --bad-bg: #f7e3df;
+  --mute-bg: #eceef1;
+  --chart-1: #163c64;
+  --chart-2: #d3a245;
+  --chart-3: #1d6338;
+}
+
+// ---- mixins ----------------------------------------------------------------------------------------------------
+@mixin surface($radius: $radius-lg) {
+  background: $white;
+  border: 1px solid var(--rule);
+  border-radius: $radius;
+}
+
+@mixin muted($size: 13px) {
+  color: var(--ink-3);
+  font-size: $size;
+}
+
+@mixin pill-tone($bg, $fg) {
+  background: $bg;
+  color: $fg;
+}
+
+@mixin on-navy-control {
+  background: transparent;
+  color: $cream;
+  border: 1px solid rgba($cream, 0.35);
+  border-radius: $radius-sm;
+  padding: 7px 10px;
+  font: inherit;
+  font-size: 14px;
+}
+
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin mobile {
+  @media (max-width: $mobile) {
+    @content;
   }
-  *{ box-sizing:border-box; }
-  body{ margin:0; font-family:var(--sk-font-text), system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; background:var(--paper); color:var(--ink); font-size:15px; line-height:1.5; }
-  h1,h2{ font-family:var(--sk-font-display); font-weight:600; letter-spacing:-0.01em; margin:0; }
-  button{ font:inherit; cursor:pointer; }
-  .login{ max-width:380px; margin:12vh auto; padding:32px; background:#fff; border:1px solid var(--rule); border-top:3px solid var(--gold); border-radius:12px; }
-  .login h1{ font-size:22px; margin-bottom:4px; } .login p{ color:var(--ink-3); margin:0 0 18px; font-size:14px; }
-  .login input{ width:100%; padding:11px 12px; margin-bottom:10px; border:1px solid var(--rule); border-radius:8px; font:inherit; background:#fff; }
-  .btn{ padding:10px 16px; border-radius:8px; border:1px solid var(--rule); background:#fff; color:var(--ink); font-weight:600; }
-  .btn-gold{ background:linear-gradient(178deg,#ECD093 0%,#D3A245 55%,#B6832B 100%); border:none; color:var(--navy-900); width:100%; }
-  .btn:disabled{ opacity:.55; cursor:progress; }
-  .err{ color:var(--bad); font-size:14px; min-height:1.4em; margin-top:8px; }
+}
 
-  .top{ position:sticky; top:0; z-index:5; background:var(--navy-900); color:#F5E6C2; padding:14px 24px; display:flex; flex-wrap:wrap; align-items:center; gap:12px; border-bottom:2px solid var(--gold); }
-  .top h1{ font-size:19px; color:#F5E6C2; } .top h1 span{ color:#BC6055; }
-  .top .status{ font-size:13px; opacity:.8; } .top .spacer{ flex:1; }
-  .top select, .top .btn{ background:transparent; color:#F5E6C2; border:1px solid rgba(245,230,194,.35); border-radius:8px; padding:7px 10px; font:inherit; font-size:14px; }
-  .top select option{ color:var(--ink); }
-  .wrap{ max-width:1180px; margin:0 auto; padding:24px; }
-  .banner{ padding:12px 14px; border-radius:10px; margin-bottom:16px; font-size:14px; }
-  .banner.warn{ background:var(--warn-bg); color:var(--warn); } .banner.bad{ background:var(--bad-bg); color:var(--bad); }
+// ---- base ------------------------------------------------------------------------------------------------------
+* {
+  box-sizing: border-box;
+}
 
-  .kpis{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:18px; }
-  .kpi{ background:#fff; border:1px solid var(--rule); border-radius:12px; padding:14px 16px; }
-  .kpi .n{ font-family:var(--sk-font-display); font-size:28px; font-weight:600; line-height:1.1; }
-  .kpi .l{ font-size:12.5px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
-  .kpi.money .n{ color:var(--ok); }
-  /* revenue cards span two columns: money figures ("AED 6,556", "₹12,34,56,789") need the room, and are what is read first */
-  .kpi.money{ grid-column:span 2; }
-  .kpi{ min-width:0; }
+body {
+  margin: 0;
+  font-family:
+    var(--sk-font-text),
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Arial,
+    sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
 
-  .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:16px; margin-bottom:16px; }
-  .card{ background:#fff; border:1px solid var(--rule); border-radius:12px; padding:18px; min-width:0; }
-  .card h2{ font-size:17px; margin-bottom:4px; } .card .sub{ color:var(--ink-3); font-size:13px; margin:0 0 12px; }
-  .card.wide{ grid-column:1 / -1; }
-  .chart svg{ width:100%; height:auto; display:block; }
-  .legend{ font-size:13px; color:var(--ink-2); margin-top:8px; }
-  .legend span{ display:inline-block; margin-right:18px; }   /* margins, not flex gap: older mobile browsers lack gap */
-  .legend i{ display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:6px; vertical-align:-1px; }
+h1,
+h2 {
+  font-family: var(--sk-font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
 
-  .bars{ list-style:none; margin:0; padding:0; }
-  .bars li{ display:grid; grid-template-columns:minmax(90px, 38%) 1fr auto; align-items:center; gap:10px; padding:5px 0; font-size:14px; }
-  .bars .k{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .bars .track{ height:8px; background:var(--paper-2); border-radius:4px; overflow:hidden; }
-  .bars .fill{ display:block; height:100%; background:var(--chart-1); border-radius:4px; }
-  .bars .v{ font-variant-numeric:tabular-nums; color:var(--ink-2); min-width:3ch; text-align:right; }
-  .bars .empty{ display:block; }
-  .empty{ color:var(--ink-3); font-size:14px; padding:6px 0; }
-  .funnel li{ grid-template-columns:minmax(120px, 34%) 1fr auto; }
-  .funnel .fill{ background:var(--chart-2); }
-  .funnel .pct{ font-size:12px; color:var(--ink-3); margin-left:6px; }
+button {
+  font: inherit;
+  cursor: pointer;
+}
 
-  table{ width:100%; border-collapse:collapse; font-size:14px; }
-  th, td{ text-align:left; padding:8px 6px; border-bottom:1px solid var(--rule); vertical-align:top; }
-  th{ font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-3); font-weight:600; }
-  .pill{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:600; white-space:nowrap; }
-  .pill.healthy{ background:var(--ok-bg); color:var(--ok); } .pill.degraded, .pill.unconfirmed{ background:var(--warn-bg); color:var(--warn); }
-  .pill.down{ background:var(--bad-bg); color:var(--bad); } .pill.skipped, .pill.not_checked{ background:var(--mute-bg); color:var(--ink-3); }
-  .row{ display:flex; gap:12px; justify-content:space-between; align-items:flex-start; padding:12px 0; border-bottom:1px solid var(--rule); }
-  .row .meta{ font-size:12.5px; color:var(--ink-3); margin-top:4px; }
-  .row .actions{ display:flex; gap:8px; flex-shrink:0; }
-  .row .actions .btn{ padding:6px 10px; font-size:13px; }
-  .note{ font-size:13px; color:var(--ink-3); margin-top:20px; }
-  .banner.demo{ background:#FBF6EA; color:var(--gold-deep); border:1px solid #E9D7AE; }
-  .demo-note{ font-size:14px; color:var(--ink-2); background:#FBF6EA; border:1px solid #E9D7AE; border-radius:8px; padding:10px 12px; margin:0 0 12px; }
-  .rep-title{ font-weight:600; } .rep-sub{ font-size:12.5px; color:var(--ink-3); }
-  .rep-actions a{ display:inline-block; margin:0 10px 4px 0; font-size:13.5px; font-weight:600; color:var(--navy-600); }
-  @media (max-width:640px){ .wrap{ padding:14px; } .top{ padding:12px 14px; } .grid{ grid-template-columns:1fr; } }
-  .ltable{ width:100%; border-collapse:collapse; font-size:14px; } .ltable th{ text-align:left; font-size:12px; color:#52657F; font-weight:600; padding:6px 4px; border-bottom:1px solid #E4DDD1; } .ltable td{ padding:7px 4px; border-bottom:1px solid #F0EAE0; }
+// ---- sign-in -----------------------------------------------------------------------------------------------------
+.login {
+  @include surface;
+  max-width: 380px;
+  margin: 12vh auto;
+  padding: 32px;
+  border-top: 3px solid var(--gold);
+
+  h1 {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  p {
+    @include muted(14px);
+    margin: 0 0 18px;
+  }
+
+  input {
+    @include surface($radius-sm);
+    width: 100%;
+    padding: 11px 12px;
+    margin-bottom: 10px;
+    font: inherit;
+  }
+}
+
+.btn {
+  @include surface($radius-sm);
+  padding: 10px 16px;
+  color: var(--ink);
+  font-weight: 600;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: progress;
+  }
+}
+
+.btn-gold {
+  background: linear-gradient(178deg, #ecd093 0%, #d3a245 55%, #b6832b 100%);
+  border: none;
+  color: var(--navy-900);
+  width: 100%;
+}
+
+.err {
+  color: var(--bad);
+  font-size: 14px;
+  min-height: 1.4em;
+  margin-top: 8px;
+}
+
+// ---- top bar -----------------------------------------------------------------------------------------------------
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--navy-900);
+  color: $cream;
+  padding: 14px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 2px solid var(--gold);
+
+  h1 {
+    font-size: 19px;
+    color: $cream;
+
+    span {
+      color: $accent-red;
+    }
+  }
+
+  .status {
+    font-size: 13px;
+    opacity: 0.8;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  select,
+  .btn {
+    @include on-navy-control;
+  }
+
+  select option {
+    color: var(--ink);
+  }
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+// ---- banners -----------------------------------------------------------------------------------------------------
+.banner {
+  padding: 12px 14px;
+  border-radius: $radius-md;
+  margin-bottom: 16px;
+  font-size: 14px;
+
+  &.warn {
+    @include pill-tone(var(--warn-bg), var(--warn));
+  }
+
+  &.bad {
+    @include pill-tone(var(--bad-bg), var(--bad));
+  }
+
+  &.demo {
+    background: $demo-bg;
+    color: var(--gold-deep);
+    border: 1px solid $demo-border;
+  }
+}
+
+.demo-note {
+  font-size: 14px;
+  color: var(--ink-2);
+  background: $demo-bg;
+  border: 1px solid $demo-border;
+  border-radius: $radius-sm;
+  padding: 10px 12px;
+  margin: 0 0 12px;
+}
+
+// ---- KPI tiles ---------------------------------------------------------------------------------------------------
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.kpi {
+  @include surface;
+  padding: 14px 16px;
+  min-width: 0;
+
+  .n {
+    font-family: var(--sk-font-display);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .l {
+    @include muted(12.5px);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+  }
+
+  &.money {
+    // Revenue cards span two columns: money figures ("AED 6,556", "₹12,34,56,789") need the room.
+    grid-column: span 2;
+
+    .n {
+      color: var(--ok);
+    }
+  }
+}
+
+// ---- cards and charts --------------------------------------------------------------------------------------------
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  @include surface;
+  padding: 18px;
+  min-width: 0;
+
+  h2 {
+    font-size: 17px;
+    margin-bottom: 4px;
+  }
+
+  .sub {
+    @include muted;
+    margin: 0 0 12px;
+  }
+
+  &.wide {
+    grid-column: 1 / -1;
+  }
+}
+
+.chart svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.legend {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 8px;
+
+  // margins, not flex gap: older mobile browsers lack gap
+  span {
+    display: inline-block;
+    margin-right: 18px;
+  }
+
+  i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 6px;
+    vertical-align: -1px;
+  }
+}
+
+// ---- bar lists and funnel ----------------------------------------------------------------------------------------
+.bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: grid;
+    grid-template-columns: minmax(90px, 38%) 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    font-size: 14px;
+  }
+
+  .k {
+    @include ellipsis;
+  }
+
+  .track {
+    height: 8px;
+    background: var(--paper-2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .fill {
+    display: block;
+    height: 100%;
+    background: var(--chart-1);
+    border-radius: 4px;
+  }
+
+  .v {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-2);
+    min-width: 3ch;
+    text-align: right;
+  }
+
+  .empty {
+    display: block;
+  }
+}
+
+.empty {
+  @include muted(14px);
+  padding: 6px 0;
+}
+
+.funnel {
+  li {
+    grid-template-columns: minmax(120px, 34%) 1fr auto;
+  }
+
+  .fill {
+    background: var(--chart-2);
+  }
+
+  .pct {
+    @include muted(12px);
+    margin-left: 6px;
+  }
+}
+
+// ---- tables and status pills -------------------------------------------------------------------------------------
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+// Register-health states share a tone: healthy / degraded+unconfirmed / down / skipped+not_checked.
+$pill-tones: (
+  'healthy': (
+    var(--ok-bg),
+    var(--ok),
+  ),
+  'degraded': (
+    var(--warn-bg),
+    var(--warn),
+  ),
+  'unconfirmed': (
+    var(--warn-bg),
+    var(--warn),
+  ),
+  'down': (
+    var(--bad-bg),
+    var(--bad),
+  ),
+  'skipped': (
+    var(--mute-bg),
+    var(--ink-3),
+  ),
+  'not_checked': (
+    var(--mute-bg),
+    var(--ink-3),
+  ),
+);
+
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  @each $state, $tone in $pill-tones {
+    &.#{$state} {
+      @include pill-tone(list.nth($tone, 1), list.nth($tone, 2));
+    }
+  }
+}
+
+// ---- review rows, reports, notes ---------------------------------------------------------------------------------
+.row {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+
+  .meta {
+    @include muted(12.5px);
+    margin-top: 4px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+
+    .btn {
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+  }
+}
+
+.note {
+  @include muted;
+  margin-top: 20px;
+}
+
+.rep-title {
+  font-weight: 600;
+}
+
+.rep-sub {
+  @include muted(12.5px);
+}
+
+.rep-actions a {
+  display: inline-block;
+  margin: 0 10px 4px 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--navy-600);
+}
+
+.ltable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th {
+    text-align: left;
+    font-size: 12px;
+    color: #52657f;
+    font-weight: 600;
+    padding: 6px 4px;
+    border-bottom: 1px solid #e4ddd1;
+  }
+
+  td {
+    padding: 7px 4px;
+    border-bottom: 1px solid #f0eae0;
+  }
+}
+
+@include mobile {
+  .wrap {
+    padding: 14px;
+  }
+
+  .top {
+    padding: 12px 14px;
+  }
+}
