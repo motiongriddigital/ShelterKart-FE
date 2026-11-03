@@ -1,17 +1,15 @@
 .masthead {
   background: var(--sk-navy);
   border-bottom: 2px solid var(--sk-gold);
-  padding: 1rem 1.25rem;
+  padding: 0.9rem 1.25rem;
 }
 
 .brand {
-  font-family: var(--sk-font-display);
-  font-weight: 600;
-  font-size: 1.3rem;
-  color: var(--sk-cream);
-  text-decoration: none;
+  display: inline-block;
+  line-height: 0;
 
-  span {
-    color: var(--sk-gold);
+  img {
+    height: 2.1rem;
+    width: auto;
   }
 }
