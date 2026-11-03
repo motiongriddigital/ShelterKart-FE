@@ -1,20 +1,30 @@
 'use client';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DEMO_RECORDS } from '@/constants/demoRecords';
 import { IS_DEMO } from '@/configs/env';
 import { matchDemoRecords } from '@/utils/demoSearch';
 import { findDossier } from '@/utils/dossiers';
-import { startInvestigation } from '@/app/_api/research';
+import { fetchCandidates, getSearchMode, startInvestigation } from '@/app/_api/research';
 import { useT } from '@/hooks/useT';
 import { MARKETS } from '@/constants/markets';
 import { usePreferences } from '@/store/preferences';
 import { failureMessage } from '@/utils/apiErrors';
-import type { DemoHit, DemoRecord } from '@/types/search';
+import type {
+  Candidate,
+  CandidateResult,
+  DemoHit,
+  DemoRecord,
+  Remembered,
+  SearchMode,
+} from '@/types/search';
 
 export type SearchView =
   | { mode: 'idle' }
   | { mode: 'empty' }
   | { mode: 'live'; message: string }
+  | { mode: 'candidates'; q: string; data: CandidateResult }
+  | { mode: 'notfound'; q: string; data: CandidateResult }
+  | { mode: 'remember'; q: string }
   | { mode: 'list'; hits: DemoHit[]; didYouMean?: string }
   | { mode: 'record'; record: DemoRecord; back: DemoHit[] | null };
 
@@ -25,6 +35,11 @@ type Options = { onDossier?: (id: string) => void };
 export function useSearch({ onDossier }: Options = {}) {
   const t = useT();
   const [busy, setBusy] = useState(false);
+  const [searchMode, setSearchMode] = useState<SearchMode>('shadow');
+
+  useEffect(() => {
+    if (!IS_DEMO) getSearchMode().then(setSearchMode);
+  }, []);
   const [query, setQuery] = useState('');
   const [view, setView] = useState<SearchView>({ mode: 'idle' });
   const [visible, setVisible] = useState(false);
@@ -39,7 +54,7 @@ export function useSearch({ onDossier }: Options = {}) {
 
   // Live mode: every search is a real investigation; the buyer is taken to its live page.
   const startLive = useCallback(
-    async (q: string) => {
+    async (q: string, place?: string) => {
       const { market, city } = usePreferences.getState();
       const code = market.toUpperCase();
       const say = (message: string) => {
@@ -52,7 +67,7 @@ export function useSearch({ onDossier }: Options = {}) {
         const ref = await startInvestigation(
           {
             query: q,
-            location: city,
+            location: place ?? city,
             country: code === 'UK' ? 'GB' : code,
             market: MARKETS[market].label,
           },
@@ -74,13 +89,48 @@ export function useSearch({ onDossier }: Options = {}) {
     [t],
   );
 
+  // The search must never be a dead end: if candidates cannot be loaded, research starts as typed.
+  const showCandidates = useCallback(
+    async (q: string, remember?: Remembered) => {
+      const { market, city } = usePreferences.getState();
+      const location = /^(All |Developer coverage)/.test(city) ? '' : city;
+      try {
+        const data = await fetchCandidates({
+          query: q,
+          location,
+          market,
+          ...(remember ? { remember } : {}),
+        });
+        if (!data.ok) throw new Error('NO_CANDIDATES');
+        setView(
+          data.candidates.length ? { mode: 'candidates', q, data } : { mode: 'notfound', q, data },
+        );
+        setVisible(true);
+      } catch {
+        setVisible(false);
+        startLive(q);
+      }
+    },
+    [startLive],
+  );
+
+  const chooseCandidate = useCallback(
+    (c: Candidate) => {
+      setVisible(false);
+      startLive(c.name, c.locality || c.city || '');
+    },
+    [startLive],
+  );
+
   const submit = useCallback(
     (text?: string) => {
       const q = (text ?? query).trim();
       if (!q) return;
       if (text !== undefined) setQuery(text);
       if (!IS_DEMO) {
-        if (!busy) startLive(q);
+        if (busy) return;
+        if (searchMode === 'on') showCandidates(q);
+        else startLive(q);
         return;
       }
       const dossier = findDossier(q);
@@ -91,7 +141,7 @@ export function useSearch({ onDossier }: Options = {}) {
       }
       showResults(q);
     },
-    [query, showResults, onDossier, busy, startLive],
+    [query, showResults, onDossier, busy, startLive, showCandidates, searchMode],
   );
 
   const pickDidYouMean = useCallback(
@@ -121,7 +171,23 @@ export function useSearch({ onDossier }: Options = {}) {
       showRecord,
       backToResults,
       hide,
+      chooseCandidate,
+      showCandidates,
+      researchAnyway: (q: string) => (setVisible(false), startLive(q)),
+      askToRemember: (q: string) => setView({ mode: 'remember', q }),
     }),
-    [query, view, visible, submit, pickDidYouMean, showRecord, backToResults, hide],
+    [
+      query,
+      view,
+      visible,
+      submit,
+      pickDidYouMean,
+      showRecord,
+      backToResults,
+      hide,
+      chooseCandidate,
+      showCandidates,
+      startLive,
+    ],
   );
 }

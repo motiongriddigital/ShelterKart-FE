@@ -1,6 +1,7 @@
 import { http, ApiError } from './http';
 import { solveProofOfWork } from '@/utils/proofOfWork';
 import type { PricingCountry } from '@/types/checkout';
+import type { CandidateResult, Remembered, SearchMode } from '@/types/search';
 
 export type InvestigationRequest = {
   query: string;
@@ -73,3 +74,20 @@ export const getPricingCountries = () =>
   http<{ ok: boolean; countries: PricingCountry[]; network?: string }>('/api/pricing/countries', {
     timeoutMs: 8000,
   });
+
+/** The search mode the server runs: candidates are shown only when it says "on" (otherwise it matches in the shadow). */
+export async function getSearchMode(): Promise<SearchMode> {
+  try {
+    const d = await http<{ mode?: SearchMode }>('/api/search/config', { timeoutMs: 8000 });
+    return d.mode ?? 'shadow';
+  } catch {
+    return 'shadow';
+  }
+}
+
+export const fetchCandidates = (body: {
+  query: string;
+  location: string;
+  market: string;
+  remember?: Remembered;
+}) => http<CandidateResult>('/api/search/candidates', { method: 'POST', body, timeoutMs: 12000 });

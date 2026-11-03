@@ -2,6 +2,7 @@ import { getT } from '@/i18n/server';
 import { orderedMarkets } from '@/utils/markets';
 import { ConsentBanner } from './components/ConsentBanner';
 import { DemoBanner } from './components/DemoBanner';
+import { PageViewTracker } from './components/PageViewTracker';
 import { Hero } from './components/Hero';
 import { HomeModals } from './components/HomeModals';
 
@@ -9,6 +10,7 @@ export default async function HomePage() {
   const t = await getT();
   return (
     <>
+      <PageViewTracker />
       <DemoBanner />
       <a href="#landing" className="skip-link">
         {t('Skip to search')}

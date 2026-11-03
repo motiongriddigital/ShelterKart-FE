@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { PERIODS } from '@/constants/admin';
 
 type Props = {
@@ -16,6 +17,12 @@ export function TopBar({ status, days, onDays, onRefresh, onSignOut }: Props) {
       </h1>
       <span className="status">{status}</span>
       <span className="spacer" />
+      <Link href="/admin/marketing" className="btn">
+        Marketing numbers
+      </Link>
+      <Link href="/admin/social" className="btn">
+        Marketing desk
+      </Link>
       <label>
         <span className="status">Period </span>
         <select value={days} onChange={(e) => onDays(e.target.value)} aria-label="Period">
