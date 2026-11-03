@@ -1,22 +1,62 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
+import { getSourceConsentMode } from '@/app/_api/consent';
+import { IS_DEMO } from '@/configs/env';
+import {
+  captureVisitSource,
+  isSourceAllowed,
+  readSourceChoice,
+  recordSourceChoice,
+  type SourceChoice,
+} from '@/utils/visitSource';
 import { readStored, writeStored } from '@/utils/storage';
 
-const CONSENT_KEY = 'sk_consent_ack';
+const NOTICE_KEY = 'sk_consent_ack';
+const SHOW_DELAY_MS = 600;
 
+type Stage = 'none' | 'source' | 'notice';
+
+/** Two banners in order: first the source choice (only where the server says it is required), then the data notice. */
 export function useConsent() {
-  const [visible, setVisible] = useState(false);
+  const [stage, setStage] = useState<Stage>('none');
 
   useEffect(() => {
-    if (readStored(CONSENT_KEY) === '1') return;
-    const id = setTimeout(() => setVisible(true), 600);
-    return () => clearTimeout(id);
+    let live = true;
+    const showNotice = () =>
+      readStored(NOTICE_KEY) !== '1' &&
+      live &&
+      setTimeout(() => live && setStage('notice'), SHOW_DELAY_MS);
+    (async () => {
+      if (IS_DEMO) return showNotice();
+      const mode = await getSourceConsentMode();
+      const choice = readSourceChoice();
+      if (mode === 'required' && !choice) {
+        if (live) setTimeout(() => live && setStage('source'), SHOW_DELAY_MS);
+        return;
+      }
+      if (isSourceAllowed(mode, choice)) captureVisitSource(true);
+      showNotice();
+    })();
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  const chooseSource = useCallback((choice: SourceChoice) => {
+    recordSourceChoice(choice);
+    setStage('none');
+    if (readStored(NOTICE_KEY) !== '1') setTimeout(() => setStage('notice'), SHOW_DELAY_MS);
   }, []);
 
   const accept = useCallback(() => {
-    writeStored(CONSENT_KEY, '1');
-    setVisible(false);
+    writeStored(NOTICE_KEY, '1');
+    setStage('none');
   }, []);
 
-  return { visible, accept };
+  return {
+    sourceVisible: stage === 'source',
+    noticeVisible: stage === 'notice',
+    chooseSource,
+    accept,
+  };
 }

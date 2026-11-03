@@ -10,3 +10,4 @@ src/styles/_theme.scss
 public/guide
 public/admin
 public/samples
+src/i18n/messages

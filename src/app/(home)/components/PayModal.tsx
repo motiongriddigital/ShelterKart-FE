@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { Modal } from '@/components/ui/Modal';
 import { useCheckout } from '@/hooks/useCheckout';
 import { useT } from '@/hooks/useT';
@@ -118,6 +119,14 @@ export function PayModal() {
                 'It depends on the value of the property and how much evidence this report holds. It is the same for every buyer, shown in your currency.',
               )}
             </span>
+          </p>
+          <p className="pay-trust">
+            <span>
+              {t('Developers can reply to any finding, and any error is corrected and dated.')}
+            </span>{' '}
+            <Link className="pay-trust-link" href="/corrections" target="_blank">
+              {t('How it works')}
+            </Link>
           </p>
           <p className="pay-includes">
             {t(

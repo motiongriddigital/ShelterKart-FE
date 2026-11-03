@@ -136,6 +136,14 @@ ReportPanel reads store/report.view
 Restore (`useRestore`), dispute and reply (`useReportForms`) post to `/api/research/recover`, `/api/dispute`,
 `/api/developer-response`.
 
+### 4.6b Source consent and live search candidates
+
+- Visit source: `utils/visitSource.ts` keeps the first page's UTM + referrer in `sessionStorage('sk_src')`, only where
+  allowed. `useConsent` asks first (banner `#sourceChoice`) when `/api/source-consent` says `required` (EEA/UK/CH/unknown),
+  then shows the data notice. The backend-served checkout page reads these same keys.
+- Candidates: when `/api/search/config` returns `on`, `useSearch.showCandidates` posts `/api/search/candidates` and shows up
+  to five projects; "None of these" opens `RememberForm`; "Research anyway" starts the investigation as typed.
+
 ### 4.7 Dialogs
 
 `store/modal.openId` is the single source of truth. `components/ui/Modal.tsx` shows a dialog when `openId === id` and
@@ -154,6 +162,17 @@ Add a dialog: add its id to `ModalId` in `store/modal.ts`, render `<Modal id=...
 - **Demo**: "Open the demo dashboard" reads `public/admin/demo-data.json`; resolve/approve actions mutate it in memory.
 - A 401 anywhere signs out. Each panel failing is shown in a banner, not fatal.
 - Cards are in `(admin)/admin/components/`; numbers/targets logic is in `utils/adminMetrics.ts` and `constants/admin.ts`.
+
+### 4.8b Marketing numbers and Marketing desk (admin, live only)
+
+- `/admin/marketing` (`(admin)/admin/marketing/`): weekly numbers per market, early warnings, Phase 1 gate, repeat/change/stop,
+  ranking, and the input forms (spend, AI-answer checks, effort, settings). Logic: `hooks/useMarketingDashboard.ts`,
+  pure view helpers `utils/marketingView.ts`, API `app/_api/marketing.ts`.
+- `/admin/social` (`(admin)/admin/social/`): the social marketing desk: status, next-24-hours queue with veto, weekly pack
+  (plan, build, read sample, PIN approval), facts keeper, pauses and incidents, audit chain. Hooks `useSocialDesk`,
+  `useWeeklyPack`, `useFactsDesk`; API `app/_api/social.ts`.
+- Both use `app/_api/desk.ts` (`deskCall`: never throws, returns `{ok, error, status}`), share `DeskShell` (sign-in guard +
+  nav) and the CSS module `admin/styles/desk.module.scss`. They need the live backend; demo mode shows a message.
 
 ### 4.9 Doc pages
 
