@@ -6,9 +6,11 @@ import type { GeoPermissibleObjects } from 'd3-geo';
 import { feature } from 'topojson-client';
 import { Globe2, Maximize2, Minimize2, X } from 'lucide-react';
 import { SegTabs } from '@/app/(admin)/admin/components/SegTabs';
-import { COUNTRY_STATS, statByCode, type CountryStat } from '@/constants/adminSeedGeo';
+import type { CountryStat } from '@/constants/adminSeedGeo';
+import { useGeoData } from '@/store/geoData';
 import { cn } from '@/utils/cn';
 import { PageHeader } from '../PageHeader';
+import { useGeoGate } from './LiveGate';
 import { Panel, Stat, rowCls, tableWrap, td, th } from '../kit/Panel';
 import { Button } from '../ui/button';
 
@@ -112,6 +114,14 @@ const Shapes = memo(function Shapes({
 
 export function UserMapView({ country }: { country?: string }) {
   const router = useRouter();
+  const gate = useGeoGate('User map', Globe2);
+  const stats = useGeoData((x) => x.stats);
+  const placed = useGeoData((x) => x.notPlaced);
+  const live = useGeoData((x) => x.live);
+  const byCode = useMemo(() => {
+    const m = new Map(stats.map((c) => [c.code, c]));
+    return (code: string) => m.get(code);
+  }, [stats]);
   const [shapes, setShapes] = useState<Shape[] | null>(null);
   const [failed, setFailed] = useState(false);
   const [metric, setMetric] = useState<Metric>('users');
@@ -163,13 +173,13 @@ export function UserMapView({ country }: { country?: string }) {
     for (const sh of shapes ?? []) m.set(sh.id, (m.get(sh.id) ?? 0) + sh.area);
     return m;
   }, [shapes]);
-  const byNumeric = useMemo(() => new Map(COUNTRY_STATS.map((c) => [c.numeric, c])), []);
-  const max = useMemo(() => Math.max(...COUNTRY_STATS.map((c) => value(c, metric))), [metric]);
+  const byNumeric = useMemo(() => new Map(stats.map((c) => [c.numeric, c])), [stats]);
+  const max = useMemo(() => Math.max(...stats.map((c) => value(c, metric))), [metric, stats]);
   const colors = useMemo(() => {
-    const hi = Math.max(...COUNTRY_STATS.map((c) => value(c, metric)));
-    const lo = Math.min(...COUNTRY_STATS.map((c) => value(c, metric)));
+    const hi = Math.max(...stats.map((c) => value(c, metric)));
+    const lo = Math.min(...stats.map((c) => value(c, metric)));
     return new Map(
-      COUNTRY_STATS.map((c) => {
+      stats.map((c) => {
         const t = hi === lo ? 1 : (value(c, metric) - lo) / (hi - lo);
         return [
           c.code,
@@ -177,18 +187,19 @@ export function UserMapView({ country }: { country?: string }) {
         ];
       }),
     );
-  }, [metric]);
+  }, [metric, stats]);
 
-  const selected = country && country !== 'world' ? statByCode(country) : undefined;
+  const selected = country && country !== 'world' ? byCode(country) : undefined;
   const ranked = useMemo(
-    () => [...COUNTRY_STATS].sort((a, b) => value(b, metric) - value(a, metric)),
-    [metric],
+    () => [...stats].sort((a, b) => value(b, metric) - value(a, metric)),
+    [metric, stats],
   );
-  const totalUsers = COUNTRY_STATS.reduce((s, c) => s + c.users, 0);
-  const totalPaid = COUNTRY_STATS.reduce((s, c) => s + c.paid, 0);
+  const totalUsers = stats.reduce((s, c) => s + c.users, 0);
+  const totalPaid = stats.reduce((s, c) => s + c.paid, 0);
   const top = ranked[0];
   const go = (code: string) => router.push(`/admin/map/${code}`);
-  const hovered = hoverCode ? statByCode(hoverCode) : undefined;
+  if (gate) return gate;
+  const hovered = hoverCode ? byCode(hoverCode) : undefined;
   const onMove = (e: React.MouseEvent) => {
     const code = (e.target as SVGElement).dataset?.code ?? null;
     setHoverCode((prev) => (prev === code ? prev : code));
@@ -209,10 +220,18 @@ export function UserMapView({ country }: { country?: string }) {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Stat
             label="Countries with users"
-            value={`${COUNTRY_STATS.length} of 36`}
+            value={`${stats.filter((c) => c.users > 0).length} of 36`}
             sub="Every market the backend supports"
           />
-          <Stat label="Users" value={totalUsers.toLocaleString('en-IN')} />
+          <Stat
+            label="Users"
+            value={totalUsers.toLocaleString('en-IN')}
+            sub={
+              live && placed
+                ? `${placed.toLocaleString('en-IN')} more in other or unknown countries`
+                : undefined
+            }
+          />
           <Stat
             label="Paid reports"
             value={totalPaid.toLocaleString('en-IN')}
@@ -325,14 +344,12 @@ export function UserMapView({ country }: { country?: string }) {
                     </>
                   )}
                 </div>
-                {isFs && picked && statByCode(picked) && (
+                {isFs && picked && byCode(picked) && (
                   <div className="absolute bottom-3 left-3 w-64 rounded-xl border border-border bg-popover p-4 shadow-raised">
                     <div className="flex items-start gap-2">
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold">{statByCode(picked)?.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {statByCode(picked)?.currency}
-                        </p>
+                        <p className="text-sm font-semibold">{byCode(picked)?.name}</p>
+                        <p className="text-xs text-muted-foreground">{byCode(picked)?.currency}</p>
                       </div>
                       <Button
                         variant="plain"
@@ -346,7 +363,7 @@ export function UserMapView({ country }: { country?: string }) {
                     </div>
                     <dl className="tabular mt-2 space-y-1 text-ui">
                       {(() => {
-                        const c = statByCode(picked) as CountryStat;
+                        const c = byCode(picked) as CountryStat;
                         return [
                           ['Users', c.users.toLocaleString('en-IN')],
                           ['New this week', `+${c.newThisWeek}`],
@@ -412,7 +429,7 @@ export function UserMapView({ country }: { country?: string }) {
                   ['Share of all users', `${((100 * selected.users) / totalUsers).toFixed(1)}%`],
                   [
                     'Rank by users',
-                    `${[...COUNTRY_STATS].sort((a, b) => b.users - a.users).findIndex((c) => c.code === selected.code) + 1} of 36`,
+                    `${[...stats].sort((a, b) => b.users - a.users).findIndex((c) => c.code === selected.code) + 1} of 36`,
                   ],
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between gap-3 border-b border-border pb-2">
