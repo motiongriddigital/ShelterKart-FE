@@ -5,12 +5,14 @@ import { Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { type PanelConfig, type PanelItem } from '@/constants/adminPanels';
 import { useConsoleData } from '@/store/consoleData';
+import { useGeoData } from '@/store/geoData';
 import { cn } from '@/utils/cn';
 
 export function SecondaryPanel({ base, panel }: { base: string; panel: PanelConfig }) {
   const pathname = usePathname();
   const [q, setQ] = useState('');
   const users = useConsoleData((s) => s.users);
+  const stats = useGeoData((s) => s.stats);
   const first = panel.groups[0]?.items[0]?.slug;
   const current = pathname.startsWith(`${base}/`)
     ? pathname.slice(base.length + 1).split('/')[0]
@@ -33,7 +35,22 @@ export function SecondaryPanel({ base, panel }: { base: string; panel: PanelConf
                 }
               : g,
           )
-        : panel.groups;
+        : base === '/admin/map'
+          ? panel.groups.map((g) =>
+              g.label === 'Countries'
+                ? {
+                    ...g,
+                    items: [...stats]
+                      .sort((a, b) => b.users - a.users)
+                      .map((c): PanelItem => ({
+                        slug: c.code,
+                        label: c.name,
+                        meta: `${c.users.toLocaleString('en-IN')} users`,
+                      })),
+                  }
+                : g,
+            )
+          : panel.groups;
     if (!t) return live;
     return live
       .map((g) => ({
@@ -41,7 +58,7 @@ export function SecondaryPanel({ base, panel }: { base: string; panel: PanelConf
         items: g.items.filter((i) => `${i.label} ${i.meta ?? ''}`.toLowerCase().includes(t)),
       }))
       .filter((g) => g.items.length);
-  }, [panel, q, base, users]);
+  }, [panel, q, base, users, stats]);
 
   return (
     <nav

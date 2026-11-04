@@ -9,6 +9,8 @@ import {
   userFromApi,
   withBans,
 } from '../src/utils/adminPeople.ts';
+import { geoStatsFromApi, notPlaced } from '../src/utils/adminGeo.ts';
+import { MARKET_LIST } from '../src/constants/adminSeedGeo.ts';
 
 const API = process.env.ADMIN_API || 'http://127.0.0.1:4018';
 const AUTH =
@@ -35,8 +37,8 @@ const call = async (path, { method = 'GET', body, auth = AUTH, headers = {} } = 
   });
   return { status: res.status, body: await res.json().catch(() => ({})) };
 };
-async function signIn(email, ua = UA) {
-  const h = { 'User-Agent': ua };
+async function signIn(email, ua = UA, extra = {}) {
+  const h = { 'User-Agent': ua, ...extra };
   const rc = await call('/api/auth/request-code', {
     method: 'POST',
     body: { email },
@@ -249,6 +251,60 @@ const badLift = await call('/api/admin/bans/abc/lift', { method: 'POST', body: {
 ok(
   `a ban id that is not an id is 400 (got ${badLift.status} ${JSON.stringify(badLift.body)})`,
   badLift.status === 400,
+);
+
+console.log('the user map');
+const geoEmails = [
+  `geo-check-${stamp}-in@example.com`,
+  `geo-check-${stamp}-gb@example.com`,
+  `geo-check-${stamp}-cn@example.com`,
+];
+await signIn(geoEmails[0], UA, { 'CF-IPCountry': 'IN' });
+await signIn(geoEmails[1], UA, { 'CF-IPCountry': 'gb' });
+await signIn(geoEmails[2], UA, { 'CF-IPCountry': 'CN' });
+const geo = await call('/api/admin/geo/users');
+ok('the route answers 200', geo.status === 200 && Array.isArray(geo.body.markets));
+const stats = geoStatsFromApi(geo.body.markets, MARKET_LIST);
+ok(
+  'every one of the 36 markets has a row, with its fixed facts from the map',
+  stats.length === 36 &&
+    stats.length === MARKET_LIST.length &&
+    stats.every((c) => c.numeric && c.currency),
+);
+const row = (code) => stats.find((c) => c.code === code);
+ok(
+  'India has at least the user from the edge header IN, and the United Kingdom the one from gb',
+  row('in').users >= 1 && row('uk').users >= 1,
+);
+ok(
+  'a country that is not a market is counted as not placed, with the users that have no country',
+  notPlaced(geo.body) >= 4,
+);
+ok(
+  'the total adds up: markets, other and unknown',
+  stats.reduce((t, c) => t + c.users, 0) + notPlaced(geo.body) === geo.body.totals.users,
+);
+ok(
+  'no number is NaN, negative or missing',
+  stats.every((c) =>
+    [c.users, c.paid, c.conversion, c.newThisWeek].every((v) => Number.isFinite(v) && v >= 0),
+  ),
+);
+ok(
+  'a market the server did not name has no users instead of a crash',
+  geoStatsFromApi([], MARKET_LIST).every((c) => c.users === 0 && c.conversion === 0),
+);
+ok(
+  'nothing personal in the answer',
+  !/@|geo-check|\d+\.\d+\.\d+\.\d+/.test(JSON.stringify(geo.body)),
+);
+ok(
+  'a wrong login is refused with 401',
+  (
+    await call('/api/admin/geo/users', {
+      auth: 'Basic ' + Buffer.from('qa:wrong').toString('base64'),
+    })
+  ).status === 401,
 );
 
 console.log('nothing leaks');

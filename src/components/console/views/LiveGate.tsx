@@ -4,6 +4,7 @@ import type { LucideIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { adminErrorMessage } from '@/app/_api/adminPeople';
 import { useConsoleData } from '@/store/consoleData';
+import { useGeoData } from '@/store/geoData';
 import { PageHeader } from '../PageHeader';
 import { btn } from '../kit/Panel';
 
@@ -23,6 +24,40 @@ export function useLiveGate(title: string, icon: LucideIcon): ReactNode | null {
   const status = useConsoleData((s) => s.status);
   const error = useConsoleData((s) => s.error);
   const load = useConsoleData((s) => s.load);
+
+  useEffect(() => {
+    if (live && status === 'idle') void load();
+  }, [live, status, load]);
+
+  if (!live || status === 'ready') return null;
+  return (
+    <div>
+      <PageHeader title={title} icon={icon} />
+      <div className="mx-auto max-w-5xl p-6">
+        {status === 'error' ? (
+          <div role="alert" className="card-surface p-5">
+            <p className="text-sm font-medium">Could not load this from the server.</p>
+            <p className="mt-1 text-ui text-muted-foreground">{error}</p>
+            <button className={`${btn} mt-3`} onClick={() => void load()}>
+              Try again
+            </button>
+          </div>
+        ) : (
+          <p role="status" className="text-ui text-muted-foreground">
+            Loading from the server…
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** The same for the user map: loads the numbers once and shows a loading or an error screen until they are there. */
+export function useGeoGate(title: string, icon: LucideIcon): ReactNode | null {
+  const live = useGeoData((s) => s.live);
+  const status = useGeoData((s) => s.status);
+  const error = useGeoData((s) => s.error);
+  const load = useGeoData((s) => s.load);
 
   useEffect(() => {
     if (live && status === 'idle') void load();

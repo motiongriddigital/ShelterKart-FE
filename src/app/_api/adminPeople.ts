@@ -1,11 +1,12 @@
 import { useAdminSession } from '@/store/adminSession';
+import type { ApiGeo } from '@/utils/adminGeo';
 import type { ApiBan, ApiPurchase, ApiSession, ApiUser } from '@/utils/adminPeople';
 import { ApiError, http } from './http';
 
 type Init = { method?: string; body?: unknown };
 
 /** One call to the admin API with the signed-in operator's login. A 401 signs the operator out. */
-function authed<T>(path: string, init: Init = {}): Promise<T> {
+export function authed<T>(path: string, init: Init = {}): Promise<T> {
   const { mode, authHeader } = useAdminSession.getState();
   if (mode !== 'live') return Promise.reject(new Error('Not signed in to a live server.'));
   return http<T>(path, {
@@ -69,3 +70,5 @@ export const createBan = (
   days: number | null,
 ) => post('/api/admin/bans', { kind, target, reason, days: days ?? 0 });
 export const liftBan = (id: string) => post(`/api/admin/bans/${encodeURIComponent(id)}/lift`);
+
+export const fetchGeo = () => authed<ApiGeo>('/api/admin/geo/users');
