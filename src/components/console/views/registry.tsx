@@ -7,6 +7,7 @@ import {
   HealthOverview,
   RegistersView,
 } from './HealthViews';
+import { AppearanceView } from './SettingsViews';
 import { UserMapView } from './UserMapView';
 import { BansView, SessionsView, UserDetailView } from './UsersViews';
 
@@ -26,6 +27,7 @@ export function viewFor(section: string, view?: string): ReactNode | null {
     if (v === 'jobs') return <FailedJobsView />;
     if (v === 'delivery') return <DeliveryView />;
   }
+  if (section === 'settings' && v === 'appearance') return <AppearanceView />;
   if (section === 'map') return <UserMapView country={v} />;
   return null;
 }

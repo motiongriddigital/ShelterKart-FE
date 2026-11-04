@@ -2,17 +2,20 @@
 // stay because components reference them (for example var(--chart-1) in the chart legend).
 @use 'sass:list';
 
-$white: #fff;
+$white: var(--white);
 $cream: #f5e6c2;
 $accent-red: #bc6055;
-$demo-bg: #fbf6ea;
-$demo-border: #e9d7ae;
+$demo-bg: var(--demo-bg);
+$demo-border: var(--demo-border);
 $radius-sm: 8px;
 $radius-md: 10px;
 $radius-lg: 12px;
 $mobile: 640px;
 
 :root {
+  --white: #fff;
+  --demo-bg: #fbf6ea;
+  --demo-border: #e9d7ae;
   --navy-900: #061428;
   --navy-800: #0a1c33;
   --navy-600: #163c64;
@@ -34,6 +37,30 @@ $mobile: 640px;
   --chart-1: #163c64;
   --chart-2: #d3a245;
   --chart-3: #1d6338;
+}
+
+.dark {
+  --white: var(--card);
+  --demo-bg: #2f2a1c;
+  --demo-border: #5a4d27;
+  --ink: #e7eaf0;
+  --ink-2: #c4cbd8;
+  --ink-3: #9ba5b6;
+  --paper: var(--ground);
+  --paper-2: #2b303a;
+  --rule: #363c49;
+  --gold: #e3b455;
+  --gold-deep: #e3b455;
+  --ok: #62cf90;
+  --ok-bg: #17382a;
+  --warn: #e8bb5c;
+  --warn-bg: #3a2f15;
+  --bad: #ff8f80;
+  --bad-bg: #432320;
+  --mute-bg: #2b303a;
+  --chart-1: #86afdf;
+  --chart-2: #e3b455;
+  --chart-3: #62cf90;
 }
 
 // ---- mixins ----------------------------------------------------------------------------------------------------
@@ -446,15 +473,15 @@ $pill-tones: (
   th {
     text-align: left;
     font-size: 12px;
-    color: #52657f;
+    color: var(--ink-3);
     font-weight: 600;
     padding: 6px 4px;
-    border-bottom: 1px solid #e4ddd1;
+    border-bottom: 1px solid var(--rule);
   }
 
   td {
     padding: 7px 4px;
-    border-bottom: 1px solid #f0eae0;
+    border-bottom: 1px solid var(--rule);
   }
 }
 

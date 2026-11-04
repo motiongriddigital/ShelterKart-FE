@@ -2,9 +2,21 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Activity, LogOut, Search, Settings2, UserRound, X } from 'lucide-react';
+import {
+  Activity,
+  Check,
+  LogOut,
+  Monitor,
+  Moon,
+  Search,
+  Settings2,
+  Sun,
+  UserRound,
+  X,
+} from 'lucide-react';
 import { ADMIN_NAV, HEALTH_HREF, type AdminNavSection } from '@/constants/adminNav';
 import { useAdminSession } from '@/store/adminSession';
+import { useAdminTheme } from '@/store/adminTheme';
 import { cn } from '@/utils/cn';
 import { AdminLogo } from './AdminLogo';
 import { InsightsCard } from './InsightsCard';
@@ -65,6 +77,8 @@ export function AdminSidebar() {
   const mode = useAdminSession((s) => s.mode);
   const username = useAdminSession((s) => s.username) || 'admin';
   const signOut = useAdminSession((s) => s.signOut);
+  const theme = useAdminTheme((s) => s.mode);
+  const setTheme = useAdminTheme((s) => s.setMode);
   const [query, setQuery] = useState('');
   const input = useRef<HTMLInputElement>(null);
   const groups = useMemo(() => filterNav(query), [query]);
@@ -210,6 +224,20 @@ export function AdminSidebar() {
                 <Settings2 strokeWidth={1.75} />
                 Settings
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {(
+                [
+                  ['light', 'Light theme', Sun],
+                  ['dark', 'Dark theme', Moon],
+                  ['system', 'Match the device', Monitor],
+                ] as const
+              ).map(([id, label, Icon]) => (
+                <DropdownMenuItem key={id} onSelect={() => setTheme(id)}>
+                  <Icon strokeWidth={1.75} />
+                  {label}
+                  {theme === id && <Check className="ml-auto" strokeWidth={2} />}
+                </DropdownMenuItem>
+              ))}
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={signOut}>
                 <LogOut strokeWidth={1.75} />

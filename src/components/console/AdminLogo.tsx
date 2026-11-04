@@ -15,7 +15,7 @@ export function AdminLogo({ className }: Props) {
         <path
           d="M15 6 H40 L50 16 V58 H15 Z"
           fill="none"
-          stroke="#0A1C33"
+          stroke="currentColor"
           strokeWidth="3.6"
           strokeLinejoin="round"
         />
@@ -26,7 +26,12 @@ export function AdminLogo({ className }: Props) {
           strokeWidth="2.4"
           strokeLinejoin="round"
         />
-        <path d="M23 30 H42 M23 40 H42" stroke="#0A1C33" strokeWidth="2.8" strokeLinecap="round" />
+        <path
+          d="M23 30 H42 M23 40 H42"
+          stroke="currentColor"
+          strokeWidth="2.8"
+          strokeLinecap="round"
+        />
       </svg>
       <span className="text-[15px] font-semibold leading-none tracking-tight">
         Shelter<span className="text-[#BC6055]">Kart</span>
