@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useFactsDesk } from '@/hooks/useFactsDesk';
 import type { Loose, Market } from '@/types/desk';
 import styles from '../../styles/desk.module.scss';
+import { Button } from '@/components/console/ui/button';
+import { Input } from '@/components/console/ui/input';
 
 type Props = {
   markets: Market[];
@@ -49,7 +51,8 @@ export function FactsPanel({ markets, topics, notify }: Props) {
         </div>
       </div>
       <label htmlFor="kUrl">Official page address (https)</label>
-      <input
+      <Input
+        variant="plain"
         type="text"
         id="kUrl"
         placeholder="https://…"
@@ -59,13 +62,14 @@ export function FactsPanel({ markets, topics, notify }: Props) {
         onChange={(e) => setUrl(e.target.value)}
       />
       <div className={styles.row} style={{ marginTop: 10 }}>
-        <button
+        <Button
+          variant="plain"
           className={styles.btn}
           type="button"
           onClick={async () => (await f.addAddress(m, t, url)) && setUrl('')}
         >
           Add this address and read it now
-        </button>
+        </Button>
       </div>
       <p className={styles.muted} role="status" aria-live="polite">
         {f.message}
@@ -95,20 +99,22 @@ export function FactsPanel({ markets, topics, notify }: Props) {
               , read {i.checkedOn}
             </div>
             <div className={styles.controls}>
-              <button
+              <Button
+                variant="plain"
                 className={`${styles.btn} ${styles.gold} ${styles.small}`}
                 type="button"
                 onClick={() => f.verify(i.id)}
               >
                 Verify this fact
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="plain"
                 className={`${styles.btn} ${styles.small}`}
                 type="button"
                 onClick={() => f.reject(i.id)}
               >
                 Reject
-              </button>
+              </Button>
             </div>
           </div>
         </details>
@@ -131,13 +137,14 @@ export function FactsPanel({ markets, topics, notify }: Props) {
               <b>Back in English:</b> {fact.translations[lang].backEn}
             </div>
             <div className={styles.controls}>
-              <button
+              <Button
+                variant="plain"
                 className={`${styles.btn} ${styles.gold} ${styles.small}`}
                 type="button"
                 onClick={() => f.approveTranslation(fact.id, lang)}
               >
                 Approve this translation
-              </button>
+              </Button>
             </div>
           </div>
         </details>

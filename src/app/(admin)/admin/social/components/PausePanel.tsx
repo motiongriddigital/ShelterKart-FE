@@ -4,6 +4,8 @@ import { INCIDENT_KINDS, PAUSE_SCOPES, PLATFORMS, platformName } from '@/constan
 import type { Loose, Market } from '@/types/desk';
 import { utc } from '@/utils/social';
 import styles from '../../styles/desk.module.scss';
+import { Button } from '@/components/console/ui/button';
+import { Input } from '@/components/console/ui/input';
 
 type Props = {
   markets: Market[];
@@ -48,13 +50,14 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
                 {p.expiresAt ? ` · lifts ${utc(p.expiresAt)}` : ''}
               </small>
             </span>
-            <button
+            <Button
+              variant="plain"
               className={`${styles.btn} ${styles.small}`}
               type="button"
               onClick={() => onResume(p)}
             >
               Resume
-            </button>
+            </Button>
           </li>
         ))}
       </ul>
@@ -89,7 +92,8 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
         </div>
         <div className={`${styles.grow} ${styles.wide}`}>
           <label htmlFor="pWhy">Reason</label>
-          <input
+          <Input
+            variant="plain"
             type="text"
             id="pWhy"
             placeholder="Why, in a few words"
@@ -97,13 +101,14 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
             onChange={(e) => setWhy(e.target.value)}
           />
         </div>
-        <button
+        <Button
+          variant="plain"
           className={styles.btn}
           type="button"
           onClick={() => (onPause(scope, key || pauseKeys[0]?.code, why), setWhy(''))}
         >
           Pause
-        </button>
+        </Button>
       </div>
 
       <h3 style={{ marginTop: 22 }}>Report something that happened</h3>
@@ -134,7 +139,8 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
         </div>
         <div className={`${styles.grow} ${styles.wide}`}>
           <label htmlFor="iWhy">Details</label>
-          <input
+          <Input
+            variant="plain"
             type="text"
             id="iWhy"
             placeholder="What happened"
@@ -142,13 +148,14 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
             onChange={(e) => setDetail(e.target.value)}
           />
         </div>
-        <button
+        <Button
+          variant="plain"
           className={styles.btn}
           type="button"
           onClick={() => (onIncident(kind, iKey || incidentKeys[0]?.code, detail), setDetail(''))}
         >
           Report
-        </button>
+        </Button>
       </div>
     </section>
   );

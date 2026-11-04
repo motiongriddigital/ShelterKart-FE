@@ -1,6 +1,7 @@
 import { platformName } from '@/constants/social';
 import type { Loose } from '@/types/desk';
 import styles from '../../styles/desk.module.scss';
+import { Button } from '@/components/console/ui/button';
 
 type Props = { queue: Loose[]; onVeto: (id: string) => void };
 
@@ -29,7 +30,8 @@ export function QueuePanel({ queue, onVeto }: Props) {
                   {(p.body || '').split('\n').filter(Boolean).slice(0, 2).join(' · ').slice(0, 140)}
                 </small>
               </span>
-              <button
+              <Button
+                variant="plain"
                 className={`${styles.btn} ${styles.small}`}
                 type="button"
                 aria-label={`Veto the ${where}`}
@@ -38,7 +40,7 @@ export function QueuePanel({ queue, onVeto }: Props) {
                 }
               >
                 Veto
-              </button>
+              </Button>
             </li>
           );
         })}

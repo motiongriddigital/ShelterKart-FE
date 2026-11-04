@@ -1,5 +1,6 @@
 'use client';
 import { cn } from '@/utils/cn';
+import { Button } from '@/components/console/ui/button';
 
 export type SegTab<T extends string> = { id: T; label: string; count?: number };
 
@@ -17,7 +18,8 @@ export function SegTabs<T extends string>({
   return (
     <div role="tablist" aria-label={label} className="inline-flex rounded-md bg-muted p-0.5">
       {tabs.map((t) => (
-        <button
+        <Button
+          variant="plain"
           key={t.id}
           role="tab"
           type="button"
@@ -34,7 +36,7 @@ export function SegTabs<T extends string>({
           {t.count != null && t.count > 0 && (
             <span className="tabular ml-1.5 text-xs text-status-warn-text">{t.count}</span>
           )}
-        </button>
+        </Button>
       ))}
     </div>
   );

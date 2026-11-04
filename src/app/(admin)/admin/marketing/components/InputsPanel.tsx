@@ -2,6 +2,8 @@
 import type { FormEvent, ReactNode } from 'react';
 import type { Loose } from '@/types/desk';
 import styles from '../../styles/desk.module.scss';
+import { Button } from '@/components/console/ui/button';
+import { Input } from '@/components/console/ui/input';
 
 type Saved = { ok: boolean; text: string } | null;
 type Props = {
@@ -30,7 +32,9 @@ function DeskForm({
   return (
     <form className={styles.formGrid} onSubmit={submit}>
       {children}
-      <button className={`${styles.btn} ${styles.gold}`}>{button}</button>
+      <Button variant="plain" className={`${styles.btn} ${styles.gold}`}>
+        {button}
+      </Button>
     </form>
   );
 }
@@ -70,7 +74,7 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
           <select name="market">{markets(false)}</select>
         </Field>
         <Field label="Week starting (Monday)">
-          <input name="week" type="date" required />
+          <Input variant="plain" name="week" type="date" required />
         </Field>
         <Field label="Channel">
           <select name="channel">
@@ -81,26 +85,26 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
           </select>
         </Field>
         <Field label="Amount">
-          <input name="amount" type="number" min="0" step="any" required />
+          <Input variant="plain" name="amount" type="number" min="0" step="any" required />
         </Field>
         <Field label="Currency">
-          <input name="currency" defaultValue="INR" maxLength={3} required />
+          <Input variant="plain" name="currency" defaultValue="INR" maxLength={3} required />
         </Field>
       </DeskForm>
 
       <h3>AI-answer check (monthly)</h3>
       <DeskForm onValues={onCitation} button="Save check">
         <Field label="Month">
-          <input name="month" type="month" required />
+          <Input variant="plain" name="month" type="month" required />
         </Field>
         <Field label="Market">
           <select name="market">{markets(true)}</select>
         </Field>
         <Field label="Question asked">
-          <input name="query" required />
+          <Input variant="plain" name="query" required />
         </Field>
         <Field label="AI service">
-          <input name="engine" placeholder="ChatGPT" required />
+          <Input variant="plain" name="engine" placeholder="ChatGPT" required />
         </Field>
         <Field label="Was ShelterKart cited?">
           <select name="cited">
@@ -109,20 +113,20 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
           </select>
         </Field>
         <Field label="Where">
-          <input name="where" placeholder="Second source listed" />
+          <Input variant="plain" name="where" placeholder="Second source listed" />
         </Field>
       </DeskForm>
 
       <h3>Hours of effort</h3>
       <DeskForm onValues={onEffort} button="Save hours">
         <Field label="Month">
-          <input name="month" type="month" required />
+          <Input variant="plain" name="month" type="month" required />
         </Field>
         <Field label="Market">
           <select name="market">{markets(false)}</select>
         </Field>
         <Field label="Hours">
-          <input name="hours" type="number" min="0" max="744" step="any" required />
+          <Input variant="plain" name="hours" type="number" min="0" max="744" step="any" required />
         </Field>
       </DeskForm>
 
@@ -149,7 +153,7 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
           button="Save AI cost"
         >
           <Field label="Measured AI cost per paid report (US$)">
-            <input name="ai" type="number" min="0" step="any" />
+            <Input variant="plain" name="ai" type="number" min="0" step="any" />
           </Field>
         </DeskForm>
         <DeskForm
@@ -171,10 +175,10 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
             <select name="market">{markets(false)}</select>
           </Field>
           <Field label="Cost ceiling per paid report">
-            <input name="amount" type="number" min="0" step="any" required />
+            <Input variant="plain" name="amount" type="number" min="0" step="any" required />
           </Field>
           <Field label="Currency">
-            <input name="currency" defaultValue="INR" maxLength={3} required />
+            <Input variant="plain" name="currency" defaultValue="INR" maxLength={3} required />
           </Field>
         </DeskForm>
         <DeskForm
@@ -184,10 +188,10 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
           button="Save rate"
         >
           <Field label="Currency">
-            <input name="cur" defaultValue="USD" maxLength={3} required />
+            <Input variant="plain" name="cur" defaultValue="USD" maxLength={3} required />
           </Field>
           <Field label="Rupees per unit">
-            <input name="rate" type="number" min="0" step="any" required />
+            <Input variant="plain" name="rate" type="number" min="0" step="any" required />
           </Field>
         </DeskForm>
         <DeskForm
@@ -205,7 +209,7 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
           button="Save list"
         >
           <Field label="Markets you plan to pay in (codes, comma-separated)">
-            <input name="list" placeholder="IN, AE" />
+            <Input variant="plain" name="list" placeholder="IN, AE" />
           </Field>
         </DeskForm>
         <DeskForm
@@ -227,7 +231,7 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
             </select>
           </Field>
           <Field label="Note">
-            <input name="note" />
+            <Input variant="plain" name="note" />
           </Field>
         </DeskForm>
         <DeskForm
@@ -237,7 +241,8 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
           button="Record notice"
         >
           <Field label="Open a legal notice">
-            <input
+            <Input
+              variant="plain"
               name="note"
               placeholder="Letter from a developer's lawyers about report X"
               required
@@ -261,14 +266,15 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
                   <td>{x.closed ? 'Closed' : 'Open'}</td>
                   <td>
                     {!x.closed && (
-                      <button
+                      <Button
+                        variant="plain"
                         className={styles.btn}
                         onClick={() =>
                           onSettings({ legalNotice: { close: x.id } }, 'Notice closed.')
                         }
                       >
                         Close notice
-                      </button>
+                      </Button>
                     )}
                   </td>
                 </tr>

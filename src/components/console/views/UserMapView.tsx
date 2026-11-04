@@ -10,6 +10,7 @@ import { COUNTRY_STATS, statByCode, type CountryStat } from '@/constants/adminSe
 import { cn } from '@/utils/cn';
 import { PageHeader } from '../PageHeader';
 import { Panel, Stat, rowCls, tableWrap, td, th } from '../kit/Panel';
+import { Button } from '../ui/button';
 
 type Metric = 'users' | 'paid' | 'conversion';
 type Topo = Parameters<typeof feature>[0];
@@ -231,7 +232,8 @@ export function UserMapView({ country }: { country?: string }) {
             sub="Click a country to open it. Shading follows the chosen measure."
             actions={
               canFs && (
-                <button
+                <Button
+                  variant="plain"
                   type="button"
                   onClick={toggleFs}
                   title="Full screen (F)"
@@ -239,7 +241,7 @@ export function UserMapView({ country }: { country?: string }) {
                   className="pressable flex size-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
                 >
                   <Maximize2 className="size-4" strokeWidth={1.75} />
-                </button>
+                </Button>
               )
             }
           >
@@ -258,7 +260,8 @@ export function UserMapView({ country }: { country?: string }) {
                     value={metric}
                     onChange={setMetric}
                   />
-                  <button
+                  <Button
+                    variant="plain"
                     type="button"
                     onClick={toggleFs}
                     aria-label="Leave full screen"
@@ -266,7 +269,7 @@ export function UserMapView({ country }: { country?: string }) {
                     className="pressable flex size-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
                   >
                     <Minimize2 className="size-4" strokeWidth={1.75} />
-                  </button>
+                  </Button>
                 </div>
               )}
               <div className={cn('relative', isFs && 'min-h-0 flex-1')}>
@@ -331,14 +334,15 @@ export function UserMapView({ country }: { country?: string }) {
                           {statByCode(picked)?.currency}
                         </p>
                       </div>
-                      <button
+                      <Button
+                        variant="plain"
                         type="button"
                         aria-label="Close"
                         onClick={() => setPicked(null)}
                         className="rounded p-0.5 text-muted-foreground hover:text-foreground"
                       >
                         <X className="size-4" strokeWidth={1.75} />
-                      </button>
+                      </Button>
                     </div>
                     <dl className="tabular mt-2 space-y-1 text-ui">
                       {(() => {
@@ -356,7 +360,8 @@ export function UserMapView({ country }: { country?: string }) {
                         ));
                       })()}
                     </dl>
-                    <button
+                    <Button
+                      variant="plain"
                       type="button"
                       className="pressable mt-3 h-8 w-full rounded-md border border-border bg-card text-ui font-medium transition-colors hover:bg-accent"
                       onClick={() => {
@@ -365,7 +370,7 @@ export function UserMapView({ country }: { country?: string }) {
                       }}
                     >
                       Open the country page
-                    </button>
+                    </Button>
                   </div>
                 )}
               </div>
@@ -389,12 +394,13 @@ export function UserMapView({ country }: { country?: string }) {
               title={selected.name}
               sub={`${selected.currency} · ${selected.lang}`}
               actions={
-                <button
+                <Button
+                  variant="plain"
                   className="text-ui text-muted-foreground hover:text-foreground hover:underline"
                   onClick={() => router.push('/admin/map/world')}
                 >
                   Back to the world
-                </button>
+                </Button>
               }
             >
               <dl className="space-y-2.5 text-ui">
@@ -424,7 +430,8 @@ export function UserMapView({ country }: { country?: string }) {
               <ol className="space-y-2">
                 {ranked.slice(0, 10).map((c) => (
                   <li key={c.code}>
-                    <button
+                    <Button
+                      variant="plain"
                       className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 text-left text-ui"
                       onClick={() => go(c.code)}
                     >
@@ -436,7 +443,7 @@ export function UserMapView({ country }: { country?: string }) {
                           style={{ width: `${Math.max(4, (100 * value(c, metric)) / max)}%` }}
                         />
                       </span>
-                    </button>
+                    </Button>
                   </li>
                 ))}
               </ol>

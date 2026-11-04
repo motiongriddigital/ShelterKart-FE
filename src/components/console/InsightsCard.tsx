@@ -22,6 +22,7 @@ import {
   type InsightTone,
 } from '@/constants/adminInsights';
 import { cn } from '@/utils/cn';
+import { Button } from './ui/button';
 
 const ROTATE_MS = 6000;
 const ROTATE_HELD_MS = 15000;
@@ -136,7 +137,8 @@ export function InsightsCard({ insights = SEED_INSIGHTS }: { insights?: Insight[
         <div className="absolute inset-x-3.5 bottom-3 flex items-center">
           <div className="flex items-center">
             {insights.map((insight, i) => (
-              <button
+              <Button
+                variant="plain"
                 key={insight.id}
                 type="button"
                 onClick={() => show(i)}
@@ -150,10 +152,11 @@ export function InsightsCard({ insights = SEED_INSIGHTS }: { insights?: Insight[
                     i === index ? cn('w-3.5', tone.dot) : cn('w-1.5 opacity-35', tone.dot),
                   )}
                 />
-              </button>
+              </Button>
             ))}
           </div>
-          <button
+          <Button
+            variant="plain"
             type="button"
             onClick={() => show(index + 1)}
             title="Next insight"
@@ -165,7 +168,7 @@ export function InsightsCard({ insights = SEED_INSIGHTS }: { insights?: Insight[
           >
             Next
             <ChevronRight className="size-3.5" strokeWidth={2} aria-hidden />
-          </button>
+          </Button>
         </div>
       )}
     </section>
