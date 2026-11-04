@@ -10,16 +10,18 @@ function ClaimBox({ claim, official }: { claim: Claim; official?: boolean }) {
         official ? 'border-amber-300 bg-amber-50' : 'border-slate-200 bg-white',
       )}
     >
-      <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{claim.label}</p>
+      <p className="text-[0.625rem] font-bold uppercase tracking-wide text-slate-500">
+        {claim.label}
+      </p>
       <p className="mt-1 text-sm font-semibold text-slate-900">{claim.title}</p>
-      <p className="mt-0.5 text-[11px] text-slate-500">{claim.note}</p>
+      <p className="mt-0.5 text-[0.6875rem] text-slate-500">{claim.note}</p>
     </div>
   );
 }
 
 export function DiscrepancySection({ report }: { report: PropertyReport }) {
   return (
-    <section className="mx-auto max-w-5xl px-4 pt-12 md:px-6">
+    <section className="mx-auto max-w-[1900px] px-4 pt-12 md:px-8 xl:px-12">
       <SectionHeading
         eyebrow="Section 01 · Forensic audit"
         title="Where the Marketing and the Record Part Ways"
@@ -31,7 +33,7 @@ export function DiscrepancySection({ report }: { report: PropertyReport }) {
             key={d.code}
             className="flex flex-col rounded-lg border border-slate-200 bg-slate-50 p-4"
           >
-            <p className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <p className="flex items-center justify-between text-[0.625rem] font-bold uppercase tracking-wider text-slate-500">
               <span>{d.tag}</span>
               <span className="text-slate-400">{d.code}</span>
             </p>

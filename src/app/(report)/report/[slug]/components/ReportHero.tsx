@@ -6,13 +6,13 @@ import { StatGrid } from './StatGrid';
 export function ReportHero({ report }: { report: PropertyReport }) {
   const { registration } = report;
   return (
-    <section className="mx-auto max-w-5xl px-4 pt-6 md:px-6 md:pt-8">
-      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+    <section className="mx-auto max-w-[1900px] px-4 pt-6 md:px-8 md:pt-8 xl:px-12">
+      <div className="grid gap-6 lg:grid-cols-[1fr_20rem]">
         <div>
           <div className="flex flex-wrap gap-2">
             <Chip tone="green">MahaRERA {registration.id}</Chip>
             <Chip tone="blue">Registered {registration.registeredOn}</Chip>
-            <span className="text-[11px] text-slate-500 self-center">
+            <span className="text-[0.6875rem] text-slate-500 self-center">
               Jurisdiction: {registration.jurisdiction}
             </span>
           </div>
@@ -30,7 +30,7 @@ export function ReportHero({ report }: { report: PropertyReport }) {
           aria-label="Registry ledger stamp"
           className="self-start rounded-lg border border-slate-200 bg-slate-50 p-4"
         >
-          <h2 className="mb-3 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+          <h2 className="mb-3 text-[0.625rem] font-bold uppercase tracking-widest text-slate-500">
             Registry ledger stamp
           </h2>
           <dl className="divide-y divide-slate-200 text-xs">

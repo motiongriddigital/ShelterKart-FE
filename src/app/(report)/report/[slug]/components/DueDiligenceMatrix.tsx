@@ -20,7 +20,7 @@ export function DueDiligenceMatrix({ checklist }: { checklist: PropertyReport['c
   );
 
   return (
-    <section className="mx-auto max-w-5xl px-4 pt-12 md:px-6">
+    <section className="mx-auto max-w-[1900px] px-4 pt-12 md:px-8 xl:px-12">
       <SectionHeading
         eyebrow="Section 04 · Complete checklist"
         title="Full Due-Diligence Matrix (30 Inquiries)"
@@ -55,7 +55,7 @@ export function DueDiligenceMatrix({ checklist }: { checklist: PropertyReport['c
             <span className="text-xs font-bold text-slate-400">#{i.no}</span>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-slate-900">{i.question}</p>
-              <p className="mt-0.5 text-[11px] text-slate-500">{i.direction}</p>
+              <p className="mt-0.5 text-[0.6875rem] text-slate-500">{i.direction}</p>
             </div>
             <div className="col-start-2 flex items-center gap-3 md:contents">
               <Chip tone={i.status === 'Document in Hand' ? 'green' : 'slate'}>{i.status}</Chip>
@@ -70,7 +70,7 @@ export function DueDiligenceMatrix({ checklist }: { checklist: PropertyReport['c
         ))}
         {!items.length && <li className="p-4 text-sm text-slate-500">No sample questions here.</li>}
       </ul>
-      <p className="mt-3 rounded-md bg-slate-50 px-3 py-2 text-center text-[11px] text-slate-500">
+      <p className="mt-3 rounded-md bg-slate-50 px-3 py-2 text-center text-[0.6875rem] text-slate-500">
         {checklist.more} additional detailed questions available in printable PDF report format.
       </p>
     </section>

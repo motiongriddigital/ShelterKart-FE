@@ -3,7 +3,7 @@ import { SectionHeading } from './SectionHeading';
 
 export function QuestionSection({ report }: { report: PropertyReport }) {
   return (
-    <section className="mx-auto max-w-5xl px-4 pt-12 md:px-6">
+    <section className="mx-auto max-w-[1900px] px-4 pt-12 md:px-8 xl:px-12">
       <SectionHeading
         eyebrow="Section 02 · Tactical verification"
         title={`Start Here: The ${report.questions.length} Questions That Matter Most`}
@@ -13,13 +13,13 @@ export function QuestionSection({ report }: { report: PropertyReport }) {
         {report.questions.map((q, i) => (
           <li key={q.question} className="rounded-lg border border-slate-200 bg-white p-4">
             <div className="flex items-center justify-between gap-2">
-              <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                <span className="grid size-5 place-items-center rounded bg-slate-900 text-[10px] text-white">
+              <p className="flex items-center gap-2 text-[0.625rem] font-bold uppercase tracking-wide text-slate-500">
+                <span className="grid size-5 place-items-center rounded bg-slate-900 text-[0.625rem] text-white">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 {q.category}
               </p>
-              <label className="flex items-center gap-1.5 text-[10px] text-slate-500">
+              <label className="flex items-center gap-1.5 text-[0.625rem] text-slate-500">
                 <input type="checkbox" className="size-3.5 accent-blue-700" />
                 Document Verified
               </label>

@@ -16,18 +16,18 @@ export function NumbersSection({ report }: { report: PropertyReport }) {
   const { numbers } = report;
   const { statutory } = numbers;
   return (
-    <section className="mx-auto max-w-5xl px-4 pt-12 md:px-6">
+    <section className="mx-auto max-w-[1900px] px-4 pt-12 md:px-8 xl:px-12">
       <SectionHeading eyebrow="Section 03 · Financial reality" title="The Numbers, Checked" />
-      <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
+      <div className="grid gap-4 lg:grid-cols-[1fr_22rem]">
         <div className="rounded-lg border border-slate-200 bg-white p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-sm font-bold text-slate-900">{numbers.title}</h3>
             <Chip tone="green">{numbers.badge}</Chip>
           </div>
           <div className="mt-3 overflow-x-auto">
-            <table className="w-full min-w-[560px] border-collapse text-left text-xs">
+            <table className="w-full min-w-[35rem] border-collapse text-left text-xs">
               <thead>
-                <tr className="text-[10px] uppercase tracking-wide text-slate-500">
+                <tr className="text-[0.625rem] uppercase tracking-wide text-slate-500">
                   {HEAD.map((h) => (
                     <th
                       key={h}
@@ -55,12 +55,12 @@ export function NumbersSection({ report }: { report: PropertyReport }) {
               </tbody>
             </table>
           </div>
-          <p className="mt-3 text-[11px] italic text-slate-500">{numbers.footnote}</p>
+          <p className="mt-3 text-[0.6875rem] italic text-slate-500">{numbers.footnote}</p>
         </div>
 
         <aside className="rounded-lg border border-slate-200 bg-slate-50 p-4">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            <h3 className="text-[0.625rem] font-bold uppercase tracking-widest text-slate-500">
               Statutory math
             </h3>
             <Chip tone="blue">{statutory.rule}</Chip>
@@ -77,7 +77,7 @@ export function NumbersSection({ report }: { report: PropertyReport }) {
               </div>
             ))}
           </dl>
-          <p className="mt-3 text-[11px] leading-relaxed text-slate-500">{statutory.outro}</p>
+          <p className="mt-3 text-[0.6875rem] leading-relaxed text-slate-500">{statutory.outro}</p>
         </aside>
       </div>
     </section>

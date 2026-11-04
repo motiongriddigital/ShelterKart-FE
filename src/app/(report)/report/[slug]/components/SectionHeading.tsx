@@ -6,8 +6,10 @@ export function SectionHeading({ eyebrow, title, sub, aside }: Props) {
   return (
     <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
       <div>
-        <p className="text-[11px] font-bold uppercase tracking-widest text-amber-700">{eyebrow}</p>
-        <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 md:text-[28px]">
+        <p className="text-[0.6875rem] font-bold uppercase tracking-widest text-amber-700">
+          {eyebrow}
+        </p>
+        <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 md:text-[1.75rem]">
           {title}
         </h2>
         {sub && <p className="mt-1 max-w-2xl text-sm text-slate-600">{sub}</p>}

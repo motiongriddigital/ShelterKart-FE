@@ -6,7 +6,7 @@ import type { PropertyReport } from '@/types/propertyReport';
 export function ReportHeader({ report }: { report: PropertyReport }) {
   return (
     <header className="border-b border-slate-200 bg-white">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-4 py-3 md:gap-4 md:px-6">
+      <div className="mx-auto flex max-w-[1900px] flex-wrap items-center gap-3 px-4 py-3 md:gap-4 md:px-8 xl:px-12">
         <Link href="/" aria-label="ShelterKart home" className="flex items-center gap-2">
           <Image
             src="/logo/shelterkart-lockup.svg"
@@ -16,12 +16,12 @@ export function ReportHeader({ report }: { report: PropertyReport }) {
             className="h-8 w-auto max-w-none"
             priority
           />
-          <span className="hidden text-[11px] text-slate-500 md:block">
+          <span className="hidden text-[0.6875rem] text-slate-500 md:block">
             Peace of mind,
             <br />
             on the record.
           </span>
-          <span className="rounded border border-slate-300 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-500">
+          <span className="rounded border border-slate-300 px-1.5 py-0.5 text-[0.5625rem] font-bold uppercase tracking-wider text-slate-500">
             Independent
           </span>
         </Link>
