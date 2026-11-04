@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import type { GeoPermissibleObjects } from 'd3-geo';
 import { feature } from 'topojson-client';
-import { Globe2 } from 'lucide-react';
+import { Globe2, Maximize2, Minimize2, X } from 'lucide-react';
 import { SegTabs } from '@/app/(admin)/admin/components/SegTabs';
 import { COUNTRY_STATS, statByCode, type CountryStat } from '@/constants/adminSeedGeo';
 import { cn } from '@/utils/cn';
@@ -116,6 +116,40 @@ export function UserMapView({ country }: { country?: string }) {
   const [metric, setMetric] = useState<Metric>('users');
   const [hoverCode, setHoverCode] = useState<string | null>(null);
   const tip = useRef<HTMLDivElement>(null);
+  const box = useRef<HTMLDivElement>(null);
+  const [isFs, setIsFs] = useState(false);
+  const [canFs, setCanFs] = useState(false);
+  const [picked, setPicked] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCanFs(Boolean(document.fullscreenEnabled));
+    const onChange = () => {
+      const on = document.fullscreenElement === box.current;
+      setIsFs(on);
+      if (!on) setPicked(null);
+    };
+    document.addEventListener('fullscreenchange', onChange);
+    return () => document.removeEventListener('fullscreenchange', onChange);
+  }, []);
+
+  const toggleFs = () => {
+    if (document.fullscreenElement) void document.exitFullscreen();
+    else void box.current?.requestFullscreen();
+  };
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      const typing =
+        t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT');
+      if (e.key === 'f' && !typing && !e.metaKey && !e.ctrlKey && document.fullscreenEnabled) {
+        e.preventDefault();
+        toggleFs();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   useEffect(() => {
     loadShapes()
@@ -195,70 +229,158 @@ export function UserMapView({ country }: { country?: string }) {
             className="lg:col-span-2"
             title="Where users are"
             sub="Click a country to open it. Shading follows the chosen measure."
-          >
-            <div className="relative">
-              {!shapes && !failed && (
-                <div className="grid aspect-[96/50] place-items-center text-ui text-muted-foreground">
-                  Loading the map
-                </div>
-              )}
-              {failed && (
-                <div className="grid aspect-[96/50] place-items-center text-ui text-status-down-text">
-                  The map data could not be loaded. The table below has the same numbers.
-                </div>
-              )}
-              {shapes && (
-                <svg
-                  viewBox={`0 0 ${W} ${H}`}
-                  role="img"
-                  aria-label={`World map shaded by ${metric}`}
-                  className="h-auto w-full"
-                  onMouseMove={onMove}
-                  onMouseLeave={() => setHoverCode(null)}
-                  onClick={(e) => {
-                    const code = (e.target as SVGElement).dataset?.code;
-                    if (code) go(code);
-                  }}
+            actions={
+              canFs && (
+                <button
+                  type="button"
+                  onClick={toggleFs}
+                  title="Full screen (F)"
+                  aria-label="Show the map full screen"
+                  className="pressable flex size-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
                 >
-                  <Shapes
-                    shapes={shapes}
-                    byNumeric={byNumeric}
-                    colors={colors}
-                    totalArea={totalArea}
-                    selected={selected?.code}
+                  <Maximize2 className="size-4" strokeWidth={1.75} />
+                </button>
+              )
+            }
+          >
+            <div ref={box} className={cn(isFs && 'flex h-full flex-col gap-3 bg-card p-5')}>
+              {isFs && (
+                <div className="flex items-center gap-3">
+                  <Globe2 className="size-4 text-muted-foreground" strokeWidth={1.75} />
+                  <h2 className="text-[15px] font-semibold tracking-tight">User map</h2>
+                  <span className="text-ui text-muted-foreground">
+                    Click a country for its numbers. Press Esc to leave.
+                  </span>
+                  <span className="flex-1" />
+                  <SegTabs
+                    label="Shade the map by"
+                    tabs={METRICS}
+                    value={metric}
+                    onChange={setMetric}
                   />
-                </svg>
+                  <button
+                    type="button"
+                    onClick={toggleFs}
+                    aria-label="Leave full screen"
+                    title="Leave full screen (Esc)"
+                    className="pressable flex size-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
+                  >
+                    <Minimize2 className="size-4" strokeWidth={1.75} />
+                  </button>
+                </div>
               )}
-              <div
-                ref={tip}
-                aria-hidden="true"
-                className={cn(
-                  'pointer-events-none fixed left-0 top-0 z-50 rounded-md border border-border bg-popover px-2.5 py-1.5 text-xs shadow-raised',
-                  !hovered && 'invisible',
+              <div className={cn('relative', isFs && 'min-h-0 flex-1')}>
+                {!shapes && !failed && (
+                  <div className="grid aspect-[96/50] place-items-center text-ui text-muted-foreground">
+                    Loading the map
+                  </div>
                 )}
-              >
-                {hovered && (
-                  <>
-                    <p className="font-semibold">{hovered.name}</p>
-                    <p className="tabular text-muted-foreground">
-                      {hovered.users.toLocaleString('en-IN')} users · {hovered.paid} paid ·{' '}
-                      {(hovered.conversion * 100).toFixed(1)}%
-                    </p>
-                  </>
+                {failed && (
+                  <div className="grid aspect-[96/50] place-items-center text-ui text-status-down-text">
+                    The map data could not be loaded. The table below has the same numbers.
+                  </div>
+                )}
+                {shapes && (
+                  <svg
+                    viewBox={`0 0 ${W} ${H}`}
+                    role="img"
+                    aria-label={`World map shaded by ${metric}`}
+                    className={cn('w-full', isFs ? 'h-full' : 'h-auto')}
+                    onMouseMove={onMove}
+                    onMouseLeave={() => setHoverCode(null)}
+                    onClick={(e) => {
+                      const code = (e.target as SVGElement).dataset?.code;
+                      if (!code) return;
+                      if (isFs) setPicked(code);
+                      else go(code);
+                    }}
+                  >
+                    <Shapes
+                      shapes={shapes}
+                      byNumeric={byNumeric}
+                      colors={colors}
+                      totalArea={totalArea}
+                      selected={selected?.code}
+                    />
+                  </svg>
+                )}
+                <div
+                  ref={tip}
+                  aria-hidden="true"
+                  className={cn(
+                    'pointer-events-none fixed left-0 top-0 z-50 rounded-md border border-border bg-popover px-2.5 py-1.5 text-xs shadow-raised',
+                    !hovered && 'invisible',
+                  )}
+                >
+                  {hovered && (
+                    <>
+                      <p className="font-semibold">{hovered.name}</p>
+                      <p className="tabular text-muted-foreground">
+                        {hovered.users.toLocaleString('en-IN')} users · {hovered.paid} paid ·{' '}
+                        {(hovered.conversion * 100).toFixed(1)}%
+                      </p>
+                    </>
+                  )}
+                </div>
+                {isFs && picked && statByCode(picked) && (
+                  <div className="absolute bottom-3 left-3 w-64 rounded-xl border border-border bg-popover p-4 shadow-raised">
+                    <div className="flex items-start gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold">{statByCode(picked)?.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {statByCode(picked)?.currency}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        aria-label="Close"
+                        onClick={() => setPicked(null)}
+                        className="rounded p-0.5 text-muted-foreground hover:text-foreground"
+                      >
+                        <X className="size-4" strokeWidth={1.75} />
+                      </button>
+                    </div>
+                    <dl className="tabular mt-2 space-y-1 text-ui">
+                      {(() => {
+                        const c = statByCode(picked) as CountryStat;
+                        return [
+                          ['Users', c.users.toLocaleString('en-IN')],
+                          ['New this week', `+${c.newThisWeek}`],
+                          ['Paid reports', String(c.paid)],
+                          ['Bought, of users', `${(c.conversion * 100).toFixed(1)}%`],
+                        ].map(([k, v]) => (
+                          <div key={k} className="flex justify-between gap-3">
+                            <dt className="text-muted-foreground">{k}</dt>
+                            <dd className="font-medium">{v}</dd>
+                          </div>
+                        ));
+                      })()}
+                    </dl>
+                    <button
+                      type="button"
+                      className="pressable mt-3 h-8 w-full rounded-md border border-border bg-card text-ui font-medium transition-colors hover:bg-accent"
+                      onClick={() => {
+                        const code = picked;
+                        void document.exitFullscreen().finally(() => go(code));
+                      }}
+                    >
+                      Open the country page
+                    </button>
+                  </div>
                 )}
               </div>
-            </div>
-            <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-              <span>Fewer</span>
-              <span
-                className="h-2 w-40 rounded-full"
-                style={{
-                  background:
-                    'linear-gradient(90deg, color-mix(in oklab, var(--signal) 22%, var(--card)), color-mix(in oklab, var(--signal) 92%, var(--card)))',
-                }}
-              />
-              <span>More</span>
-              <span className="ml-auto">Grey: no market</span>
+              <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
+                <span>Fewer</span>
+                <span
+                  className="h-2 w-40 rounded-full"
+                  style={{
+                    background:
+                      'linear-gradient(90deg, color-mix(in oklab, var(--signal) 22%, var(--card)), color-mix(in oklab, var(--signal) 92%, var(--card)))',
+                  }}
+                />
+                <span>More</span>
+                <span className="ml-auto">Grey: no market</span>
+              </div>
             </div>
           </Panel>
 
