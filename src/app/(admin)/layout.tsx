@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { fontVariables } from '@/configs/fonts';
 import { BASE_METADATA } from '@/configs/metadata';
 import '@/styles/tokens.scss';
+import './admin/styles/console.css';
 import './admin/styles/admin.scss';
 
 export const metadata: Metadata = {
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={fontVariables}>
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

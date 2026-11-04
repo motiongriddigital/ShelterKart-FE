@@ -150,34 +150,6 @@ $tones: (
   }
 }
 
-.top {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--navy-900);
-  color: #f5e6c2;
-  padding: 12px 16px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 3px solid var(--gold);
-
-  h1 {
-    font-size: 20px;
-    color: #f5e6c2;
-  }
-
-  a {
-    color: #f5e6c2;
-    font-weight: 600;
-  }
-}
-
-.spacer {
-  flex: 1;
-}
-
 .pill {
   display: inline-block;
   padding: 4px 12px;

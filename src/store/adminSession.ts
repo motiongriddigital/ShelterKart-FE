@@ -5,7 +5,8 @@ import type { AdminMode } from '@/types/admin';
 type AdminSession = {
   mode: AdminMode | null;
   authHeader: string;
-  signInLive: (header: string) => void;
+  username: string;
+  signInLive: (header: string, username: string) => void;
   openDemo: () => void;
   signOut: () => void;
 };
@@ -13,7 +14,8 @@ type AdminSession = {
 export const useAdminSession = create<AdminSession>((set) => ({
   mode: null,
   authHeader: '',
-  signInLive: (authHeader) => set({ mode: 'live', authHeader }),
-  openDemo: () => set({ mode: 'demo', authHeader: '' }),
-  signOut: () => set({ mode: null, authHeader: '' }),
+  username: '',
+  signInLive: (authHeader, username) => set({ mode: 'live', authHeader, username }),
+  openDemo: () => set({ mode: 'demo', authHeader: '', username: 'demo' }),
+  signOut: () => set({ mode: null, authHeader: '', username: '' }),
 }));
