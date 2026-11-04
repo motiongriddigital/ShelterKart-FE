@@ -95,10 +95,10 @@ export const banFromApi = (b: ApiBan): SeedBan => ({
   by: b.createdBy,
 });
 
-/** Only settled purchases are shown: one waiting for payment is not a purchase yet. */
+/** Only settled purchases are shown ('paid' or 'refunded', as the payment code writes them): one waiting for payment is not a purchase yet. */
 export function purchasesFromApi(list: ApiPurchase[]): SeedUser['purchases'] {
   return list
-    .filter((p) => p.status === 'active' || p.status === 'refunded')
+    .filter((p) => p.status === 'paid' || p.status === 'refunded')
     .map((p) => ({
       ref: p.ref,
       project: '',
