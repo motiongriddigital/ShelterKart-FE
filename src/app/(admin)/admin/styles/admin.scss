@@ -2,38 +2,65 @@
 // stay because components reference them (for example var(--chart-1) in the chart legend).
 @use 'sass:list';
 
-$white: #fff;
+$white: var(--white);
 $cream: #f5e6c2;
 $accent-red: #bc6055;
-$demo-bg: #fbf6ea;
-$demo-border: #e9d7ae;
+$demo-bg: var(--demo-bg);
+$demo-border: var(--demo-border);
 $radius-sm: 8px;
 $radius-md: 10px;
 $radius-lg: 12px;
 $mobile: 640px;
 
 :root {
+  --white: #f4f7ff;
+  --demo-bg: #eef3ff;
+  --demo-border: #bcd0f5;
   --navy-900: #061428;
   --navy-800: #0a1c33;
   --navy-600: #163c64;
-  --ink: #0a1c33;
-  --ink-2: #2f4460;
-  --ink-3: #52657f;
-  --paper: #faf8f5;
-  --paper-2: #f1ede6;
-  --rule: #e4ddd1;
-  --gold: #d3a245;
-  --gold-deep: #865e1d;
-  --ok: #1d6338;
-  --ok-bg: #e3f0e8;
+  --ink: #0f2942;
+  --ink-2: #334155;
+  --ink-3: #52627c;
+  --paper: #eaf0ff;
+  --paper-2: #e1e9fb;
+  --rule: #c3d0ea;
+  --gold: #2563eb;
+  --gold-deep: #1d4ed8;
+  --ok: #047857;
+  --ok-bg: #d1fae5;
   --warn: #865e1d;
   --warn-bg: #f6ecd6;
-  --bad: #a32b1c;
-  --bad-bg: #f7e3df;
-  --mute-bg: #eceef1;
-  --chart-1: #163c64;
-  --chart-2: #d3a245;
-  --chart-3: #1d6338;
+  --bad: #b91c1c;
+  --bad-bg: #fee2e2;
+  --mute-bg: #e1e9fb;
+  --chart-1: #0f2942;
+  --chart-2: #2563eb;
+  --chart-3: #059669;
+}
+
+.dark {
+  --white: var(--card);
+  --demo-bg: #2f2a1c;
+  --demo-border: #5a4d27;
+  --ink: #e7eaf0;
+  --ink-2: #c4cbd8;
+  --ink-3: #9ba5b6;
+  --paper: var(--ground);
+  --paper-2: #2b303a;
+  --rule: #363c49;
+  --gold: #e3b455;
+  --gold-deep: #e3b455;
+  --ok: #62cf90;
+  --ok-bg: #17382a;
+  --warn: #e8bb5c;
+  --warn-bg: #3a2f15;
+  --bad: #ff8f80;
+  --bad-bg: #432320;
+  --mute-bg: #2b303a;
+  --chart-1: #86afdf;
+  --chart-2: #e3b455;
+  --chart-3: #62cf90;
 }
 
 // ---- mixins ----------------------------------------------------------------------------------------------------
@@ -82,13 +109,9 @@ $mobile: 640px;
 
 body {
   margin: 0;
-  font-family:
-    var(--sk-font-text),
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Arial,
-    sans-serif;
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
   background: var(--paper);
   color: var(--ink);
   font-size: 15px;
@@ -97,9 +120,9 @@ body {
 
 h1,
 h2 {
-  font-family: var(--sk-font-display);
+  font-family: var(--font-sans);
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   margin: 0;
 }
 
@@ -109,32 +132,6 @@ button {
 }
 
 // ---- sign-in -----------------------------------------------------------------------------------------------------
-.login {
-  @include surface;
-  max-width: 380px;
-  margin: 12vh auto;
-  padding: 32px;
-  border-top: 3px solid var(--gold);
-
-  h1 {
-    font-size: 22px;
-    margin-bottom: 4px;
-  }
-
-  p {
-    @include muted(14px);
-    margin: 0 0 18px;
-  }
-
-  input {
-    @include surface($radius-sm);
-    width: 100%;
-    padding: 11px 12px;
-    margin-bottom: 10px;
-    font: inherit;
-  }
-}
-
 .btn {
   @include surface($radius-sm);
   padding: 10px 16px;
@@ -159,48 +156,6 @@ button {
   font-size: 14px;
   min-height: 1.4em;
   margin-top: 8px;
-}
-
-// ---- top bar -----------------------------------------------------------------------------------------------------
-.top {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  background: var(--navy-900);
-  color: $cream;
-  padding: 14px 24px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 2px solid var(--gold);
-
-  h1 {
-    font-size: 19px;
-    color: $cream;
-
-    span {
-      color: $accent-red;
-    }
-  }
-
-  .status {
-    font-size: 13px;
-    opacity: 0.8;
-  }
-
-  .spacer {
-    flex: 1;
-  }
-
-  select,
-  .btn {
-    @include on-navy-control;
-  }
-
-  select option {
-    color: var(--ink);
-  }
 }
 
 .wrap {
@@ -255,16 +210,15 @@ button {
   min-width: 0;
 
   .n {
-    font-family: var(--sk-font-display);
     font-size: 28px;
     font-weight: 600;
     line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-variant-numeric: tabular-nums;
   }
 
   .l {
-    @include muted(12.5px);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    @include muted(13px);
     margin-top: 4px;
   }
 
@@ -279,17 +233,6 @@ button {
 }
 
 // ---- cards and charts --------------------------------------------------------------------------------------------
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 16px;
-  margin-bottom: 16px;
-
-  @include mobile {
-    grid-template-columns: 1fr;
-  }
-}
-
 .card {
   @include surface;
   padding: 18px;
@@ -403,26 +346,33 @@ button {
 }
 
 // ---- tables and status pills -------------------------------------------------------------------------------------
-table {
+.card table,
+.legacy table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-th,
-td {
+.card th,
+.card td,
+.legacy th,
+.legacy td {
   text-align: left;
   padding: 8px 6px;
   border-bottom: 1px solid var(--rule);
   vertical-align: top;
 }
 
-th {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+.card th,
+.legacy th {
+  font-size: 13px;
   color: var(--ink-3);
-  font-weight: 600;
+  font-weight: 500;
+}
+
+.card td,
+.legacy td {
+  font-variant-numeric: tabular-nums;
 }
 
 // Register-health states share a tone: healthy / degraded+unconfirmed / down / skipped+not_checked.
@@ -523,15 +473,15 @@ $pill-tones: (
   th {
     text-align: left;
     font-size: 12px;
-    color: #52657f;
+    color: var(--ink-3);
     font-weight: 600;
     padding: 6px 4px;
-    border-bottom: 1px solid #e4ddd1;
+    border-bottom: 1px solid var(--rule);
   }
 
   td {
     padding: 7px 4px;
-    border-bottom: 1px solid #f0eae0;
+    border-bottom: 1px solid var(--rule);
   }
 }
 
@@ -539,8 +489,38 @@ $pill-tones: (
   .wrap {
     padding: 14px;
   }
+}
 
-  .top {
-    padding: 12px 14px;
+// ---- dashboard overview (console shell) --------------------------------------------------------------------------
+.stat-list {
+  margin: 0;
+  display: grid;
+  gap: 10px;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
   }
+
+  dt {
+    color: var(--ink-3);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.warn-text {
+  color: var(--warn);
+}
+
+.bad-text {
+  color: var(--bad);
 }

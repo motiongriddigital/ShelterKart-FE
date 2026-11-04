@@ -26,7 +26,7 @@ $tones: (
 }
 
 @mixin surface($radius: 10px) {
-  background: #fff;
+  background: var(--white);
   border: 1px solid var(--rule);
   border-radius: $radius;
 }
@@ -39,6 +39,10 @@ $tones: (
 
 .desk {
   --blue: #163c64;
+
+  :global(.dark) & {
+    --blue: #86afdf;
+  }
   font-size: 16px;
 
   button,
@@ -106,7 +110,7 @@ $tones: (
     padding: 9px 12px;
     border: 1px solid var(--ink-3);
     border-radius: 8px;
-    background: #fff;
+    background: var(--white);
   }
 
   input[type='checkbox'] {
@@ -150,34 +154,6 @@ $tones: (
   }
 }
 
-.top {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--navy-900);
-  color: #f5e6c2;
-  padding: 12px 16px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 3px solid var(--gold);
-
-  h1 {
-    font-size: 20px;
-    color: #f5e6c2;
-  }
-
-  a {
-    color: #f5e6c2;
-    font-weight: 600;
-  }
-}
-
-.spacer {
-  flex: 1;
-}
-
 .pill {
   display: inline-block;
   padding: 4px 12px;
@@ -203,7 +179,7 @@ $tones: (
   padding: 10px 18px;
   border-radius: 10px;
   border: 1px solid var(--ink-3);
-  background: #fff;
+  background: var(--white);
   color: var(--ink);
   font-weight: 600;
 

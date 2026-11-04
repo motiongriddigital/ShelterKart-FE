@@ -1,0 +1,4 @@
+0. Landing page like scale2world.com showing all benefits, how to use, payments about, etc info, with CTA for main product.
+1. Create a new page for report pdf viewing.
+2. BE:: using JWT, token-blacklisting, email verification for real email, caching, zod validation.
+3. In homepage's hero-section add a backgorund effect (too much white space), redesign navbar and add background SVG light ones to make whitespace camafougle

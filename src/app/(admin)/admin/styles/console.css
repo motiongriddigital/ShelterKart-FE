@@ -1,0 +1,300 @@
+/* Console shell: the design tokens of Control Room (patch panel, four stepped surfaces, one ochre accent), shadcn new-york. Admin only. */
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* Typography (decided 2026-09-24): one text face, Inter, and the system's
+   own monospace for machine values only. No condensed face, no uppercase
+   letter-spaced labels — they read as decoration, not information. The
+   scale is five sizes: 12 meta (text-xs), 13 tables and controls (text-ui),
+   14 body (text-sm), 16 section heading (text-base), 20 page title (text-xl).
+   Weights: 400 and 500; 600 for titles. */
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/plus-jakarta-sans';
+@import '@fontsource-variable/manrope';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.625rem;
+
+  /* Institutional Authority Record: Plus Jakarta Sans for headlines, Manrope for body and labels. */
+  --font-sans-stack:
+    'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-headline-stack:
+    'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', 'Manrope Variable', ui-sans-serif, system-ui,
+    sans-serif;
+
+  /* Four stepped surfaces, the way Finder separates its chrome from its
+     content: the primary sidebar is the most recessed, a secondary panel sits
+     above it, the working area above that, and cards float on top. Each step
+     is small but unmistakable, and the order is identical in both themes so
+     the mental model never inverts. */
+  --sidebar-surface: #dbe4f8; /* 0 — primary sidebar   */
+  --panel: #e3eafb; /* 1 — secondary panel   */
+  --ground: #eaf0ff; /* 2 — working area      */
+  --background: #eaf0ff; /*     (alias of ground) */
+  /* card = 3, white, defined below */
+  --foreground: #1e293b;
+  --card: #f4f7ff;
+  --card-foreground: #1e293b;
+  --popover: #f4f7ff;
+  --popover-foreground: #1e293b;
+
+  /* Text ramp: primary / secondary / engraved label. */
+  --muted: #e1e9fb;
+  --muted-foreground: #52627c;
+  --label: #64748b;
+
+  --primary: #0f2942;
+  --primary-foreground: #ffffff;
+  --secondary: #dbe7ff;
+  --secondary-foreground: #0f2942;
+  --accent: #d5e2fd;
+  --accent-foreground: #0f2942;
+
+  /* The one accent: warm ochre, for focus and the active nav item only. */
+  --signal: #2563eb;
+  --signal-soft: #dbe7ff;
+
+  --destructive: #b91c1c;
+  --border: #c3d0ea;
+  --input: #c3d0ea;
+  --ring: #2563eb;
+
+  /* Status — dot, text and soft fill per state. */
+  --status-up: #059669;
+  --status-up-text: #047857;
+  --status-up-soft: #d1fae5;
+
+  --status-warn: oklch(0.78 0.14 80);
+  --status-warn-text: oklch(0.55 0.12 70);
+  --status-warn-soft: oklch(0.965 0.05 90);
+
+  --status-down: oklch(0.62 0.2 26);
+  --status-down-text: oklch(0.52 0.19 26);
+  --status-down-soft: oklch(0.955 0.03 25);
+
+  --status-unknown: oklch(0.75 0.004 260);
+  --status-unknown-text: oklch(0.56 0.005 260);
+  --status-unknown-soft: oklch(0.96 0.002 260);
+
+  --sidebar: var(--sidebar-surface);
+  --sidebar-foreground: #1e293b;
+  --sidebar-primary: #0f2942;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #c9d8f6;
+  --sidebar-accent-foreground: #0f2942;
+  --sidebar-border: #bccbe8;
+  --sidebar-ring: #2563eb;
+
+  /* Barely-there elevation. Two tight shadows read cleaner than one soft one. */
+  --shadow-card: 0 1px 2px oklch(0.2 0.01 260 / 0.04), 0 1px 3px oklch(0.2 0.01 260 / 0.03);
+  --shadow-raised: 0 2px 4px oklch(0.2 0.01 260 / 0.05), 0 4px 12px oklch(0.2 0.01 260 / 0.05);
+
+  /* Motion: built-in easings are too weak to feel deliberate. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.dark {
+  --font-sans-stack:
+    'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-headline-stack: var(--font-sans-stack);
+  --sidebar-surface: oklch(0.145 0.006 260); /* 0 */
+  --panel: oklch(0.176 0.006 260); /* 1 */
+  --ground: oklch(0.202 0.007 260); /* 2 */
+  --background: oklch(0.202 0.007 260);
+  --foreground: oklch(0.95 0.003 260);
+  --card: oklch(0.237 0.008 260);
+  --card-foreground: oklch(0.95 0.003 260);
+  --popover: oklch(0.245 0.008 260);
+  --popover-foreground: oklch(0.95 0.003 260);
+
+  --muted: oklch(0.272 0.008 260);
+  --muted-foreground: oklch(0.68 0.008 260);
+  --label: oklch(0.6 0.008 260);
+
+  --primary: oklch(0.93 0.003 260);
+  --primary-foreground: oklch(0.2 0.006 260);
+  --secondary: oklch(0.277 0.008 260);
+  --secondary-foreground: oklch(0.95 0.003 260);
+  --accent: oklch(0.298 0.009 260);
+  --accent-foreground: oklch(0.96 0.003 260);
+
+  --signal: oklch(0.76 0.13 75);
+  --signal-soft: oklch(0.3 0.05 70);
+
+  --destructive: oklch(0.68 0.18 25);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.76 0.13 75);
+
+  --status-up: oklch(0.72 0.16 150);
+  --status-up-text: oklch(0.78 0.15 150);
+  --status-up-soft: oklch(0.3 0.06 150);
+
+  --status-warn: oklch(0.8 0.15 82);
+  --status-warn-text: oklch(0.84 0.14 85);
+  --status-warn-soft: oklch(0.32 0.06 80);
+
+  --status-down: oklch(0.67 0.19 25);
+  --status-down-text: oklch(0.75 0.17 25);
+  --status-down-soft: oklch(0.31 0.08 25);
+
+  --status-unknown: oklch(0.5 0.006 260);
+  --status-unknown-text: oklch(0.66 0.007 260);
+  --status-unknown-soft: oklch(0.27 0.006 260);
+
+  --sidebar: var(--sidebar-surface);
+  --sidebar-foreground: oklch(0.95 0.003 260);
+  --sidebar-primary: oklch(0.93 0.003 260);
+  --sidebar-primary-foreground: oklch(0.2 0.006 260);
+  --sidebar-accent: oklch(0.232 0.008 260);
+  --sidebar-accent-foreground: oklch(0.96 0.003 260);
+  --sidebar-border: oklch(0 0 0 / 45%);
+  --sidebar-ring: oklch(0.76 0.13 75);
+
+  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.3), 0 1px 3px oklch(0 0 0 / 0.2);
+  --shadow-raised: 0 2px 6px oklch(0 0 0 / 0.35), 0 8px 20px oklch(0 0 0 / 0.3);
+}
+
+@theme inline {
+  --font-sans: var(--font-sans-stack);
+  --font-headline: var(--font-headline-stack);
+  --font-label: var(--font-sans);
+  --font-mono:
+    ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --text-ui: 0.8125rem;
+  --text-ui--line-height: 1.25rem;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ground: var(--ground);
+  --color-panel: var(--panel);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-label: var(--label);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-signal: var(--signal);
+  --color-signal-soft: var(--signal-soft);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-status-up: var(--status-up);
+  --color-status-up-text: var(--status-up-text);
+  --color-status-up-soft: var(--status-up-soft);
+  --color-status-warn: var(--status-warn);
+  --color-status-warn-text: var(--status-warn-text);
+  --color-status-warn-soft: var(--status-warn-soft);
+  --color-status-down: var(--status-down);
+  --color-status-down-text: var(--status-down-text);
+  --color-status-down-soft: var(--status-down-soft);
+  --color-status-unknown: var(--status-unknown);
+  --color-status-unknown-text: var(--status-unknown-text);
+  --color-status-unknown-soft: var(--status-unknown-soft);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-raised: var(--shadow-raised);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-headline);
+  }
+
+  body {
+    @apply bg-ground text-foreground;
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-optical-sizing: auto;
+  }
+
+  /* Focus is the accent's other job. Never remove it. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@layer components {
+  /* A quiet label: field names, group headings, column captions. Sentence
+     case, medium weight, muted — it names the thing without competing with
+     it. (Was .label-engraved: condensed, uppercase, letter-spaced.) */
+  .label-quiet {
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+    color: var(--label);
+  }
+
+  /* Machine facts — ports, latency, hosts, log lines — are always mono,
+     always tabular, so columns never jitter as numbers update. */
+  .fact {
+    font-family: var(--font-mono);
+    /* Tabular only. A slashed zero helps in dense log text but reads as a
+       typo at display sizes, and the summary numerals are display sizes. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The other half of .fact, for numbers that belong in running text or at
+     display size, where switching to the mono face would shout: figures that
+     hold their column, in the body face. Several screens already asked for
+     this by name before it existed. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .card-surface {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Every pressable thing acknowledges the press. */
+  .pressable {
+    transition: transform 160ms var(--ease-out);
+  }
+  .pressable:active {
+    transform: scale(0.97);
+  }
+}
+
+.console-shell {
+  font-family: var(--font-sans);
+}

@@ -1,44 +1,38 @@
-import Link from 'next/link';
-import { PERIODS } from '@/constants/admin';
+'use client';
+import { LayoutDashboard, RefreshCw } from 'lucide-react';
+import { PageHeader } from '@/components/console/PageHeader';
+import { cn } from '@/utils/cn';
+import { SegTabs } from './SegTabs';
 
 type Props = {
   status: string;
   days: string;
   onDays: (d: string) => void;
   onRefresh: () => void;
-  onSignOut: () => void;
 };
 
-export function TopBar({ status, days, onDays, onRefresh, onSignOut }: Props) {
+const PERIOD_TABS = [
+  { id: '1', label: 'Today' },
+  { id: '7', label: '7d' },
+  { id: '30', label: '30d' },
+  { id: '90', label: '90d' },
+  { id: '365', label: '12m' },
+];
+
+export function TopBar({ status, days, onDays, onRefresh }: Props) {
+  const loading = status === 'Loading…';
   return (
-    <div className="top">
-      <h1>
-        Shelter<span>Kart</span> Admin
-      </h1>
-      <span className="status">{status}</span>
-      <span className="spacer" />
-      <Link href="/admin/marketing" className="btn">
-        Marketing numbers
-      </Link>
-      <Link href="/admin/social" className="btn">
-        Marketing desk
-      </Link>
-      <label>
-        <span className="status">Period </span>
-        <select value={days} onChange={(e) => onDays(e.target.value)} aria-label="Period">
-          {PERIODS.map((p) => (
-            <option key={p.value} value={p.value}>
-              {p.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <button className="btn" onClick={onRefresh}>
-        Refresh
+    <PageHeader title="Dashboard" icon={LayoutDashboard} note={status}>
+      <SegTabs label="Period" tabs={PERIOD_TABS} value={days} onChange={onDays} />
+      <button
+        type="button"
+        onClick={onRefresh}
+        aria-label="Refresh"
+        title="Refresh"
+        className="pressable flex size-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
+      >
+        <RefreshCw className={cn('size-4', loading && 'animate-spin')} strokeWidth={1.75} />
       </button>
-      <button className="btn" onClick={onSignOut}>
-        Sign out
-      </button>
-    </div>
+    </PageHeader>
   );
 }

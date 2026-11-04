@@ -23,7 +23,7 @@ export function useAdminLogin() {
       // Credentials are checked BEFORE the dashboard is shown.
       await checkCredentials({ mode: 'live', authHeader });
       setPass('');
-      signInLive(authHeader);
+      signInLive(authHeader, user.trim());
     } catch (e) {
       setError((e as Error).message);
     } finally {

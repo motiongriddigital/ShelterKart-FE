@@ -1,9 +1,7 @@
 'use client';
-import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { RequireAdminSession } from '@/guards/RequireAdminSession';
+import { PageHeader } from '@/components/console/PageHeader';
 import styles from '../styles/desk.module.scss';
-import { LoginScreen } from './LoginScreen';
 
 type Props = {
   title: string;
@@ -13,30 +11,21 @@ type Props = {
   children: ReactNode;
 };
 
-/** Frame shared by the marketing and social desks: sign-in guard, top bar with navigation, toast. */
+/** Frame shared by the marketing and social desks: page header, toast. The sign-in guard and navigation are the admin shell's. */
 export function DeskShell({ title, wide, actions, toast, children }: Props) {
   return (
-    <RequireAdminSession fallback={<LoginScreen />}>
-      <div className={styles.desk}>
-        <header className={styles.top}>
-          <h1>{title}</h1>
-          {actions}
-          <span className={styles.spacer} />
-          <Link href="/admin">Dashboard</Link>
-          <Link href="/admin/marketing">Marketing numbers</Link>
-          <Link href="/admin/social">Marketing desk</Link>
-        </header>
-        <main className={`${styles.wrap}${wide ? ` ${styles.wide}` : ''}`}>{children}</main>
-        {toast && (
-          <div
-            className={`${styles.toast}${toast.bad ? ` ${styles.bad}` : ''}`}
-            role="status"
-            aria-live="polite"
-          >
-            {toast.text}
-          </div>
-        )}
-      </div>
-    </RequireAdminSession>
+    <div className={styles.desk}>
+      <PageHeader title={title}>{actions}</PageHeader>
+      <main className={`${styles.wrap}${wide ? ` ${styles.wide}` : ''}`}>{children}</main>
+      {toast && (
+        <div
+          className={`${styles.toast}${toast.bad ? ` ${styles.bad}` : ''}`}
+          role="status"
+          aria-live="polite"
+        >
+          {toast.text}
+        </div>
+      )}
+    </div>
   );
 }
