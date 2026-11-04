@@ -1,7 +1,6 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { toast } from 'sonner';
 import { Ban, MonitorSmartphone, ShieldBan, UserRound } from 'lucide-react';
 import { SegTabs } from '@/app/(admin)/admin/components/SegTabs';
 import { COUNTRY } from '@/constants/admin';
@@ -23,17 +22,20 @@ import {
   when,
 } from '../kit/Panel';
 import { BanDialog } from './BanDialog';
+import { report, useLiveGate } from './LiveGate';
 
 const countryName = (c: string) =>
-  statByCode(c)?.name ?? COUNTRY[c.toUpperCase()] ?? c.toUpperCase();
+  c ? (statByCode(c)?.name ?? COUNTRY[c.toUpperCase()] ?? c.toUpperCase()) : '—';
 
 export function BansView() {
   const bans = useConsoleData((s) => s.bans);
   const unban = useConsoleData((s) => s.unban);
+  const gate = useLiveGate('Bans', ShieldBan);
   const [tab, setTab] = useState<'account' | 'ip'>('ip');
   const [open, setOpen] = useState(false);
   const rows = bans.filter((b) => b.kind === tab);
   const count = (k: string) => bans.filter((b) => b.kind === k).length;
+  if (gate) return gate;
 
   return (
     <div>
@@ -94,10 +96,7 @@ export function BansView() {
                     <td className={`${td} text-right`}>
                       <button
                         className={btn}
-                        onClick={() => {
-                          unban(b.id);
-                          toast.success(`Lifted the ban on ${b.target}`);
-                        }}
+                        onClick={() => void report(unban(b.id), `Lifted the ban on ${b.target}`)}
                       >
                         Lift ban
                       </button>
@@ -123,8 +122,10 @@ export function SessionsView() {
   const sessions = useConsoleData((s) => s.sessions);
   const users = useConsoleData((s) => s.users);
   const endSession = useConsoleData((s) => s.endSession);
+  const live = useConsoleData((s) => s.live);
+  const gate = useLiveGate('Active sessions', MonitorSmartphone);
   const [q, setQ] = useState('');
-  const [ipBan, setIpBan] = useState<string | null>(null);
+  const [ipBan, setIpBan] = useState<{ ip: string; sessionId: string } | null>(null);
 
   const rows = useMemo(() => {
     const t = q.trim().toLowerCase();
@@ -138,6 +139,7 @@ export function SessionsView() {
             .includes(t),
       );
   }, [sessions, users, q]);
+  if (gate) return gate;
 
   return (
     <div>
@@ -150,7 +152,10 @@ export function SessionsView() {
             value={new Set(sessions.map((s) => s.userId)).size}
             sub="Each may have several devices"
           />
-          <Stat label="Countries" value={new Set(sessions.map((s) => s.country)).size} />
+          <Stat
+            label="Countries"
+            value={new Set(sessions.map((s) => s.country).filter(Boolean)).size}
+          />
         </div>
         <Panel
           title="Sessions"
@@ -196,18 +201,20 @@ export function SessionsView() {
                     <td className={td}>{s.device}</td>
                     <td className={td}>{countryName(s.country)}</td>
                     <td className={`${td} tabular whitespace-nowrap`}>{when(s.startedAt)}</td>
-                    <td className={`${td} tabular whitespace-nowrap`}>{ago(s.lastSeenAt)}</td>
+                    <td className={`${td} tabular whitespace-nowrap`}>
+                      {ago(s.lastSeenAt, live ? Date.now() : undefined)}
+                    </td>
                     <td className={`${td} whitespace-nowrap text-right`}>
                       <button
                         className={btn}
-                        onClick={() => {
-                          endSession(s.id);
-                          toast.success('Session ended');
-                        }}
+                        onClick={() => void report(endSession(s.id), 'Session ended')}
                       >
                         End
                       </button>{' '}
-                      <button className={btnDanger} onClick={() => setIpBan(s.ip)}>
+                      <button
+                        className={btnDanger}
+                        onClick={() => setIpBan({ ip: s.ip, sessionId: s.id })}
+                      >
                         Ban address
                       </button>
                     </td>
@@ -223,11 +230,12 @@ export function SessionsView() {
       </div>
       {ipBan && (
         <BanDialog
-          key={ipBan}
+          key={ipBan.sessionId}
           open
           onOpenChange={(o) => !o && setIpBan(null)}
           kind="ip"
-          target={ipBan}
+          target={ipBan.ip}
+          sessionId={ipBan.sessionId}
         />
       )}
     </div>
@@ -239,8 +247,24 @@ export function UserDetailView({ id }: { id: string }) {
   const sessions = useConsoleData((s) => s.sessions);
   const endAll = useConsoleData((s) => s.endAllSessions);
   const setDisabled = useConsoleData((s) => s.setDisabled);
+  const bans = useConsoleData((s) => s.bans);
+  const unban = useConsoleData((s) => s.unban);
+  const live = useConsoleData((s) => s.live);
+  const status = useConsoleData((s) => s.status);
+  const detail = useConsoleData((s) => s.details[id]);
+  const loadUser = useConsoleData((s) => s.loadUser);
+  const gate = useLiveGate('User', UserRound);
   const user = users.find((u) => u.id === id);
-  const [ban, setBan] = useState<{ kind: 'account' | 'ip'; target: string } | null>(null);
+  const [ban, setBan] = useState<{
+    kind: 'account' | 'ip';
+    target: string;
+    sessionId?: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (live && status === 'ready' && detail === undefined) void loadUser(id);
+  }, [live, status, detail, id, loadUser]);
+  if (gate) return gate;
 
   if (!user) {
     return (
@@ -252,6 +276,11 @@ export function UserDetailView({ id }: { id: string }) {
   }
   const mine = sessions.filter((s) => s.userId === user.id);
   const paid = user.purchases.filter((p) => p.status === 'paid').length;
+  const accountBan = bans.find(
+    (b) => b.kind === 'account' && b.target.toLowerCase() === user.email.toLowerCase(),
+  );
+  const loadingDetail = live && (detail === undefined || detail === 'loading');
+  const clock = live ? Date.now() : undefined;
 
   return (
     <div>
@@ -283,20 +312,21 @@ export function UserDetailView({ id }: { id: string }) {
             <button
               className={btn}
               disabled={!mine.length}
-              onClick={() => {
-                endAll(user.id);
-                toast.success('All sessions ended');
-              }}
+              onClick={() => void report(endAll(user.id), 'All sessions ended')}
             >
               End all sessions
             </button>
-            {user.disabled ? (
+            {accountBan ? (
               <button
                 className={btn}
-                onClick={() => {
-                  setDisabled(user.id, false);
-                  toast.success('Account enabled');
-                }}
+                onClick={() => void report(unban(accountBan.id), 'Ban lifted')}
+              >
+                Lift ban
+              </button>
+            ) : user.disabled ? (
+              <button
+                className={btn}
+                onClick={() => void report(setDisabled(user.id, false), 'Account enabled')}
               >
                 Enable account
               </button>
@@ -328,7 +358,7 @@ export function UserDetailView({ id }: { id: string }) {
                   {user.purchases.map((p) => (
                     <tr key={p.ref} className={rowCls}>
                       <td className={`${td} fact`}>{p.ref}</td>
-                      <td className={td}>{p.project}</td>
+                      <td className={td}>{p.project || '—'}</td>
                       <td className={`${td} tabular`}>{p.amount}</td>
                       <td className={`${td} tabular whitespace-nowrap`}>{when(p.at)}</td>
                       <td className={td}>
@@ -338,7 +368,15 @@ export function UserDetailView({ id }: { id: string }) {
                   ))}
                 </tbody>
               </table>
-              {!user.purchases.length && (
+              {loadingDetail && (
+                <p className="px-5 pb-5 text-ui text-muted-foreground">Loading purchases…</p>
+              )}
+              {!loadingDetail && detail === 'error' && (
+                <p className="px-5 pb-5 text-ui text-status-down-text">
+                  Could not load this account&rsquo;s purchases.
+                </p>
+              )}
+              {!loadingDetail && detail !== 'error' && !user.purchases.length && (
                 <p className="px-5 pb-5 text-ui text-muted-foreground">
                   Nothing bought yet: a free account.
                 </p>
@@ -361,11 +399,11 @@ export function UserDetailView({ id }: { id: string }) {
                     <tr key={s.id} className={rowCls}>
                       <td className={`${td} fact`}>{s.ip}</td>
                       <td className={td}>{s.device}</td>
-                      <td className={`${td} tabular`}>{ago(s.lastSeenAt)}</td>
+                      <td className={`${td} tabular`}>{ago(s.lastSeenAt, clock)}</td>
                       <td className={`${td} text-right`}>
                         <button
                           className={btnDanger}
-                          onClick={() => setBan({ kind: 'ip', target: s.ip })}
+                          onClick={() => setBan({ kind: 'ip', target: s.ip, sessionId: s.id })}
                         >
                           Ban address
                         </button>
@@ -388,6 +426,7 @@ export function UserDetailView({ id }: { id: string }) {
           onOpenChange={(o) => !o && setBan(null)}
           kind={ban.kind}
           target={ban.target}
+          sessionId={ban.sessionId}
         />
       )}
     </div>

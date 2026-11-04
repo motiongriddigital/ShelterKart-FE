@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { adminErrorMessage } from '@/app/_api/adminPeople';
 import { useConsoleData } from '@/store/consoleData';
 import { SegTabs } from '@/app/(admin)/admin/components/SegTabs';
 import { btn, input } from '../kit/Panel';
@@ -28,35 +29,49 @@ export function BanDialog({
   onOpenChange,
   kind: initialKind = 'ip',
   target: initialTarget = '',
+  sessionId,
 }: {
   open: boolean;
   onOpenChange: (o: boolean) => void;
   kind?: Kind;
   target?: string;
+  sessionId?: string;
 }) {
   const banAccount = useConsoleData((s) => s.banAccount);
   const banIp = useConsoleData((s) => s.banIp);
+  const banSessionIp = useConsoleData((s) => s.banSessionIp);
+  const live = useConsoleData((s) => s.live);
+  const viaSession = Boolean(sessionId) && live;
+  const [busy, setBusy] = useState(false);
   const [kind, setKind] = useState<Kind>(initialKind);
   const [target, setTarget] = useState(initialTarget);
   const [reason, setReason] = useState('');
   const [days, setDays] = useState('30');
   const [error, setError] = useState('');
 
-  const submit = () => {
+  const submit = async () => {
     const t = target.trim();
-    if (kind === 'ip' && !IP_RE.test(t))
+    if (kind === 'ip' && !viaSession && !IP_RE.test(t))
       return setError('Enter an IPv4 address or a range such as 185.220.101.0/24.');
     if (kind === 'account' && !MAIL_RE.test(t))
       return setError('Enter the account’s e-mail address.');
     if (reason.trim().length < 8)
       return setError('Say why, in at least a few words. It is kept in the audit trail.');
     const d = days === '0' ? null : Number(days);
-    if (kind === 'ip') banIp(t, reason.trim(), d);
-    else banAccount(t.toLowerCase(), reason.trim(), d);
-    toast.success(kind === 'ip' ? `Banned ${t}` : `Banned ${t}; its sessions ended`);
-    setError('');
-    setReason('');
-    onOpenChange(false);
+    setBusy(true);
+    try {
+      if (viaSession && sessionId) await banSessionIp(sessionId, reason.trim(), d);
+      else if (kind === 'ip') await banIp(t, reason.trim(), d);
+      else await banAccount(t.toLowerCase(), reason.trim(), d);
+      toast.success(kind === 'ip' ? `Banned ${t}` : `Banned ${t}; its sessions ended`);
+      setError('');
+      setReason('');
+      onOpenChange(false);
+    } catch (e) {
+      setError(adminErrorMessage(e));
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -84,12 +99,17 @@ export function BanDialog({
           />
           <div>
             <label htmlFor="ban-target" className="label-quiet mb-1 block">
-              {kind === 'ip' ? 'IP address or range' : 'Account e-mail'}
+              {viaSession
+                ? 'Address of this session (shown as a short code)'
+                : kind === 'ip'
+                  ? 'IP address or range'
+                  : 'Account e-mail'}
             </label>
             <input
               id="ban-target"
               className={input}
               value={target}
+              readOnly={viaSession}
               onChange={(e) => setTarget(e.target.value)}
               placeholder={kind === 'ip' ? '185.220.101.0/24' : 'name@example.com'}
             />
@@ -132,9 +152,10 @@ export function BanDialog({
           </button>
           <button
             className="pressable inline-flex h-8 items-center rounded-md bg-status-down px-3 text-ui font-medium text-white transition-opacity hover:opacity-90"
-            onClick={submit}
+            disabled={busy}
+            onClick={() => void submit()}
           >
-            Ban
+            {busy ? 'Banning' : 'Ban'}
           </button>
         </DialogFooter>
       </DialogContent>
