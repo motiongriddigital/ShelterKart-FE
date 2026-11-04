@@ -44,17 +44,21 @@ function Button({
   asChild = false,
   ...props
 }: React.ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants> & {
+  Omit<VariantProps<typeof buttonVariants>, 'variant'> & {
+    variant?: NonNullable<VariantProps<typeof buttonVariants>['variant']> | 'plain';
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot.Root : 'button';
+  // `plain` leaves the element to the caller's own classes (the older dashboard and desk styles).
+  const classes =
+    variant === 'plain' ? className : cn(buttonVariants({ variant, size, className }));
 
   return (
     <Comp
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={classes}
       {...props}
     />
   );

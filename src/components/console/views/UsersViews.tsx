@@ -23,6 +23,8 @@ import {
   when,
 } from '../kit/Panel';
 import { BanDialog } from './BanDialog';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 const countryName = (c: string) =>
   statByCode(c)?.name ?? COUNTRY[c.toUpperCase()] ?? c.toUpperCase();
@@ -38,9 +40,9 @@ export function BansView() {
   return (
     <div>
       <PageHeader title="Bans" icon={ShieldBan}>
-        <button className={btn} onClick={() => setOpen(true)}>
+        <Button variant="plain" className={btn} onClick={() => setOpen(true)}>
           <Ban className="size-4" strokeWidth={1.75} /> Add a ban
-        </button>
+        </Button>
       </PageHeader>
       <div className="mx-auto max-w-5xl space-y-4 p-6">
         <div className="grid gap-3 sm:grid-cols-3">
@@ -92,7 +94,8 @@ export function BansView() {
                       {b.expiresAt ? when(b.expiresAt) : <Badge tone="warn">Until lifted</Badge>}
                     </td>
                     <td className={`${td} text-right`}>
-                      <button
+                      <Button
+                        variant="plain"
                         className={btn}
                         onClick={() => {
                           unban(b.id);
@@ -100,7 +103,7 @@ export function BansView() {
                         }}
                       >
                         Lift ban
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -157,7 +160,8 @@ export function SessionsView() {
           sub="A session lasts 30 days and is extended while it is used, never beyond 90."
           actions={
             <div className="w-56">
-              <input
+              <Input
+                variant="plain"
                 className={input}
                 placeholder="Find an e-mail, address or device"
                 aria-label="Find a session"
@@ -198,7 +202,8 @@ export function SessionsView() {
                     <td className={`${td} tabular whitespace-nowrap`}>{when(s.startedAt)}</td>
                     <td className={`${td} tabular whitespace-nowrap`}>{ago(s.lastSeenAt)}</td>
                     <td className={`${td} whitespace-nowrap text-right`}>
-                      <button
+                      <Button
+                        variant="plain"
                         className={btn}
                         onClick={() => {
                           endSession(s.id);
@@ -206,10 +211,10 @@ export function SessionsView() {
                         }}
                       >
                         End
-                      </button>{' '}
-                      <button className={btnDanger} onClick={() => setIpBan(s.ip)}>
+                      </Button>{' '}
+                      <Button variant="plain" className={btnDanger} onClick={() => setIpBan(s.ip)}>
                         Ban address
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -280,7 +285,8 @@ export function UserDetailView({ id }: { id: string }) {
             ))}
           </dl>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button
+            <Button
+              variant="plain"
               className={btn}
               disabled={!mine.length}
               onClick={() => {
@@ -289,9 +295,10 @@ export function UserDetailView({ id }: { id: string }) {
               }}
             >
               End all sessions
-            </button>
+            </Button>
             {user.disabled ? (
-              <button
+              <Button
+                variant="plain"
                 className={btn}
                 onClick={() => {
                   setDisabled(user.id, false);
@@ -299,14 +306,15 @@ export function UserDetailView({ id }: { id: string }) {
                 }}
               >
                 Enable account
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
+                variant="plain"
                 className={btnDanger}
                 onClick={() => setBan({ kind: 'account', target: user.email })}
               >
                 Ban account
-              </button>
+              </Button>
             )}
           </div>
         </Panel>
@@ -363,12 +371,13 @@ export function UserDetailView({ id }: { id: string }) {
                       <td className={td}>{s.device}</td>
                       <td className={`${td} tabular`}>{ago(s.lastSeenAt)}</td>
                       <td className={`${td} text-right`}>
-                        <button
+                        <Button
+                          variant="plain"
                           className={btnDanger}
                           onClick={() => setBan({ kind: 'ip', target: s.ip })}
                         >
                           Ban address
-                        </button>
+                        </Button>
                       </td>
                     </tr>
                   ))}

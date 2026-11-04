@@ -6,6 +6,7 @@ import styles from '../../styles/desk.module.scss';
 import { AnchorMarkets } from './AnchorMarkets';
 import { InputsPanel } from './InputsPanel';
 import { Tables } from './Tables';
+import { Button } from '@/components/console/ui/button';
 
 const PHASES = ['Phase 0, organic', 'Phase 1, reinvest', 'Phase 2, compound'];
 
@@ -24,13 +25,18 @@ export function MarketingDesk() {
           <span className={styles.pill}>
             {d ? (PHASES[d.phase] ?? `Phase ${d.phase}`) : 'Phase 0'}
           </span>
-          <button className={styles.btn} onClick={m.previous} aria-label="Previous week">
+          <Button
+            variant="plain"
+            className={styles.btn}
+            onClick={m.previous}
+            aria-label="Previous week"
+          >
             Previous week
-          </button>
+          </Button>
           <strong aria-live="polite">{d ? `Week of ${d.week}` : ''}</strong>
-          <button className={styles.btn} onClick={m.next} aria-label="Next week">
+          <Button variant="plain" className={styles.btn} onClick={m.next} aria-label="Next week">
             Next week
-          </button>
+          </Button>
         </>
       }
     >

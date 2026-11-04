@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 import { type PanelConfig, type PanelItem } from '@/constants/adminPanels';
 import { useConsoleData } from '@/store/consoleData';
 import { cn } from '@/utils/cn';
+import { Input } from './ui/input';
 
 export function SecondaryPanel({ base, panel }: { base: string; panel: PanelConfig }) {
   const pathname = usePathname();
@@ -56,7 +57,8 @@ export function SecondaryPanel({ base, panel }: { base: string; panel: PanelConf
               className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground"
               strokeWidth={1.75}
             />
-            <input
+            <Input
+              variant="plain"
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}

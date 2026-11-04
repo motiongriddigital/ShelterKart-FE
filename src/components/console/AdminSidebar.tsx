@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -18,7 +19,6 @@ import { ADMIN_NAV, HEALTH_HREF, type AdminNavSection } from '@/constants/adminN
 import { useAdminSession } from '@/store/adminSession';
 import { useAdminTheme } from '@/store/adminTheme';
 import { cn } from '@/utils/cn';
-import { AdminLogo } from './AdminLogo';
 import { InsightsCard } from './InsightsCard';
 import {
   DropdownMenu,
@@ -42,6 +42,8 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from './ui/sidebar';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 const linkClass = (active: boolean) =>
   cn(
@@ -107,14 +109,30 @@ export function AdminSidebar() {
     <Sidebar collapsible="offcanvas" className="border-r border-sidebar-border">
       <SidebarHeader className="gap-3 p-3">
         <Link href="/admin" aria-label="ShelterKart Admin, dashboard" className="px-1 pt-0.5">
-          <AdminLogo />
+          <Image
+            src="/logo/shelterkart-lockup.svg"
+            alt="ShelterKart Admin"
+            width={907}
+            height={211}
+            priority
+            className="h-7 w-auto dark:hidden"
+          />
+          <Image
+            src="/logo/shelterkart-lockup-on-dark.svg"
+            alt="ShelterKart Admin"
+            width={907}
+            height={211}
+            priority
+            className="hidden h-7 w-auto dark:block"
+          />
         </Link>
         <div className="relative">
           <Search
             className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground"
             strokeWidth={1.75}
           />
-          <input
+          <Input
+            variant="plain"
             ref={input}
             type="search"
             value={query}
@@ -135,7 +153,8 @@ export function AdminSidebar() {
             className="h-8 w-full rounded-md border border-sidebar-border bg-card pl-8 pr-14 text-ui text-foreground shadow-card outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 [&::-webkit-search-cancel-button]:hidden"
           />
           {query ? (
-            <button
+            <Button
+              variant="plain"
               type="button"
               onClick={() => {
                 setQuery('');
@@ -145,7 +164,7 @@ export function AdminSidebar() {
               className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-0.5 text-muted-foreground hover:text-foreground"
             >
               <X className="size-3.5" strokeWidth={1.75} />
-            </button>
+            </Button>
           ) : (
             <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded border border-sidebar-border bg-muted px-1.5 text-[11px] leading-4 text-muted-foreground">
               /
@@ -194,7 +213,8 @@ export function AdminSidebar() {
         <div className="flex items-center gap-1">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button
+              <Button
+                variant="plain"
                 type="button"
                 aria-label={`Account menu for ${username}`}
                 className="pressable flex min-w-0 flex-1 items-center gap-2 rounded-md px-1.5 py-1 text-left transition-colors duration-150 hover:bg-sidebar-accent/60 data-[state=open]:bg-sidebar-accent"
@@ -206,7 +226,7 @@ export function AdminSidebar() {
                   {username.slice(0, 2)}
                 </span>
                 <span className="truncate text-sm">{username}</span>
-              </button>
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="top" align="start" className="w-56">
               <DropdownMenuLabel className="flex flex-col gap-0.5">

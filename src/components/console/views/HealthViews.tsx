@@ -17,6 +17,8 @@ import { cn } from '@/utils/cn';
 import { PageHeader } from '../PageHeader';
 import { StackedBars } from '../kit/StackedBars';
 import { Badge, Panel, Stat, ago, btn, input, rowCls, tableWrap, td, th, when } from '../kit/Panel';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 const LEVEL_TONE = { error: 'bad', warn: 'warn', info: 'mute' } as const;
 const STATE_TONE = {
@@ -141,10 +143,10 @@ export function RegistersView() {
     <Shell
       title="Official registers"
       actions={
-        <button className={btn} onClick={check} disabled={busy}>
+        <Button variant="plain" className={btn} onClick={check} disabled={busy}>
           <RefreshCw className={cn('size-4', busy && 'animate-spin')} strokeWidth={1.75} />
           {busy ? 'Checking' : 'Check now'}
-        </button>
+        </Button>
       }
     >
       <Panel
@@ -209,7 +211,8 @@ export function ErrorLogView() {
         actions={
           <div className="flex items-center gap-2">
             <div className="w-52">
-              <input
+              <Input
+                variant="plain"
                 className={input}
                 placeholder="Search the log"
                 aria-label="Search the log"
@@ -321,7 +324,8 @@ export function FailedJobsView() {
                   <td className={`${td} tabular text-right`}>{j.attempts}</td>
                   <td className={`${td} tabular whitespace-nowrap`}>{ago(j.failedAt)}</td>
                   <td className={`${td} whitespace-nowrap text-right`}>
-                    <button
+                    <Button
+                      variant="plain"
                       className={btn}
                       onClick={() => {
                         setJobs((x) => x.filter((y) => y.id !== j.id));
@@ -329,8 +333,9 @@ export function FailedJobsView() {
                       }}
                     >
                       Retry
-                    </button>{' '}
-                    <button
+                    </Button>{' '}
+                    <Button
+                      variant="plain"
                       className={btn}
                       onClick={() => {
                         setJobs((x) => x.filter((y) => y.id !== j.id));
@@ -338,7 +343,7 @@ export function FailedJobsView() {
                       }}
                     >
                       Dismiss
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}

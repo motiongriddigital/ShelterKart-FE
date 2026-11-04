@@ -1,6 +1,7 @@
 import { platformName } from '@/constants/social';
 import type { Loose } from '@/types/desk';
 import styles from '../../styles/desk.module.scss';
+import { Input } from '@/components/console/ui/input';
 
 type Props = {
   post: Loose;
@@ -80,7 +81,8 @@ export function PostCard({ post: it, mustRead, read, removed, onRead, onRemove }
         <div className={styles.controls}>
           {mustRead && (
             <label>
-              <input
+              <Input
+                variant="plain"
                 type="checkbox"
                 aria-label="I have read this post"
                 checked={read}
@@ -90,7 +92,8 @@ export function PostCard({ post: it, mustRead, read, removed, onRead, onRemove }
             </label>
           )}
           <label>
-            <input
+            <Input
+              variant="plain"
               type="checkbox"
               aria-label="Leave this post out of the approval"
               checked={removed}

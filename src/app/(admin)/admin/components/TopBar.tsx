@@ -3,6 +3,7 @@ import { LayoutDashboard, RefreshCw } from 'lucide-react';
 import { PageHeader } from '@/components/console/PageHeader';
 import { cn } from '@/utils/cn';
 import { SegTabs } from './SegTabs';
+import { Button } from '@/components/console/ui/button';
 
 type Props = {
   status: string;
@@ -24,7 +25,8 @@ export function TopBar({ status, days, onDays, onRefresh }: Props) {
   return (
     <PageHeader title="Dashboard" icon={LayoutDashboard} note={status}>
       <SegTabs label="Period" tabs={PERIOD_TABS} value={days} onChange={onDays} />
-      <button
+      <Button
+        variant="plain"
         type="button"
         onClick={onRefresh}
         aria-label="Refresh"
@@ -32,7 +34,7 @@ export function TopBar({ status, days, onDays, onRefresh }: Props) {
         className="pressable flex size-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
       >
         <RefreshCw className={cn('size-4', loading && 'animate-spin')} strokeWidth={1.75} />
-      </button>
+      </Button>
     </PageHeader>
   );
 }
