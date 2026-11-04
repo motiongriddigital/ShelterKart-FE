@@ -1,5 +1,6 @@
 import { SENDER_CHECK } from '@/constants/admin';
 import type { DevResponse, Dispute, Held } from '@/types/admin';
+import { Button } from '@/components/console/ui/button';
 
 export function DisputesQueue({
   rows,
@@ -19,9 +20,9 @@ export function DisputesQueue({
             <div className="meta">Submitted {new Date(r.submitted_at).toLocaleString()}</div>
           </div>
           <div className="actions">
-            <button className="btn" onClick={() => onResolve(r.id)}>
+            <Button variant="plain" className="btn" onClick={() => onResolve(r.id)}>
               Mark resolved
-            </button>
+            </Button>
           </div>
         </div>
       ))}
@@ -61,12 +62,12 @@ export function ResponsesQueue({
             <div className="meta">Submitted {new Date(r.submitted_at).toLocaleString()}</div>
           </div>
           <div className="actions">
-            <button className="btn" onClick={() => onReview(r.id, 'approve')}>
+            <Button variant="plain" className="btn" onClick={() => onReview(r.id, 'approve')}>
               Approve
-            </button>
-            <button className="btn" onClick={() => onReview(r.id, 'reject')}>
+            </Button>
+            <Button variant="plain" className="btn" onClick={() => onReview(r.id, 'reject')}>
               Reject
-            </button>
+            </Button>
           </div>
         </div>
       ))}
@@ -96,9 +97,9 @@ export function HeldQueue({
             ))}
           </div>
           <div className="actions">
-            <button className="btn" onClick={() => onRelease(h.ref)}>
+            <Button variant="plain" className="btn" onClick={() => onRelease(h.ref)}>
               Checked: release
-            </button>
+            </Button>
           </div>
         </div>
       ))}

@@ -13,30 +13,30 @@ $radius-lg: 12px;
 $mobile: 640px;
 
 :root {
-  --white: #fff;
-  --demo-bg: #fbf6ea;
-  --demo-border: #e9d7ae;
+  --white: #f4f7ff;
+  --demo-bg: #eef3ff;
+  --demo-border: #bcd0f5;
   --navy-900: #061428;
   --navy-800: #0a1c33;
   --navy-600: #163c64;
-  --ink: #0a1c33;
-  --ink-2: #2f4460;
-  --ink-3: #52657f;
-  --paper: #faf8f5;
-  --paper-2: #f1ede6;
-  --rule: #e4ddd1;
-  --gold: #d3a245;
-  --gold-deep: #865e1d;
-  --ok: #1d6338;
-  --ok-bg: #e3f0e8;
+  --ink: #0f2942;
+  --ink-2: #334155;
+  --ink-3: #52627c;
+  --paper: #eaf0ff;
+  --paper-2: #e1e9fb;
+  --rule: #c3d0ea;
+  --gold: #2563eb;
+  --gold-deep: #1d4ed8;
+  --ok: #047857;
+  --ok-bg: #d1fae5;
   --warn: #865e1d;
   --warn-bg: #f6ecd6;
-  --bad: #a32b1c;
-  --bad-bg: #f7e3df;
-  --mute-bg: #eceef1;
-  --chart-1: #163c64;
-  --chart-2: #d3a245;
-  --chart-3: #1d6338;
+  --bad: #b91c1c;
+  --bad-bg: #fee2e2;
+  --mute-bg: #e1e9fb;
+  --chart-1: #0f2942;
+  --chart-2: #2563eb;
+  --chart-3: #059669;
 }
 
 .dark {

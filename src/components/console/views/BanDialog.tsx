@@ -13,6 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 type Kind = 'account' | 'ip';
 const IP_RE = /^(\d{1,3}\.){3}\d{1,3}(\/(\d|[12]\d|3[0-2]))?$/;
@@ -105,7 +107,8 @@ export function BanDialog({
                   ? 'IP address or range'
                   : 'Account e-mail'}
             </label>
-            <input
+            <Input
+              variant="plain"
               id="ban-target"
               className={input}
               value={target}
@@ -147,16 +150,17 @@ export function BanDialog({
           </p>
         </div>
         <DialogFooter>
-          <button className={btn} onClick={() => onOpenChange(false)}>
+          <Button variant="plain" className={btn} onClick={() => onOpenChange(false)}>
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="plain"
             className="pressable inline-flex h-8 items-center rounded-md bg-status-down px-3 text-ui font-medium text-white transition-opacity hover:opacity-90"
             disabled={busy}
             onClick={() => void submit()}
           >
-            {busy ? 'Banning' : 'Ban'}
-          </button>
+            Ban
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

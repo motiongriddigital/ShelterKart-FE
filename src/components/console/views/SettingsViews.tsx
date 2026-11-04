@@ -4,6 +4,7 @@ import { useAdminTheme, type ThemeMode } from '@/store/adminTheme';
 import { cn } from '@/utils/cn';
 import { PageHeader } from '../PageHeader';
 import { Panel } from '../kit/Panel';
+import { Button } from '../ui/button';
 
 const OPTIONS: {
   id: ThemeMode;
@@ -55,7 +56,8 @@ export function AppearanceView() {
             {OPTIONS.map((o) => {
               const on = mode === o.id;
               return (
-                <button
+                <Button
+                  variant="plain"
                   key={o.id}
                   type="button"
                   role="radio"
@@ -86,7 +88,7 @@ export function AppearanceView() {
                     {on && <Check className="ml-auto size-4 text-status-up-text" strokeWidth={2} />}
                   </span>
                   <span className="mt-0.5 block text-xs text-muted-foreground">{o.note}</span>
-                </button>
+                </Button>
               );
             })}
           </div>

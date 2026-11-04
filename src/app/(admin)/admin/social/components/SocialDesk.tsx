@@ -10,6 +10,7 @@ import { PackPanel } from './PackPanel';
 import { PausePanel } from './PausePanel';
 import { QueuePanel } from './QueuePanel';
 import { StatusPanel } from './StatusPanel';
+import { Button } from '@/components/console/ui/button';
 
 export function SocialDesk() {
   const { toast, show } = useToast();
@@ -32,13 +33,14 @@ export function SocialDesk() {
                   ? 'Live: posting for real'
                   : 'Dry run: nothing is posted'}
           </span>
-          <button
+          <Button
+            variant="plain"
             className={`${styles.btn} ${desk.paused ? styles.gold : styles.danger}`}
             type="button"
             onClick={desk.togglePauseAll}
           >
             {desk.paused ? 'Resume everything' : 'Pause everything'}
-          </button>
+          </Button>
         </>
       }
     >

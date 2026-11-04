@@ -2,6 +2,7 @@ import { AGENT_NAME, COUNTRY, LANG_NAME, OFF_REASON, TAX_LEVEL } from '@/constan
 import type { CountryRow, Engines, Health, LanguageRow, Tax } from '@/types/admin';
 import { conversionPct } from '@/utils/adminMetrics';
 import { dateTime } from '@/utils/format';
+import { Button } from '@/components/console/ui/button';
 
 const Empty = ({ cols }: { cols: number }) => (
   <tr>
@@ -290,9 +291,9 @@ export function HealthTable({
         </table>
       </div>
       <div style={{ marginTop: 10 }}>
-        <button className="btn" disabled={busy} onClick={onRun}>
+        <Button variant="plain" className="btn" disabled={busy} onClick={onRun}>
           {busy ? 'Checking… (up to a few minutes)' : 'Check all registers now'}
-        </button>
+        </Button>
       </div>
     </>
   );

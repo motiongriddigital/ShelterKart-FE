@@ -1,6 +1,7 @@
 import type { Engines, Health } from '@/types/admin';
 import { Panel } from '@/components/console/kit/Panel';
 import { fmt } from '@/utils/format';
+import { Button } from '@/components/console/ui/button';
 
 export function SystemCard({
   engines,
@@ -46,9 +47,9 @@ export function SystemCard({
           </dd>
         </div>
       </dl>
-      <button className="btn mt-3" onClick={onRun} disabled={busy}>
+      <Button variant="plain" className="btn mt-3" onClick={onRun} disabled={busy}>
         {busy ? 'Checking…' : 'Check registers now'}
-      </button>
+      </Button>
     </Panel>
   );
 }

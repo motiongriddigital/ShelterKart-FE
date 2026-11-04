@@ -5,6 +5,8 @@ import { useWeeklyPack } from '@/hooks/useWeeklyPack';
 import { nextMondays } from '@/utils/social';
 import styles from '../../styles/desk.module.scss';
 import { PostCard } from './PostCard';
+import { Button } from '@/components/console/ui/button';
+import { Input } from '@/components/console/ui/input';
 
 type Props = {
   nextWeek?: string;
@@ -52,12 +54,17 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
             ))}
           </select>
         </div>
-        <button className={styles.btn} type="button" onClick={p.plan}>
+        <Button variant="plain" className={styles.btn} type="button" onClick={p.plan}>
           Plan this week
-        </button>
-        <button className={`${styles.btn} ${styles.gold}`} type="button" onClick={p.build}>
+        </Button>
+        <Button
+          variant="plain"
+          className={`${styles.btn} ${styles.gold}`}
+          type="button"
+          onClick={p.build}
+        >
           Build the pack
-        </button>
+        </Button>
       </div>
       <p className={styles.muted} role="status" aria-live="polite">
         {p.job}
@@ -160,7 +167,8 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
               </span>
             </summary>
             <div className={styles.postBody}>
-              <input
+              <Input
+                variant="plain"
                 type="text"
                 placeholder="Filter by market, platform or language"
                 aria-label="Filter the posts"
@@ -191,7 +199,8 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
               veto it first.
             </p>
             <label htmlFor="pin">Approval PIN</label>
-            <input
+            <Input
+              variant="plain"
               type="password"
               id="pin"
               autoComplete="off"
@@ -200,14 +209,15 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
               onChange={(e) => p.setPin(e.target.value)}
             />
             <div className={styles.row} style={{ marginTop: 12 }}>
-              <button
+              <Button
+                variant="plain"
                 className={`${styles.btn} ${styles.gold}`}
                 type="button"
                 disabled={!p.canApprove}
                 onClick={p.approve}
               >
                 Approve the pack
-              </button>
+              </Button>
             </div>
           </div>
         </div>

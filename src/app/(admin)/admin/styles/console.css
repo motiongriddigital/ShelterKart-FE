@@ -9,53 +9,62 @@
    14 body (text-sm), 16 section heading (text-base), 20 page title (text-xl).
    Weights: 400 and 500; 600 for titles. */
 @import '@fontsource-variable/inter';
+@import '@fontsource-variable/plus-jakarta-sans';
+@import '@fontsource-variable/manrope';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --radius: 0.625rem;
 
+  /* Institutional Authority Record: Plus Jakarta Sans for headlines, Manrope for body and labels. */
+  --font-sans-stack:
+    'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-headline-stack:
+    'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', 'Manrope Variable', ui-sans-serif, system-ui,
+    sans-serif;
+
   /* Four stepped surfaces, the way Finder separates its chrome from its
      content: the primary sidebar is the most recessed, a secondary panel sits
      above it, the working area above that, and cards float on top. Each step
      is small but unmistakable, and the order is identical in both themes so
      the mental model never inverts. */
-  --sidebar-surface: oklch(0.941 0.004 90); /* 0 — primary sidebar   */
-  --panel: oklch(0.962 0.003 90); /* 1 — secondary panel   */
-  --ground: oklch(0.978 0.002 90); /* 2 — working area      */
-  --background: oklch(0.978 0.002 90); /*     (alias of ground) */
+  --sidebar-surface: #dbe4f8; /* 0 — primary sidebar   */
+  --panel: #e3eafb; /* 1 — secondary panel   */
+  --ground: #eaf0ff; /* 2 — working area      */
+  --background: #eaf0ff; /*     (alias of ground) */
   /* card = 3, white, defined below */
-  --foreground: oklch(0.21 0.004 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.004 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.004 260);
+  --foreground: #1e293b;
+  --card: #f4f7ff;
+  --card-foreground: #1e293b;
+  --popover: #f4f7ff;
+  --popover-foreground: #1e293b;
 
   /* Text ramp: primary / secondary / engraved label. */
-  --muted: oklch(0.968 0.002 90);
-  --muted-foreground: oklch(0.52 0.005 260);
-  --label: oklch(0.635 0.005 260);
+  --muted: #e1e9fb;
+  --muted-foreground: #52627c;
+  --label: #64748b;
 
-  --primary: oklch(0.28 0.005 260);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.965 0.002 90);
-  --secondary-foreground: oklch(0.28 0.005 260);
-  --accent: oklch(0.955 0.003 90);
-  --accent-foreground: oklch(0.24 0.005 260);
+  --primary: #0f2942;
+  --primary-foreground: #ffffff;
+  --secondary: #dbe7ff;
+  --secondary-foreground: #0f2942;
+  --accent: #d5e2fd;
+  --accent-foreground: #0f2942;
 
   /* The one accent: warm ochre, for focus and the active nav item only. */
-  --signal: oklch(0.58 0.12 70);
-  --signal-soft: oklch(0.96 0.035 85);
+  --signal: #2563eb;
+  --signal-soft: #dbe7ff;
 
-  --destructive: oklch(0.55 0.19 27);
-  --border: oklch(0.905 0.004 90);
-  --input: oklch(0.905 0.004 90);
-  --ring: oklch(0.58 0.12 70);
+  --destructive: #b91c1c;
+  --border: #c3d0ea;
+  --input: #c3d0ea;
+  --ring: #2563eb;
 
   /* Status — dot, text and soft fill per state. */
-  --status-up: oklch(0.68 0.15 150);
-  --status-up-text: oklch(0.48 0.13 150);
-  --status-up-soft: oklch(0.955 0.04 150);
+  --status-up: #059669;
+  --status-up-text: #047857;
+  --status-up-soft: #d1fae5;
 
   --status-warn: oklch(0.78 0.14 80);
   --status-warn-text: oklch(0.55 0.12 70);
@@ -70,13 +79,13 @@
   --status-unknown-soft: oklch(0.96 0.002 260);
 
   --sidebar: var(--sidebar-surface);
-  --sidebar-foreground: oklch(0.21 0.004 260);
-  --sidebar-primary: oklch(0.28 0.005 260);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.9 0.004 90);
-  --sidebar-accent-foreground: oklch(0.2 0.005 260);
-  --sidebar-border: oklch(0.885 0.004 90);
-  --sidebar-ring: oklch(0.58 0.12 70);
+  --sidebar-foreground: #1e293b;
+  --sidebar-primary: #0f2942;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #c9d8f6;
+  --sidebar-accent-foreground: #0f2942;
+  --sidebar-border: #bccbe8;
+  --sidebar-ring: #2563eb;
 
   /* Barely-there elevation. Two tight shadows read cleaner than one soft one. */
   --shadow-card: 0 1px 2px oklch(0.2 0.01 260 / 0.04), 0 1px 3px oklch(0.2 0.01 260 / 0.03);
@@ -88,6 +97,9 @@
 }
 
 .dark {
+  --font-sans-stack:
+    'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-headline-stack: var(--font-sans-stack);
   --sidebar-surface: oklch(0.145 0.006 260); /* 0 */
   --panel: oklch(0.176 0.006 260); /* 1 */
   --ground: oklch(0.202 0.007 260); /* 2 */
@@ -147,8 +159,8 @@
 }
 
 @theme inline {
-  --font-sans:
-    'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: var(--font-sans-stack);
+  --font-headline: var(--font-headline-stack);
   --font-label: var(--font-sans);
   --font-mono:
     ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
@@ -214,6 +226,12 @@
 @layer base {
   * {
     @apply border-border;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-headline);
   }
 
   body {
