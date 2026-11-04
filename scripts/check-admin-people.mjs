@@ -121,7 +121,7 @@ const sample = purchasesFromApi([
     ref: 'SK-1',
     amount: 3000,
     currency: 'INR',
-    status: 'active',
+    status: 'paid',
     createdAt: '2026-11-04T10:00:00Z',
   },
   {
@@ -140,7 +140,7 @@ const sample = purchasesFromApi([
   },
 ]);
 ok(
-  'an active purchase is paid, a refunded one is refunded, one waiting for payment is not shown',
+  'a paid purchase is paid, a refunded one is refunded, one waiting for payment is not shown',
   sample.length === 2 &&
     sample[0].status === 'paid' &&
     sample[0].amount === 'INR 3,000' &&
