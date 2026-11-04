@@ -108,11 +108,11 @@ export const when = (iso: string | null) =>
         minute: '2-digit',
       })
     : 'never';
-export const ago = (iso: string) => {
-  const m = Math.max(
-    0,
-    Math.round((Date.UTC(2026, 10, 4, 12, 0, 0) - new Date(iso).getTime()) / 60000),
-  );
+const DEMO_NOW = Date.UTC(2026, 10, 4, 12, 0, 0);
+/** How long ago. The demo's data is pinned to one moment; a real server's data passes the real clock. */
+export const ago = (iso: string, now: number = DEMO_NOW) => {
+  if (!iso) return 'never';
+  const m = Math.max(0, Math.round((now - new Date(iso).getTime()) / 60000));
   if (m < 60) return `${m} min ago`;
   if (m < 1440) return `${Math.round(m / 60)} h ago`;
   return `${Math.round(m / 1440)} d ago`;
