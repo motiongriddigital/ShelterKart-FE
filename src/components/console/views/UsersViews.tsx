@@ -216,7 +216,11 @@ export function SessionsView() {
                       >
                         End
                       </Button>{' '}
-                      <Button variant="plain" className={btnDanger} onClick={() => setIpBan(s.ip)}>
+                      <Button
+                        variant="plain"
+                        className={btnDanger}
+                        onClick={() => setIpBan({ ip: s.ip, sessionId: s.id })}
+                      >
                         Ban address
                       </Button>
                     </td>
