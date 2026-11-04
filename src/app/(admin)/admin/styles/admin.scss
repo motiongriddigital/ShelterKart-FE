@@ -206,17 +206,6 @@ button {
 }
 
 // ---- cards and charts --------------------------------------------------------------------------------------------
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 16px;
-  margin-bottom: 16px;
-
-  @include mobile {
-    grid-template-columns: 1fr;
-  }
-}
-
 .card {
   @include surface;
   padding: 18px;
@@ -330,27 +319,32 @@ button {
 }
 
 // ---- tables and status pills -------------------------------------------------------------------------------------
-table {
+.card table,
+.legacy table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-th,
-td {
+.card th,
+.card td,
+.legacy th,
+.legacy td {
   text-align: left;
   padding: 8px 6px;
   border-bottom: 1px solid var(--rule);
   vertical-align: top;
 }
 
-th {
+.card th,
+.legacy th {
   font-size: 13px;
   color: var(--ink-3);
   font-weight: 500;
 }
 
-td {
+.card td,
+.legacy td {
   font-variant-numeric: tabular-nums;
 }
 
@@ -471,28 +465,6 @@ $pill-tones: (
 }
 
 // ---- dashboard overview (console shell) --------------------------------------------------------------------------
-.tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-
-  .kpi {
-    padding: 16px 18px;
-
-    .n {
-      font-size: 30px;
-    }
-  }
-
-  .sub-line {
-    font-size: 13px;
-    color: var(--ink-3);
-    margin-top: 8px;
-    font-variant-numeric: tabular-nums;
-  }
-}
-
 .stat-list {
   margin: 0;
   display: grid;
@@ -524,35 +496,4 @@ $pill-tones: (
 
 .bad-text {
   color: var(--bad);
-}
-
-.dash-grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 16px;
-
-  > .card,
-  > .contents-card {
-    grid-column: span 12;
-  }
-
-  > .contents-card {
-    display: flex;
-
-    > .card {
-      flex: 1;
-      min-width: 0;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    > .span-8 {
-      grid-column: span 8;
-    }
-
-    > .span-4 {
-      grid-column: span 4;
-    }
-  }
 }

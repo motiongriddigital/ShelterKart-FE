@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { PlannedSection } from '@/components/console/PlannedSection';
+import { viewFor } from '@/components/console/views/registry';
 import { ADMIN_ITEMS, adminItemBySlug } from '@/constants/adminNav';
 
 export function generateStaticParams() {
@@ -13,5 +14,5 @@ export default async function AdminSectionPage({
 }) {
   const item = adminItemBySlug((await params).section);
   if (!item || !item.slug) notFound();
-  return <PlannedSection slug={item.slug} />;
+  return viewFor(item.slug) ?? <PlannedSection slug={item.slug} />;
 }

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import type { DashboardData } from '@/types/admin';
 import { DisputesQueue, HeldQueue, ResponsesQueue } from './ReviewQueues';
+import { Panel } from '@/components/console/kit/Panel';
 import { SegTabs } from './SegTabs';
 
 type Tab = 'disputes' | 'held' | 'replies';
@@ -26,11 +27,11 @@ export function NeedsAPerson({
   const [tab, setTab] = useState<Tab>(first);
   const total = counts.disputes + counts.held + counts.replies;
   return (
-    <div className="card">
-      <h2>Needs a person</h2>
-      <p className="sub">
-        {total ? `${total} waiting for a decision.` : 'Nothing is waiting for a decision.'}
-      </p>
+    <Panel
+      className="h-full"
+      title="Needs a person"
+      sub={total ? `${total} waiting for a decision.` : 'Nothing is waiting for a decision.'}
+    >
       <div className="mb-3">
         <SegTabs
           label="Review queues"
@@ -48,6 +49,6 @@ export function NeedsAPerson({
         {tab === 'held' && <HeldQueue held={data.held} onRelease={onRelease} />}
         {tab === 'replies' && <ResponsesQueue rows={data.responses} onReview={onReview} />}
       </div>
-    </div>
+    </Panel>
   );
 }

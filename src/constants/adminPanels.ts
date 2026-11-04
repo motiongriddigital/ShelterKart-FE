@@ -1,4 +1,5 @@
-import { COUNTRY } from '@/constants/admin';
+import { COUNTRY_STATS } from './adminSeedGeo';
+import { SEED_USER_LIST } from './adminSeedPeople';
 
 export type PanelItem = { slug: string; label: string; meta?: string; flag?: 'ban' | 'warn' };
 export type PanelGroup = { label?: string; items: PanelItem[] };
@@ -10,47 +11,15 @@ export type PanelConfig = {
 
 const view = (slug: string, label: string): PanelItem => ({ slug, label });
 
-const rand = (seed: number) => () => {
-  seed = (seed * 1664525 + 1013904223) % 4294967296;
-  return seed / 4294967296;
-};
+export const SEED_COUNTRIES: PanelItem[] = [...COUNTRY_STATS]
+  .sort((x, y) => y.users - x.users)
+  .map((c) => ({ slug: c.code, label: c.name, meta: `${c.users.toLocaleString('en-IN')} users` }));
 
-const NAMES = [
-  'aarav.shah',
-  'meera.iyer',
-  'omar.haddad',
-  'priya.nair',
-  'liam.walker',
-  'sofia.russo',
-  'kenji.mori',
-  'hannah.berg',
-  'rohan.mehta',
-  'ananya.rao',
-  'tariq.aziz',
-  'chloe.dubois',
-  'vikram.joshi',
-  'isla.murphy',
-];
-const CODES = Object.keys(COUNTRY).filter((c) => c !== 'unknown');
-
-const next = rand(2026);
-export const SEED_USERS: PanelItem[] = NAMES.map((n) => {
-  const country = CODES[Math.floor(next() * CODES.length)];
-  const paid = Math.floor(next() * 4);
-  const banned = next() > 0.9;
-  return {
-    slug: n.replace('.', '-'),
-    label: `${n}@example.com`,
-    meta: `${country} · ${paid ? `${paid} paid` : 'free'}`,
-    flag: banned ? 'ban' : undefined,
-  };
-});
-
-const nextC = rand(33);
-export const SEED_COUNTRIES: PanelItem[] = CODES.map((c) => ({
-  slug: c.toLowerCase(),
-  label: COUNTRY[c],
-  meta: `${Math.floor(nextC() * 900 + 40)} users`,
+export const SEED_USERS: PanelItem[] = SEED_USER_LIST.map((u) => ({
+  slug: u.id,
+  label: u.email,
+  meta: `${u.country.toUpperCase()} · ${u.purchases.length ? `${u.purchases.length} bought` : 'free'}`,
+  flag: u.disabled ? 'ban' : undefined,
 }));
 
 export const PANELS: Record<string, PanelConfig> = {
@@ -99,7 +68,7 @@ export const PANELS: Record<string, PanelConfig> = {
     title: 'User map',
     searchPlaceholder: 'Find a country',
     groups: [
-      { items: [view('world', 'All countries')] },
+      { items: [view('world', 'World map')] },
       { label: 'Countries', items: SEED_COUNTRIES },
     ],
   },

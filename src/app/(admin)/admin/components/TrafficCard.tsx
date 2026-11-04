@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { COUNTRY } from '@/constants/admin';
 import type { Analytics } from '@/types/admin';
+import { Panel } from '@/components/console/kit/Panel';
 import { BarList } from './BarList';
 import { SegTabs } from './SegTabs';
 
@@ -10,9 +11,11 @@ type Tab = 'channels' | 'countries' | 'devices';
 export function TrafficCard({ a }: { a: Analytics }) {
   const [tab, setTab] = useState<Tab>('channels');
   return (
-    <div className="card">
-      <h2>Where visitors are</h2>
-      <p className="sub">By page views. Countries come from the hosting network.</p>
+    <Panel
+      className="h-full"
+      title="Where visitors are"
+      sub="By page views. Countries come from the hosting network."
+    >
       <div className="mb-3">
         <SegTabs
           label="Traffic breakdown"
@@ -30,6 +33,6 @@ export function TrafficCard({ a }: { a: Analytics }) {
         <BarList items={a.countries.slice(0, 8)} label={(x) => COUNTRY[x.key] ?? x.key} />
       )}
       {tab === 'devices' && <BarList items={a.devices} />}
-    </div>
+    </Panel>
   );
 }

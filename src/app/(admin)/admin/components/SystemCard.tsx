@@ -1,4 +1,5 @@
 import type { Engines, Health } from '@/types/admin';
+import { Panel } from '@/components/console/kit/Panel';
 import { fmt } from '@/utils/format';
 
 export function SystemCard({
@@ -20,9 +21,7 @@ export function SystemCard({
   const down = markets.filter((m) => m.state === 'down').length;
   const ok = markets.filter((m) => m.state === 'healthy').length;
   return (
-    <div className="card">
-      <h2>Engine and registers</h2>
-      <p className="sub">Since the server last started.</p>
+    <Panel className="h-full" title="Engine and registers" sub="Since the server last started.">
       <dl className="stat-list">
         <div>
           <dt>AI calls</dt>
@@ -50,6 +49,6 @@ export function SystemCard({
       <button className="btn mt-3" onClick={onRun} disabled={busy}>
         {busy ? 'Checking…' : 'Check registers now'}
       </button>
-    </div>
+    </Panel>
   );
 }

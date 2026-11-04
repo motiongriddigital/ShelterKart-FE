@@ -3,12 +3,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import type { PanelConfig } from '@/constants/adminPanels';
+import { type PanelConfig, type PanelItem } from '@/constants/adminPanels';
+import { useConsoleData } from '@/store/consoleData';
 import { cn } from '@/utils/cn';
 
 export function SecondaryPanel({ base, panel }: { base: string; panel: PanelConfig }) {
   const pathname = usePathname();
   const [q, setQ] = useState('');
+  const users = useConsoleData((s) => s.users);
   const first = panel.groups[0]?.items[0]?.slug;
   const current = pathname.startsWith(`${base}/`)
     ? pathname.slice(base.length + 1).split('/')[0]
@@ -16,14 +18,30 @@ export function SecondaryPanel({ base, panel }: { base: string; panel: PanelConf
 
   const groups = useMemo(() => {
     const t = q.trim().toLowerCase();
-    if (!t) return panel.groups;
-    return panel.groups
+    const live =
+      base === '/admin/users'
+        ? panel.groups.map((g) =>
+            g.label === 'Users'
+              ? {
+                  ...g,
+                  items: users.map((u): PanelItem => ({
+                    slug: u.id,
+                    label: u.email,
+                    meta: `${u.country.toUpperCase()} · ${u.purchases.length ? `${u.purchases.length} bought` : 'free'}`,
+                    flag: u.disabled ? 'ban' : undefined,
+                  })),
+                }
+              : g,
+          )
+        : panel.groups;
+    if (!t) return live;
+    return live
       .map((g) => ({
         ...g,
         items: g.items.filter((i) => `${i.label} ${i.meta ?? ''}`.toLowerCase().includes(t)),
       }))
       .filter((g) => g.items.length);
-  }, [panel, q]);
+  }, [panel, q, base, users]);
 
   return (
     <nav
