@@ -1,5 +1,7 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
+import { SAMPLE_DOSSIERS } from '@/constants/samples';
 import { useT } from '@/hooks/useT';
 import { useReportStore } from '@/store/report';
 import { dossierById } from '@/utils/dossiers';
@@ -10,7 +12,18 @@ const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 /** The demo journey for a reference report: investigation stages, free preview, then the full report. */
 export function useDossierFlow() {
   const t = useT();
+  const router = useRouter();
   const setView = useReportStore((s) => s.setView);
+
+  // A sample with its own report page opens there instead of in the homepage panel.
+  const reportPage = useCallback(
+    (id: string) => {
+      const slug = SAMPLE_DOSSIERS.find((x) => x.id === id)?.reportSlug;
+      if (slug) router.push(`/report/${slug}`);
+      return Boolean(slug);
+    },
+    [router],
+  );
 
   const steps = [
     t('Several AI engines are investigating the project independently'),
@@ -21,17 +34,20 @@ export function useDossierFlow() {
 
   const investigate = useCallback(
     async (id: string) => {
-      if (!dossierById(id)) return;
+      if (!dossierById(id) || reportPage(id)) return;
       setView({ kind: 'investigating', id });
       await wait(DEMO_STEP_MS * 1.5 * 4 + DEMO_STEP_MS / 2);
       setView({ kind: 'preview', id });
     },
-    [setView],
+    [setView, reportPage],
   );
 
   const showFull = useCallback(
-    (id: string) => dossierById(id) && setView({ kind: 'full', id }),
-    [setView],
+    (id: string) => {
+      if (!dossierById(id) || reportPage(id)) return;
+      setView({ kind: 'full', id });
+    },
+    [setView, reportPage],
   );
 
   return { steps, investigate, showFull };

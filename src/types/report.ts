@@ -9,6 +9,8 @@ export type SampleDossier = {
   home: string;
   ids: string[];
   pdf: string;
+  /** Set when the report has its own page under /report/<slug>; opening the sample goes there. */
+  reportSlug?: string;
 };
 
 /** The product renderer's output for one report: HTML escaped at build time, mounted in a shadow root. */

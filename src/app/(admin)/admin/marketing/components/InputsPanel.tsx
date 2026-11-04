@@ -1,9 +1,10 @@
 'use client';
 import type { FormEvent, ReactNode } from 'react';
 import type { Loose } from '@/types/desk';
-import styles from '../../styles/desk.module.scss';
 import { Button } from '@/components/console/ui/button';
 import { Input } from '@/components/console/ui/input';
+import { dk } from '@/app/(admin)/admin/styles/ui';
+import { cn } from '@/utils/cn';
 
 type Saved = { ok: boolean; text: string } | null;
 type Props = {
@@ -30,9 +31,9 @@ function DeskForm({
     onValues(Object.fromEntries(new FormData(e.currentTarget).entries()));
   };
   return (
-    <form className={styles.formGrid} onSubmit={submit}>
+    <form className={dk.formGrid} onSubmit={submit}>
       {children}
-      <Button variant="plain" className={`${styles.btn} ${styles.gold}`}>
+      <Button variant="plain" className={cn(dk.btn, dk.gold)}>
         {button}
       </Button>
     </form>
@@ -62,7 +63,7 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
   return (
     <section aria-labelledby="h-in">
       <h2 id="h-in">Your inputs</h2>
-      <p className={styles.muted}>
+      <p className={dk.muted}>
         {d.durable
           ? "Saved in the marketing desk's durable store."
           : 'Saved in memory only: the marketing desk is not running, so inputs are lost on restart.'}
@@ -268,7 +269,7 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
                     {!x.closed && (
                       <Button
                         variant="plain"
-                        className={styles.btn}
+                        className={dk.btn}
                         onClick={() =>
                           onSettings({ legalNotice: { close: x.id } }, 'Notice closed.')
                         }
@@ -284,7 +285,7 @@ export function InputsPanel({ data: d, saved, onSpend, onCitation, onEffort, onS
         )}
       </details>
       <p
-        className={`${styles.msg} ${saved ? (saved.ok ? styles.okk : styles.err) : ''}`}
+        className={cn(dk.msg, saved ? (saved.ok ? dk.okk : dk.err) : '')}
         role="status"
         aria-live="polite"
       >

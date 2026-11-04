@@ -1,5 +1,4 @@
 import type { PriceByCurrencyRow } from '@/types/pricing';
-import styles from '../styles/pricing.module.scss';
 
 export function PriceByCurrencyTable({ rows }: { rows: PriceByCurrencyRow[] }) {
   return (
@@ -17,8 +16,8 @@ export function PriceByCurrencyTable({ rows }: { rows: PriceByCurrencyRow[] }) {
             <td>
               {r.currency} ({r.code})
             </td>
-            <td className={styles.num}>{r.typical}</td>
-            <td className={styles.num}>{r.range}</td>
+            <td className="whitespace-nowrap tabular-nums">{r.typical}</td>
+            <td className="whitespace-nowrap tabular-nums">{r.range}</td>
           </tr>
         ))}
       </tbody>

@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './Masthead.module.scss';
 
 export function Masthead() {
   return (
-    <header className={styles.masthead}>
-      <Link href="/" className={styles.brand} aria-label="ShelterKart home">
+    <header className="border-b-2 border-gold bg-navy px-5 py-3.5">
+      <Link href="/" className="inline-block leading-none" aria-label="ShelterKart home">
         {/* SVG lockup for dark surfaces; unoptimized because it is already vector */}
         <Image
           src="/logo/shelterkart-lockup-on-dark.svg"
@@ -14,6 +13,7 @@ export function Masthead() {
           height={35}
           priority
           unoptimized
+          className="h-[2.1rem] w-auto max-w-none"
         />
       </Link>
     </header>

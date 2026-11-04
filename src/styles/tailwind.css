@@ -1,0 +1,36 @@
+/* Tailwind for the public site. Utilities read the brand tokens (styles/_theme.scss), so there is one source of colour.
+   Breakpoints match styles/_breakpoints.scss. Structural or repeated rules (prose, tables) stay in SCSS. */
+@import 'tailwindcss';
+
+@theme {
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1200px;
+
+  --color-paper: var(--sk-paper);
+  --color-ink: var(--sk-ink);
+  --color-ink-soft: var(--sk-ink-soft);
+  --color-slate: var(--sk-slate);
+  --color-rule: var(--sk-rule);
+  --color-navy: var(--sk-navy);
+  --color-cream: var(--sk-cream);
+  --color-gold: var(--sk-gold);
+  --color-gold-dark: var(--sk-gold-dark);
+  --color-tint: var(--sk-tint);
+  --color-cool: var(--sk-cool);
+  --color-verified: var(--sk-verified);
+  --color-verified-bg: var(--sk-verified-bg);
+  --color-reported: var(--sk-reported);
+  --color-reported-bg: var(--sk-reported-bg);
+  --color-inference: var(--sk-inference);
+  --color-inference-bg: var(--sk-inference-bg);
+  --color-disputed: var(--sk-disputed);
+  --color-disputed-bg: var(--sk-disputed-bg);
+
+  --font-display: var(--sk-font-display);
+  --font-text: var(--sk-font-text);
+
+  --radius-sm: var(--sk-radius-sm);
+  --radius-md: var(--sk-radius-md);
+  --radius-lg: var(--sk-radius-lg);
+}

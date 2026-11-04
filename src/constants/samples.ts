@@ -11,6 +11,7 @@ export const SAMPLE_DOSSIERS: SampleDossier[] = [
     home: 'IN',
     ids: ['P51900008925'],
     pdf: 'ShelterKart-Report-Hubtown-Celeste.pdf',
+    reportSlug: 'hubtown-celeste',
   },
   {
     id: 'london',

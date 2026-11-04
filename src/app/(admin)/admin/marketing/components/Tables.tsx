@@ -1,6 +1,7 @@
 import type { Loose } from '@/types/desk';
 import { costCell, money, num, warningRows } from '@/utils/marketingView';
-import styles from '../../styles/desk.module.scss';
+import { dk, tone as tones, type Tone } from '@/app/(admin)/admin/styles/ui';
+import { cn } from '@/utils/cn';
 
 const RCS: Record<string, [string, string]> = {
   repeat: ['ok', 'Repeat'],
@@ -14,7 +15,7 @@ const GATE: Record<string, [string, string]> = {
 };
 
 const Word = ({ tone, children }: { tone: string; children: string }) => (
-  <span className={`${styles.word} ${styles[tone] ?? ''}`}>{children}</span>
+  <span className={cn(dk.word, tone ? tones[tone as Tone] : '')}>{children}</span>
 );
 const Section = ({
   id,
@@ -29,8 +30,8 @@ const Section = ({
 }) => (
   <section aria-labelledby={id}>
     <h2 id={id}>{title}</h2>
-    {note && <p className={styles.muted}>{note}</p>}
-    <div className={styles.scroll}>{children}</div>
+    {note && <p className={dk.muted}>{note}</p>}
+    <div className={dk.scroll}>{children}</div>
   </section>
 );
 
@@ -45,7 +46,7 @@ export function Tables({ data: d }: { data: Loose }) {
   return (
     <>
       <Section id="h-all" title="All 36 markets, this week">
-        <p className={styles.muted}>
+        <p className={dk.muted}>
           {u.visits
             ? `${u.visits} visit(s) this week carried no market and are counted only in the totals.`
             : 'Every visit this week was tied to a market.'}
@@ -54,11 +55,11 @@ export function Tables({ data: d }: { data: Loose }) {
           <thead>
             <tr>
               <th>Market</th>
-              <th className={styles.num}>Visits</th>
-              <th className={styles.num}>Previews per 100</th>
-              <th className={styles.num}>Shares per 100</th>
-              <th className={styles.num}>Check requests</th>
-              <th className={styles.num}>Paid</th>
+              <th className={dk.num}>Visits</th>
+              <th className={dk.num}>Previews per 100</th>
+              <th className={dk.num}>Shares per 100</th>
+              <th className={dk.num}>Check requests</th>
+              <th className={dk.num}>Paid</th>
               <th>Revenue</th>
               <th>Cost per paid</th>
             </tr>
@@ -67,22 +68,22 @@ export function Tables({ data: d }: { data: Loose }) {
             {d.allMarkets.map((m: Loose) => (
               <tr key={m.market}>
                 <td>{m.name}</td>
-                <td className={styles.num}>{num(m.thisWeek.visits)}</td>
-                <td className={styles.num}>{num(m.thisWeek.previewsPer100)}</td>
-                <td className={styles.num}>{num(m.thisWeek.sharesPer100)}</td>
-                <td className={styles.num}>{num(m.thisWeek.checkRequests)}</td>
-                <td className={styles.num}>{num(m.thisWeek.paid)}</td>
+                <td className={dk.num}>{num(m.thisWeek.visits)}</td>
+                <td className={dk.num}>{num(m.thisWeek.previewsPer100)}</td>
+                <td className={dk.num}>{num(m.thisWeek.sharesPer100)}</td>
+                <td className={dk.num}>{num(m.thisWeek.checkRequests)}</td>
+                <td className={dk.num}>{num(m.thisWeek.paid)}</td>
                 <td>{money(m.thisWeek.revenue)}</td>
                 <td>{m.thisWeek.organic ? 'No spend' : money(m.thisWeek.costPerPaid)}</td>
               </tr>
             ))}
             <tr>
               <th>All markets</th>
-              <th className={styles.num}>{num(t.visits)}</th>
-              <th className={styles.num}>{num(t.previewsPer100)}</th>
-              <th className={styles.num}>{num(t.sharesPer100)}</th>
-              <th className={styles.num}>{num(t.checkRequests)}</th>
-              <th className={styles.num}>{num(t.paid)}</th>
+              <th className={dk.num}>{num(t.visits)}</th>
+              <th className={dk.num}>{num(t.previewsPer100)}</th>
+              <th className={dk.num}>{num(t.sharesPer100)}</th>
+              <th className={dk.num}>{num(t.checkRequests)}</th>
+              <th className={dk.num}>{num(t.paid)}</th>
               <th>{money(t.revenue)}</th>
               <th>{costCell(t)}</th>
             </tr>
@@ -148,9 +149,9 @@ export function Tables({ data: d }: { data: Loose }) {
               <thead>
                 <tr>
                   <th>Platform and topic</th>
-                  <th className={styles.num}>Visits</th>
-                  <th className={styles.num}>Previews per 100</th>
-                  <th className={styles.num}>Shares</th>
+                  <th className={dk.num}>Visits</th>
+                  <th className={dk.num}>Previews per 100</th>
+                  <th className={dk.num}>Shares</th>
                   <th>Call</th>
                 </tr>
               </thead>
@@ -158,9 +159,9 @@ export function Tables({ data: d }: { data: Loose }) {
                 {d.repeatChangeStop.map((r: Loose) => (
                   <tr key={r.item}>
                     <td>{r.item}</td>
-                    <td className={styles.num}>{num(r.visits)}</td>
-                    <td className={styles.num}>{num(r.previewsPer100)}</td>
-                    <td className={styles.num}>{num(r.shares)}</td>
+                    <td className={dk.num}>{num(r.visits)}</td>
+                    <td className={dk.num}>{num(r.previewsPer100)}</td>
+                    <td className={dk.num}>{num(r.shares)}</td>
                     <td>
                       <Word tone={RCS[r.call][0]}>{RCS[r.call][1]}</Word>
                     </td>
@@ -189,18 +190,18 @@ export function Tables({ data: d }: { data: Loose }) {
               <thead>
                 <tr>
                   <th>Market</th>
-                  <th className={styles.num}>Paid reports</th>
-                  <th className={styles.num}>Hours</th>
-                  <th className={styles.num}>Paid per hour</th>
+                  <th className={dk.num}>Paid reports</th>
+                  <th className={dk.num}>Hours</th>
+                  <th className={dk.num}>Paid per hour</th>
                 </tr>
               </thead>
               <tbody>
                 {rank.map((r) => (
                   <tr key={r.market}>
                     <td>{names[r.market] ?? r.market}</td>
-                    <td className={styles.num}>{num(r.paid)}</td>
-                    <td className={styles.num}>{num(r.hours)}</td>
-                    <td className={styles.num}>{num(r.perHour)}</td>
+                    <td className={dk.num}>{num(r.paid)}</td>
+                    <td className={dk.num}>{num(r.hours)}</td>
+                    <td className={dk.num}>{num(r.perHour)}</td>
                   </tr>
                 ))}
               </tbody>

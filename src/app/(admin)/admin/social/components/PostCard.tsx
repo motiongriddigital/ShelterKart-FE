@@ -1,7 +1,8 @@
 import { platformName } from '@/constants/social';
 import type { Loose } from '@/types/desk';
-import styles from '../../styles/desk.module.scss';
 import { Input } from '@/components/console/ui/input';
+import { dk, tone, type Tone } from '@/app/(admin)/admin/styles/ui';
+import { cn } from '@/utils/cn';
 
 type Props = {
   post: Loose;
@@ -22,36 +23,36 @@ export function PostCard({ post: it, mustRead, read, removed, onRead, onRemove }
         : ['Read me', 'warn']
       : ['Passed', 'ok'];
   return (
-    <details className={styles.post}>
+    <details className={dk.post}>
       <summary>
-        <span className="when">
+        <span className={dk.when}>
           {it.localDate.slice(5)} {it.localTime}
         </span>
-        <span className="what">
+        <span className={dk.what}>
           <b>{it.marketName}</b> · {platformName(it.platform)}{' '}
-          <span className={styles.chip}>{it.lang}</span>
+          <span className={dk.chip}>{it.lang}</span>
           {it.fellBackToEnglish && (
-            <span className={`${styles.chip} ${styles.warn}`}> English fallback</span>
+            <span className={cn(dk.chip, tone.warn)}> English fallback</span>
           )}
         </span>
-        <span className={`${styles.chip} ${styles[state[1]]}`}>{state[0]}</span>
+        <span className={cn(dk.chip, tone[state[1] as Tone])}>{state[0]}</span>
       </summary>
-      <div className={styles.postBody}>
+      <div className={dk.postBody}>
         {it.title && (
-          <div className={styles.meta}>
+          <div className={dk.meta}>
             <b>Title:</b> <span dir="auto">{it.title}</span>
           </div>
         )}
-        <div className={styles.text} dir="auto">
+        <div className={dk.text} dir="auto">
           {it.body}
         </div>
         {it.hashtags?.length > 0 && (
-          <div className={styles.meta}>
+          <div className={dk.meta}>
             <b>Hashtags:</b> <span dir="auto">{it.hashtags.join(' ')}</span>
           </div>
         )}
         {it.claims.map((c: Loose) => (
-          <div className={styles.meta} key={c.sourceUrl}>
+          <div className={dk.meta} key={c.sourceUrl}>
             <b>{c.type}:</b> source{' '}
             <a href={c.sourceUrl} target="_blank" rel="noopener noreferrer">
               {c.sourceUrl}
@@ -61,24 +62,24 @@ export function PostCard({ post: it, mustRead, read, removed, onRead, onRemove }
         ))}
         {it.backtranslationEn && (
           <>
-            <div className={styles.meta}>
+            <div className={dk.meta}>
               <b>What this says in English:</b>
             </div>
-            <div className={styles.text}>{it.backtranslationEn}</div>
+            <div className={dk.text}>{it.backtranslationEn}</div>
           </>
         )}
         {it.media.map((m: Loose, i: number) => (
           <div key={i}>
-            <div className={styles.meta}>
+            <div className={dk.meta}>
               <b>{m.kind} card says:</b>{' '}
               <span dir="auto">{(m.text || '').replace(/\n/g, ' · ')}</span>
             </div>
-            <div className={styles.meta}>
+            <div className={dk.meta}>
               <b>Alt text:</b> <span dir="auto">{m.alt}</span>
             </div>
           </div>
         ))}
-        <div className={styles.controls}>
+        <div className={dk.controls}>
           {mustRead && (
             <label>
               <Input

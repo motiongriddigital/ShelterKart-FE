@@ -16,10 +16,13 @@ body {
   background: var(--sk-paper);
 }
 
-img,
-svg {
-  max-width: 100%;
-  height: auto;
+// In a layer so Tailwind utilities (also layered) can override it; unlayered rules would always win.
+@layer base {
+  img,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 a {

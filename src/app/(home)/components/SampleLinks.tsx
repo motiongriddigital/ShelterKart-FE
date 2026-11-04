@@ -15,7 +15,7 @@ export function SampleLinks() {
           <a
             key={x.id}
             className="demo-chip"
-            href={`/samples/${x.id}`}
+            href={x.reportSlug ? `/report/${x.reportSlug}` : `/samples/${x.id}`}
             onClick={(e) => {
               e.preventDefault();
               showFull(x.id);

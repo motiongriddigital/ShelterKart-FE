@@ -1,547 +1,105 @@
-// Shared look for the marketing and social desks. A CSS module, so none of it leaks into the dashboard's global
-// classes (.btn, .kpi, .pill ... mean something different there).
-@use 'sass:list';
-@use 'sass:map';
+// The marketing and social desks. Component looks are Tailwind classes in ./ui.ts; what stays here are the rules
+// for plain tags inside a desk (section, label, field, table), which are structural. They sit in the base layer
+// so a Tailwind utility on the same element can still override them.
+@layer base {
+  .desk {
+    --blue: #163c64;
+    font-size: 16px;
 
-$gold-grad: linear-gradient(178deg, #ecd093 0%, #d3a245 55%, #b6832b 100%);
-$tones: (
-  'ok': (
-    var(--ok-bg),
-    var(--ok),
-  ),
-  'warn': (
-    var(--warn-bg),
-    var(--warn),
-  ),
-  'bad': (
-    var(--bad-bg),
-    var(--bad),
-  ),
-);
-
-@mixin tone($name) {
-  $pair: map.get($tones, $name);
-  background: list.nth($pair, 1);
-  color: list.nth($pair, 2);
-}
-
-@mixin surface($radius: 10px) {
-  background: var(--white);
-  border: 1px solid var(--rule);
-  border-radius: $radius;
-}
-
-@mixin tablet {
-  @media (min-width: 700px) {
-    @content;
-  }
-}
-
-.desk {
-  --blue: #163c64;
-
-  :global(.dark) & {
-    --blue: #86afdf;
-  }
-  font-size: 16px;
-
-  button,
-  input,
-  select,
-  textarea {
-    font: inherit;
-  }
-
-  input,
-  select,
-  textarea {
-    color: inherit;
-  }
-
-  button {
-    cursor: pointer;
-  }
-
-  :focus-visible {
-    outline: 3px solid var(--blue);
-    outline-offset: 2px;
-  }
-
-  [hidden] {
-    display: none !important;
-  }
-
-  h2 {
-    font-size: 22px;
-    margin-bottom: 6px;
-  }
-
-  h3 {
-    font-size: 18px;
-    margin-bottom: 6px;
-  }
-
-  section {
-    @include surface(12px);
-    padding: 18px 16px;
-    margin-bottom: 16px;
-
-    @include tablet {
-      padding: 22px;
+    :global(.dark) & {
+      --blue: #86afdf;
     }
-  }
 
-  label {
-    display: block;
-    font-weight: 600;
-    margin: 10px 0 4px;
-  }
-
-  input[type='text'],
-  input[type='password'],
-  input[type='date'],
-  input[type='month'],
-  input[type='number'],
-  input:not([type]),
-  select,
-  textarea {
-    width: 100%;
-    min-height: 44px;
-    padding: 9px 12px;
-    border: 1px solid var(--ink-3);
-    border-radius: 8px;
-    background: var(--white);
-  }
-
-  input[type='checkbox'] {
-    width: 24px;
-    height: 24px;
-    accent-color: var(--blue);
-    flex: none;
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 15px;
-  }
-
-  td,
-  th {
-    text-align: left;
-    padding: 8px 6px;
-    border-top: 1px solid var(--rule);
-    vertical-align: top;
-  }
-
-  th {
-    color: var(--ink-3);
-    font-weight: 600;
-  }
-}
-
-.wrap {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 16px;
-
-  &.wide {
-    max-width: 1040px;
-  }
-
-  @include tablet {
-    padding: 24px;
-  }
-}
-
-.pill {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  border: 1px solid currentcolor;
-  @include tone('warn');
-
-  &.live {
-    @include tone('ok');
-  }
-}
-
-.muted {
-  color: var(--ink-3);
-  font-size: 15px;
-  margin: 0 0 12px;
-}
-
-.btn {
-  min-height: 44px;
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: 1px solid var(--ink-3);
-  background: var(--white);
-  color: var(--ink);
-  font-weight: 600;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &.gold {
-    background: $gold-grad;
-    border-color: #b6832b;
-    color: var(--navy-900);
-  }
-
-  &.danger {
-    background: var(--bad);
-    border-color: var(--bad);
-    color: #fff;
-  }
-
-  &.small {
-    padding: 8px 14px;
-    font-size: 15px;
-  }
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-
-  &.end {
-    align-items: flex-end;
-  }
-}
-
-.grow {
-  flex: 1 1 130px;
-
-  &.wide {
-    flex: 2 1 200px;
-  }
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-}
-
-.kpi {
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  border-radius: 10px;
-  padding: 12px 14px;
-
-  :global(.n) {
-    font-family: var(--sk-font-display);
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 1.1;
-  }
-
-  :global(.l) {
-    font-size: 14px;
-    color: var(--ink-3);
-    margin-top: 4px;
-  }
-}
-
-.banner {
-  padding: 12px 14px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-
-  &.warn {
-    @include tone('warn');
-  }
-
-  &.bad {
-    @include tone('bad');
-  }
-
-  &.ok {
-    @include tone('ok');
-  }
-}
-
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  li {
-    border-top: 1px solid var(--rule);
-    padding: 12px 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 12px;
-    align-items: center;
-
-    &:first-child {
-      border-top: none;
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
     }
-  }
 
-  :global(.when) {
-    font-weight: 700;
-    min-width: 64px;
-  }
+    input,
+    select,
+    textarea {
+      color: inherit;
+    }
 
-  :global(.what) {
-    flex: 1 1 220px;
-    min-width: 0;
+    :focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 2px;
+    }
 
-    small {
+    [hidden] {
+      display: none !important;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    section {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 18px 16px;
+      margin-bottom: 16px;
+
+      @media (min-width: 700px) {
+        padding: 22px;
+      }
+    }
+
+    label {
       display: block;
-      color: var(--ink-3);
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
-  }
-
-  &.audit {
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 14px;
-    overflow-wrap: anywhere;
-  }
-}
-
-.chip {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  background: var(--paper-2);
-  color: var(--ink-2);
-
-  &.ok {
-    @include tone('ok');
-  }
-
-  &.warn {
-    @include tone('warn');
-  }
-
-  &.bad {
-    @include tone('bad');
-  }
-}
-
-.post {
-  @include surface;
-  margin: 10px 0;
-
-  > summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 12px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 12px;
-    align-items: center;
-    min-height: 48px;
-
-    &::-webkit-details-marker {
-      display: none;
-    }
-  }
-
-  &[open] > summary {
-    border-bottom: 1px solid var(--rule);
-    background: var(--paper);
-  }
-}
-
-.postBody {
-  padding: 12px;
-}
-
-.text {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  padding: 12px;
-  margin: 6px 0 12px;
-}
-
-.meta {
-  font-size: 15px;
-  color: var(--ink-2);
-  margin: 6px 0;
-  overflow-wrap: anywhere;
-
-  b {
-    color: var(--ink);
-  }
-
-  a {
-    color: var(--blue);
-  }
-}
-
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-  padding-top: 8px;
-  border-top: 1px solid var(--rule);
-
-  label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-    min-height: 44px;
-  }
-}
-
-.approve {
-  border: 2px solid var(--gold);
-  background: var(--paper);
-  border-radius: 12px;
-  padding: 16px;
-  margin-top: 18px;
-}
-
-.toast {
-  position: fixed;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  z-index: 20;
-  padding: 14px 16px;
-  border-radius: 10px;
-  background: var(--navy-900);
-  color: #fff;
-  box-shadow: 0 6px 24px rgb(0 0 0 / 25%);
-
-  &.bad {
-    background: var(--bad);
-  }
-
-  @include tablet {
-    left: auto;
-    max-width: 460px;
-  }
-}
-
-// ---- marketing desk -----------------------------------------------------------------------------------------------
-.scroll {
-  overflow-x: auto;
-}
-
-.num {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.word {
-  display: inline-block;
-  min-width: 64px;
-  text-align: center;
-  padding: 2px 10px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 14px;
-  background: var(--paper-2);
-  color: var(--ink-2);
-
-  &.ok {
-    @include tone('ok');
-  }
-
-  &.warn {
-    @include tone('warn');
-  }
-
-  &.bad {
-    @include tone('bad');
-  }
-}
-
-.calls {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  li {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 10px 0;
-    border-top: 1px solid var(--rule);
-
-    &:first-child {
-      border-top: none;
+      font-weight: 600;
+      margin: 10px 0 4px;
     }
 
-    div {
-      display: grid;
-      gap: 2px;
+    input[type='text'],
+    input[type='password'],
+    input[type='date'],
+    input[type='month'],
+    input[type='number'],
+    input:not([type]),
+    select,
+    textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 9px 12px;
+      border: 1px solid var(--ink-3);
+      border-radius: 8px;
+      background: var(--white);
     }
 
-    span:not(.word) {
-      color: var(--ink-3);
+    input[type='checkbox'] {
+      width: 24px;
+      height: 24px;
+      accent-color: var(--blue);
+      flex: none;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
       font-size: 15px;
     }
-  }
-}
 
-.sub {
-  font-size: 13px;
-  color: var(--ink-3);
-}
+    td,
+    th {
+      text-align: left;
+      padding: 8px 6px;
+      border-top: 1px solid var(--rule);
+      vertical-align: top;
+    }
 
-.up {
-  color: var(--ok);
-}
-
-.down {
-  color: var(--bad);
-}
-
-.flat {
-  color: var(--ink-3);
-}
-
-.anchors {
-  display: grid;
-  gap: 14px;
-
-  @include tablet {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.formGrid {
-  display: grid;
-  gap: 4px 12px;
-  margin-bottom: 16px;
-
-  @include tablet {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    align-items: end;
-  }
-}
-
-.msg {
-  min-height: 1.4em;
-  font-weight: 600;
-
-  &.okk {
-    color: var(--ok);
-  }
-
-  &.err {
-    color: var(--bad);
+    th {
+      color: var(--ink-3);
+      font-weight: 600;
+    }
   }
 }

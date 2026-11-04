@@ -8,7 +8,6 @@ import {
   PRICE_LIST_RATES_DATE,
   PRICE_LIST_VERSION,
 } from './data/priceBook';
-import styles from './styles/pricing.module.scss';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -75,7 +74,7 @@ export default function PricingPage() {
         registered for a country’s tax, no tax is charged, and the checkout says so. The checkout
         always shows the report fee, the tax and the total as separate lines.
       </p>
-      <p className={styles.muted}>
+      <p className="text-slate">
         Price list {PRICE_LIST_VERSION}, set from the exchange rates of {PRICE_LIST_RATES_DATE}. A
         new list is published at most once a month, and never changes a price already quoted to you.
       </p>
