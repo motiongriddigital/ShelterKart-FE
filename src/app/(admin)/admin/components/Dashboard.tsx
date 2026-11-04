@@ -19,7 +19,7 @@ export function Dashboard() {
   return (
     <div>
       <TopBar status={d.status} days={d.days} onDays={d.setDays} onRefresh={d.refresh} />
-      <div className="wrap">
+      <div className="mx-auto max-w-[1180px] p-3.5 sm:p-6">
         {data && (
           <>
             <Banners data={data} />
@@ -59,9 +59,7 @@ export function Dashboard() {
               title="Success metrics"
               sub="Whether ShelterKart is working, against targets, for the period."
             >
-              <div className="legacy">
-                <SuccessMetrics a={a} stats={data.stats} />
-              </div>
+              <SuccessMetrics a={a} stats={data.stats} />
             </Panel>
           </>
         )}

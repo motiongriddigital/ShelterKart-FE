@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { INCIDENT_KINDS, PAUSE_SCOPES, PLATFORMS, platformName } from '@/constants/social';
 import type { Loose, Market } from '@/types/desk';
 import { utc } from '@/utils/social';
-import styles from '../../styles/desk.module.scss';
 import { Button } from '@/components/console/ui/button';
 import { Input } from '@/components/console/ui/input';
+import { dk, tone } from '@/app/(admin)/admin/styles/ui';
+import { cn } from '@/utils/cn';
 
 type Props = {
   markets: Market[];
@@ -30,21 +31,21 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
   return (
     <section aria-labelledby="h-pause">
       <h2 id="h-pause">Pause and incidents</h2>
-      <p className={styles.muted}>
+      <p className={dk.muted}>
         A pause stops only what it names. Posts wait and publish after you resume if still inside
         their window.
       </p>
-      <ul className={styles.list}>
+      <ul className={dk.list}>
         {!pauses.length && (
           <li>
-            <span className="what">Nothing is paused.</span>
+            <span className={dk.what}>Nothing is paused.</span>
           </li>
         )}
         {pauses.map((p) => (
           <li key={`${p.scope}${p.key}`}>
-            <span className="what">
+            <span className={dk.what}>
               <b>{p.scope === 'global' ? 'Everything' : `${p.scope} ${p.key}`}</b>
-              {p.auto && <span className={`${styles.chip} ${styles.warn}`}> paused by itself</span>}
+              {p.auto && <span className={cn(dk.chip, tone.warn)}> paused by itself</span>}
               <small>
                 {p.reason}
                 {p.expiresAt ? ` · lifts ${utc(p.expiresAt)}` : ''}
@@ -52,7 +53,7 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
             </span>
             <Button
               variant="plain"
-              className={`${styles.btn} ${styles.small}`}
+              className={cn(dk.btn, dk.small)}
               type="button"
               onClick={() => onResume(p)}
             >
@@ -61,8 +62,8 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
           </li>
         ))}
       </ul>
-      <div className={`${styles.row} ${styles.end}`}>
-        <div className={styles.grow}>
+      <div className={cn(dk.row, dk.end)}>
+        <div className={dk.grow}>
           <label htmlFor="pScope">Pause</label>
           <select
             id="pScope"
@@ -76,7 +77,7 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
             ))}
           </select>
         </div>
-        <div className={styles.grow} hidden={scope === 'global'}>
+        <div className={dk.grow} hidden={scope === 'global'}>
           <label htmlFor="pKey">Which one</label>
           <select
             id="pKey"
@@ -90,7 +91,7 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
             ))}
           </select>
         </div>
-        <div className={`${styles.grow} ${styles.wide}`}>
+        <div className={cn(dk.grow, dk.growWide)}>
           <label htmlFor="pWhy">Reason</label>
           <Input
             variant="plain"
@@ -103,7 +104,7 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
         </div>
         <Button
           variant="plain"
-          className={styles.btn}
+          className={dk.btn}
           type="button"
           onClick={() => (onPause(scope, key || pauseKeys[0]?.code, why), setWhy(''))}
         >
@@ -112,8 +113,8 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
       </div>
 
       <h3 style={{ marginTop: 22 }}>Report something that happened</h3>
-      <div className={`${styles.row} ${styles.end}`}>
-        <div className={styles.grow} style={{ flexBasis: 170 }}>
+      <div className={cn(dk.row, dk.end)}>
+        <div className={dk.grow} style={{ flexBasis: 170 }}>
           <label htmlFor="iKind">What happened</label>
           <select id="iKind" value={kind} onChange={(e) => (setKind(e.target.value), setIKey(''))}>
             {INCIDENT_KINDS.map((k) => (
@@ -123,7 +124,7 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
             ))}
           </select>
         </div>
-        <div className={styles.grow} hidden={kind === 'security_alert'}>
+        <div className={dk.grow} hidden={kind === 'security_alert'}>
           <label htmlFor="iKey">Market or platform</label>
           <select
             id="iKey"
@@ -137,7 +138,7 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
             ))}
           </select>
         </div>
-        <div className={`${styles.grow} ${styles.wide}`}>
+        <div className={cn(dk.grow, dk.growWide)}>
           <label htmlFor="iWhy">Details</label>
           <Input
             variant="plain"
@@ -150,7 +151,7 @@ export function PausePanel({ markets, pauses, onPause, onResume, onIncident }: P
         </div>
         <Button
           variant="plain"
-          className={styles.btn}
+          className={dk.btn}
           type="button"
           onClick={() => (onIncident(kind, iKey || incidentKeys[0]?.code, detail), setDetail(''))}
         >

@@ -23,14 +23,14 @@ export function SystemCard({
   const ok = markets.filter((m) => m.state === 'healthy').length;
   return (
     <Panel className="h-full" title="Engine and registers" sub="Since the server last started.">
-      <dl className="stat-list">
+      <dl className="m-0 grid gap-2.5 [&>div]:flex [&>div]:justify-between [&>div]:gap-3 [&>div]:border-b [&>div]:border-rule [&>div]:pb-2 [&>div]:text-sm [&_dd]:m-0 [&_dd]:font-semibold [&_dd]:tabular-nums [&_dt]:text-ink-3">
         <div>
           <dt>AI calls</dt>
           <dd>{fmt(calls)}</dd>
         </div>
         <div>
           <dt>Failed</dt>
-          <dd className={failed ? 'warn-text' : ''}>
+          <dd className={failed ? 'text-warn' : ''}>
             {fmt(failed)}
             {calls ? ` (${((100 * failed) / calls).toFixed(1)}%)` : ''}
           </dd>
@@ -41,13 +41,13 @@ export function SystemCard({
         </div>
         <div>
           <dt>Registers healthy</dt>
-          <dd className={down ? 'bad-text' : ''}>
+          <dd className={down ? 'text-bad' : ''}>
             {ok} of {markets.length}
             {down ? `, ${down} down` : ''}
           </dd>
         </div>
       </dl>
-      <Button variant="plain" className="btn mt-3" onClick={onRun} disabled={busy}>
+      <Button variant="outline" size="sm" className="mt-3" onClick={onRun} disabled={busy}>
         {busy ? 'Checking…' : 'Check registers now'}
       </Button>
     </Panel>

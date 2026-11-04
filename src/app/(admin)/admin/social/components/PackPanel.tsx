@@ -3,10 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { platformName } from '@/constants/social';
 import { useWeeklyPack } from '@/hooks/useWeeklyPack';
 import { nextMondays } from '@/utils/social';
-import styles from '../../styles/desk.module.scss';
 import { PostCard } from './PostCard';
 import { Button } from '@/components/console/ui/button';
 import { Input } from '@/components/console/ui/input';
+import { dk, tone as tones, type Tone } from '@/app/(admin)/admin/styles/ui';
+import { cn } from '@/utils/cn';
 
 type Props = {
   nextWeek?: string;
@@ -41,12 +42,12 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
   return (
     <section aria-labelledby="h-pack">
       <h2 id="h-pack">The weekly pack</h2>
-      <p className={styles.muted}>
+      <p className={dk.muted}>
         Plan a week, build its pack, read the posts marked below, then approve once. Anything held
         or blocked stays out.
       </p>
-      <div className={styles.row}>
-        <div className={styles.grow} style={{ flexBasis: 220 }}>
+      <div className={dk.row}>
+        <div className={dk.grow} style={{ flexBasis: 220 }}>
           <label htmlFor="week">Week starting (Monday)</label>
           <select id="week" value={week} onChange={(e) => onWeek(e.target.value)}>
             {weeks.map((w) => (
@@ -54,25 +55,20 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
             ))}
           </select>
         </div>
-        <Button variant="plain" className={styles.btn} type="button" onClick={p.plan}>
+        <Button variant="plain" className={dk.btn} type="button" onClick={p.plan}>
           Plan this week
         </Button>
-        <Button
-          variant="plain"
-          className={`${styles.btn} ${styles.gold}`}
-          type="button"
-          onClick={p.build}
-        >
+        <Button variant="plain" className={cn(dk.btn, dk.gold)} type="button" onClick={p.build}>
           Build the pack
         </Button>
       </div>
-      <p className={styles.muted} role="status" aria-live="polite">
+      <p className={dk.muted} role="status" aria-live="polite">
         {p.job}
       </p>
 
       {p.pack && s && (
         <div>
-          <div className={styles.grid}>
+          <div className={dk.grid}>
             {(
               [
                 [s.approvable, 'Ready to approve'],
@@ -82,9 +78,9 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
                 [s.gaps.length, 'Gaps in the facts'],
               ] as [number, string][]
             ).map(([n, l]) => (
-              <div className={styles.kpi} key={l}>
-                <div className="n">{n}</div>
-                <div className="l">{l}</div>
+              <div className={dk.kpi} key={l}>
+                <div className={dk.kpiN}>{n}</div>
+                <div className={dk.kpiL}>{l}</div>
               </div>
             ))}
           </div>
@@ -97,21 +93,21 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
           ).map(
             ([key, title, tone]) =>
               s[key].length > 0 && (
-                <details className={styles.post} key={key}>
+                <details className={dk.post} key={key}>
                   <summary>
-                    <span className="what">
+                    <span className={dk.what}>
                       <b>
                         {title} ({s[key].length})
                       </b>
                     </span>
                   </summary>
-                  <div className={styles.postBody}>
+                  <div className={dk.postBody}>
                     {s[key].map((x: Record<string, string | string[]>) => (
-                      <div className={styles.meta} key={x.id as string}>
+                      <div className={dk.meta} key={x.id as string}>
                         <b>
                           {x.market} · {platformName(x.platform as string)}
                         </b>{' '}
-                        <span className={`${styles.chip} ${styles[tone]}`}>{x.id}</span>
+                        <span className={cn(dk.chip, tones[tone as Tone])}>{x.id}</span>
                         {(x.reasons as string[]).map((r) => (
                           <div key={r}>{r}</div>
                         ))}
@@ -122,18 +118,16 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
               ),
           )}
           {s.gaps.length > 0 && (
-            <details className={styles.post}>
+            <details className={dk.post}>
               <summary>
-                <span className="what">
+                <span className={dk.what}>
                   <b>Gaps in the facts ({s.gaps.length})</b>{' '}
-                  <span className={`${styles.chip} ${styles.warn}`}>
-                    no post was written for these
-                  </span>
+                  <span className={cn(dk.chip, tones.warn)}>no post was written for these</span>
                 </span>
               </summary>
-              <div className={styles.postBody}>
+              <div className={dk.postBody}>
                 {s.gaps.map((g: Record<string, string>) => (
-                  <div className={styles.meta} key={`${g.market}${g.platform}${g.reason}`}>
+                  <div className={dk.meta} key={`${g.market}${g.platform}${g.reason}`}>
                     {g.market} · {platformName(g.platform)}: {g.reason.replace(/_/g, ' ')}
                   </div>
                 ))}
@@ -142,7 +136,7 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
           )}
 
           <h3 style={{ marginTop: 20 }}>Read these first ({p.sample.length})</h3>
-          <p className={styles.muted}>
+          <p className={dk.muted}>
             One or two posts in every language and on every platform. Read each one in full,
             including the English back-translation. If a post is wrong in any way, tick “Leave this
             one out”. Some of them may contain a mistake that must not be approved.
@@ -159,14 +153,14 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
             />
           ))}
 
-          <details className={styles.post}>
+          <details className={dk.post}>
             <summary>
-              <span className="what">
+              <span className={dk.what}>
                 <b>All other posts ({rest.length})</b>{' '}
-                <span className={styles.chip}>open to read or leave any out</span>
+                <span className={dk.chip}>open to read or leave any out</span>
               </span>
             </summary>
-            <div className={styles.postBody}>
+            <div className={dk.postBody}>
               <Input
                 variant="plain"
                 type="text"
@@ -189,9 +183,9 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
             </div>
           </details>
 
-          <div className={styles.approve}>
+          <div className={dk.approve}>
             <h3>Approve</h3>
-            <p className={styles.muted}>
+            <p className={dk.muted}>
               {p.readCount} of {p.needRead} sample posts read
             </p>
             <p>
@@ -208,10 +202,10 @@ export function PackPanel({ nextWeek, week, onWeek, onChanged, notify, setBusy }
               value={p.pin}
               onChange={(e) => p.setPin(e.target.value)}
             />
-            <div className={styles.row} style={{ marginTop: 12 }}>
+            <div className={dk.row} style={{ marginTop: 12 }}>
               <Button
                 variant="plain"
-                className={`${styles.btn} ${styles.gold}`}
+                className={cn(dk.btn, dk.gold)}
                 type="button"
                 disabled={!p.canApprove}
                 onClick={p.approve}

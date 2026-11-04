@@ -1,11 +1,13 @@
 import type { Analytics, Stats } from '@/types/admin';
 import { showMetric, successRows } from '@/utils/adminMetrics';
+import { bars, legacyTable, pill, tone } from '@/app/(admin)/admin/styles/ui';
+import { cn } from '@/utils/cn';
 
 export function SuccessMetrics({ a, stats }: { a: Analytics | null; stats: Stats | null }) {
-  if (!a) return <div className="empty">Could not load.</div>;
+  if (!a) return <div className={bars.empty}>Could not load.</div>;
   return (
-    <div style={{ overflowX: 'auto' }}>
-      <table>
+    <div className="overflow-x-auto">
+      <table className={legacyTable}>
         <thead>
           <tr>
             <th>Metric</th>
@@ -27,14 +29,14 @@ export function SuccessMetrics({ a, stats }: { a: Analytics | null; stats: Stats
               </td>
               <td>
                 {met == null ? (
-                  <span className="pill not_checked">no data</span>
+                  <span className={cn(pill, 'bg-[var(--mute-bg)] text-ink-3')}>no data</span>
                 ) : met ? (
-                  <span className="pill healthy">on target</span>
+                  <span className={cn(pill, tone.ok)}>on target</span>
                 ) : (
-                  <span className="pill degraded">below target</span>
+                  <span className={cn(pill, tone.warn)}>below target</span>
                 )}
               </td>
-              <td className="rep-sub">{m.why}</td>
+              <td className="text-[12.5px] text-ink-3">{m.why}</td>
             </tr>
           ))}
         </tbody>

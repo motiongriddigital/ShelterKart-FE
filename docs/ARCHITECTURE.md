@@ -240,7 +240,7 @@ Nav entries: `constants/navigation.ts`.
 - Server components are the default; add `"use client"` only for state, effects or event handlers.
 - No inline styles. Tailwind first, SCSS only for structural or repeated rules.
   - **Tailwind** (default, with responsive `sm:`/`md:`/`lg:` classes; breakpoints are 600/900/1200px): layout, spacing, colour, type, state. Colours come from the brand tokens through `src/styles/tailwind.css` (`bg-navy`, `text-slate`, `border-rule`, `text-disputed`...). The admin console has its own theme in `admin/styles/console.css`.
-  - **SCSS** for prose rules on plain tags (`DocPage.module.scss`), the legacy home partials and the older admin dashboard and desks.
+  - **SCSS** for prose rules on plain tags (`DocPage.module.scss`), the raw-tag rules inside the desks (`desk.module.scss`), the colour variables in `admin.scss`, and the legacy home partials. The desks' and dashboard's shared looks are Tailwind class constants in `admin/styles/ui.ts`.
   - Unlayered CSS beats Tailwind utilities. Wrap any global rule that a utility may need to override in `@layer base`.
   - `(home)` does not load Tailwind yet; it is still SCSS.
 - Strings go through `t()`. Data in `constants/`. Network in `app/_api/`.

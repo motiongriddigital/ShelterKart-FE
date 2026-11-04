@@ -210,6 +210,25 @@
   --color-status-unknown-text: var(--status-unknown-text);
   --color-status-unknown-soft: var(--status-unknown-soft);
 
+  /* Colours of the older dashboard and desks (variables defined in admin.scss). */
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-rule: var(--rule);
+  --color-surface: var(--white);
+  --color-ok: var(--ok);
+  --color-ok-bg: var(--ok-bg);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-bad: var(--bad);
+  --color-bad-bg: var(--bad-bg);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-demo: var(--demo-bg);
+  --color-demo-border: var(--demo-border);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);

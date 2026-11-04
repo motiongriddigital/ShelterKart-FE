@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useToast } from '@/hooks/useToast';
 import { useSocialDesk } from '@/hooks/useSocialDesk';
 import { DeskShell } from '../../components/DeskShell';
-import styles from '../../styles/desk.module.scss';
 import { AuditPanel } from './AuditPanel';
 import { FactsPanel } from './FactsPanel';
 import { PackPanel } from './PackPanel';
@@ -11,6 +10,8 @@ import { PausePanel } from './PausePanel';
 import { QueuePanel } from './QueuePanel';
 import { StatusPanel } from './StatusPanel';
 import { Button } from '@/components/console/ui/button';
+import { dk, tone } from '@/app/(admin)/admin/styles/ui';
+import { cn } from '@/utils/cn';
 
 export function SocialDesk() {
   const { toast, show } = useToast();
@@ -24,7 +25,7 @@ export function SocialDesk() {
       toast={toast}
       actions={
         <>
-          <span className={`${styles.pill}${live ? ` ${styles.live}` : ''}`}>
+          <span className={`${dk.pill}${live ? ` ${tone.ok}` : ''}`}>
             {desk.unavailable
               ? 'Unavailable'
               : !desk.status
@@ -35,7 +36,7 @@ export function SocialDesk() {
           </span>
           <Button
             variant="plain"
-            className={`${styles.btn} ${desk.paused ? styles.gold : styles.danger}`}
+            className={cn(dk.btn, desk.paused ? dk.gold : dk.danger)}
             type="button"
             onClick={desk.togglePauseAll}
           >
