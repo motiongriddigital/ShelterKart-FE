@@ -3,6 +3,7 @@ import { Masthead } from '@/components/layout/Masthead';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { fontVariables } from '@/configs/fonts';
 import { BASE_METADATA } from '@/configs/metadata';
+import '@/styles/tailwind.css';
 import '@/styles/globals.scss';
 
 export const metadata: Metadata = BASE_METADATA;

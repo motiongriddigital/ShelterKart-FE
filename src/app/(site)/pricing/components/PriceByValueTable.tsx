@@ -1,5 +1,4 @@
 import type { PriceByValueRow } from '@/types/pricing';
-import styles from '../styles/pricing.module.scss';
 
 export function PriceByValueTable({ rows }: { rows: PriceByValueRow[] }) {
   return (
@@ -16,11 +15,11 @@ export function PriceByValueTable({ rows }: { rows: PriceByValueRow[] }) {
         {rows.map((r) => (
           <tr key={r.value}>
             <td>
-              {r.value} <span className={styles.muted}>({r.approx})</span>
+              {r.value} <span className="text-slate">({r.approx})</span>
             </td>
-            <td className={styles.num}>{r.gold}</td>
-            <td className={styles.num}>{r.heavy}</td>
-            <td className={styles.num}>{r.thin}</td>
+            <td className="whitespace-nowrap tabular-nums">{r.gold}</td>
+            <td className="whitespace-nowrap tabular-nums">{r.heavy}</td>
+            <td className="whitespace-nowrap tabular-nums">{r.thin}</td>
           </tr>
         ))}
       </tbody>

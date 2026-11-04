@@ -1,10 +1,25 @@
-@use 'breakpoints' as bp;
+// Prose rules for the long-form pages: descendant elements that the content components render as plain tags.
+.prose {
+  // Tailwind's reset removes the browser defaults the long-form copy relies on.
+  p,
+  ul:not(nav ul),
+  ol {
+    margin: 0 0 0.9rem;
+  }
 
-.doc {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 1.75rem 1.25rem 2.5rem;
-  color: var(--sk-ink);
+  ul:not(nav ul) {
+    list-style: disc;
+    padding-left: 1.4rem;
+  }
+
+  ol {
+    list-style: decimal;
+    padding-left: 1.4rem;
+  }
+
+  li {
+    margin-bottom: 0.3rem;
+  }
 
   h1 {
     font-size: 1.875rem;
@@ -46,9 +61,5 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--sk-slate);
-  }
-
-  @include bp.up(bp.$bp-md) {
-    padding-top: 2.25rem;
   }
 }
