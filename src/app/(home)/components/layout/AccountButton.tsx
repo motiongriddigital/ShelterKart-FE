@@ -13,7 +13,7 @@ export function AccountButton() {
       aria-label={t('Restore a purchase')}
       title={t('Restore a purchase')}
       onClick={() => open('restoreModal')}
-      className="hidden size-9 place-items-center rounded-full bg-slate-900 text-white hover:bg-slate-800 sm:grid"
+      className="hidden size-9 place-items-center rounded-full bg-slate-900 text-white dark:bg-amber-400 dark:text-slate-950 hover:bg-slate-800 sm:grid"
     >
       <User className="size-4" aria-hidden="true" />
     </button>

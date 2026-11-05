@@ -1,10 +1,11 @@
-import Image from 'next/image';
+import { Logo } from '@/components/ui/Logo';
 import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import { MARKETS } from '@/constants/markets';
 import { HEADER_LINKS } from '@/constants/home';
 import { getT } from '@/i18n/server';
 import { buttonVariants } from '@/components/ui/Button';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { AccountButton } from './AccountButton';
 import { NavItem } from './NavItem';
 
@@ -21,15 +22,7 @@ export async function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1900px] items-center gap-4 px-4 py-3 md:px-8 xl:px-12">
         <Link href="/" aria-label="ShelterKart home" className="flex items-center gap-3">
-          <Image
-            src="/logo/shelterkart-lockup.svg"
-            alt="ShelterKart"
-            width={907}
-            height={211}
-            priority
-            unoptimized
-            className="h-8 w-auto max-w-none"
-          />
+          <Logo priority />
           <span className="hidden leading-tight sm:block">
             <span className="rounded bg-blue-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-blue-700">
               {t('Registry')}
@@ -51,6 +44,7 @@ export async function SiteHeader() {
             <span className="sm:hidden">{t('Search')}</span>
             <span className="hidden sm:inline">{t('Search Public Record')}</span>
           </Link>
+          <ThemeToggle />
           <AccountButton />
           <details className="relative lg:hidden">
             <summary
