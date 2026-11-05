@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useAdminLogin } from '@/hooks/useAdminLogin';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/console/ui/input';
 
 export function LoginScreen() {

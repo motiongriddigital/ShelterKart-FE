@@ -10,7 +10,7 @@ import { COUNTRY_STATS, statByCode, type CountryStat } from '@/constants/adminSe
 import { cn } from '@/utils/cn';
 import { PageHeader } from '../PageHeader';
 import { Panel, Stat, rowCls, tableWrap, td, th } from '../kit/Panel';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 
 type Metric = 'users' | 'paid' | 'conversion';
 type Topo = Parameters<typeof feature>[0];

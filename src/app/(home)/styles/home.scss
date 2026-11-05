@@ -1,9 +1,0 @@
-// Home page stylesheet. Order matters: later partials refine earlier ones.
-@use 'base';
-@use 'core';
-@use 'composition';
-@use 'plate';
-@use 'document-search';
-@use 'evidence-standard';
-@use 'search-brief';
-@use 'candidates';

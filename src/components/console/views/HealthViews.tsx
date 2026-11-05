@@ -17,7 +17,7 @@ import { cn } from '@/utils/cn';
 import { PageHeader } from '../PageHeader';
 import { StackedBars } from '../kit/StackedBars';
 import { Badge, Panel, Stat, ago, btn, input, rowCls, tableWrap, td, th, when } from '../kit/Panel';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 import { Input } from '../ui/input';
 
 const LEVEL_TONE = { error: 'bad', warn: 'warn', info: 'mute' } as const;

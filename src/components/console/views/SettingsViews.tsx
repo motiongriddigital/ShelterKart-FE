@@ -4,7 +4,7 @@ import { useAdminTheme, type ThemeMode } from '@/store/adminTheme';
 import { cn } from '@/utils/cn';
 import { PageHeader } from '../PageHeader';
 import { Panel } from '../kit/Panel';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 
 const OPTIONS: {
   id: ThemeMode;

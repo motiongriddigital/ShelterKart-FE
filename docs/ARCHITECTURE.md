@@ -21,7 +21,7 @@ Each group has its **own root layout**, so its global CSS loads only on its page
 
 | Group              | URLs                                                                                                  | Layout               | Styles                                                     |
 | ------------------ | ----------------------------------------------------------------------------------------------------- | -------------------- | ---------------------------------------------------------- |
-| `src/app/(home)/`  | `/`                                                                                                   | `(home)/layout.tsx`  | `(home)/styles/home.scss` (legacy CSS, global class names) |
+| `src/app/(home)/`  | `/`                                                                                                   | `(home)/layout.tsx`  | Tailwind classes in each component (`styles/tailwind.css`) |
 | `src/app/(site)/`  | `/about /contact /corrections /delivery /independence /methodology /pricing /privacy /refunds /terms` | `(site)/layout.tsx`  | CSS Modules + `src/styles/globals.scss`                    |
 | `src/app/(admin)/` | `/admin`                                                                                              | `(admin)/layout.tsx` | `(admin)/admin/styles/admin.scss`                          |
 
@@ -49,14 +49,14 @@ passed to client components as props from the server `page.tsx`; `"use client"` 
 src/
 ├─ app/
 │  ├─ (home)/                 HOME PAGE
-│  │  ├─ page.tsx             server: builds the page, passes ordered markets to <Hero>
-│  │  ├─ layout.tsx           <html lang dir>, I18nProvider, loads home.scss
-│  │  ├─ components/          Hero, HeroMasthead, EvidenceStandard (static) · MarketPicker, LanguageBar,
-│  │  │                       SearchCard(+SuggestPanel, VoicePanel), GuideCard, ReportPanel(+ShadowReport,
-│  │  │                       InvestigationSteps), SampleLinks, HeroFoot, ConsentBanner, DemoBanner ·
-│  │  │                       modals: HomeModals, GuideModal, PayModal, RestoreModal, DisputeModal, ReplyModal
-│  │  └─ styles/              home.scss imports _base, _core, _composition, _plate, _document-search,
-│  │                          _evidence-standard, _search-brief, _noscript (ORDER MATTERS: later refines earlier)
+│  │  ├─ page.tsx             server: the sections in reading order (no logic)
+│  │  ├─ layout.tsx           <html lang dir>, I18nProvider, Tailwind, fonts
+│  │  └─ components/          one folder per section, Tailwind only:
+│  │                          layout/ (SiteHeader, StatusStrip, SiteFooter, NavItem) · hero/ (Hero, PillarCards) ·
+│  │                          markets/ (MarketCoverage, LanguageSelect) · search/ (SearchPanel, SuggestPanel,
+│  │                          VoicePanel, RememberForm, SampleLinks) · guide/ (GuideCard, GuideModal) ·
+│  │                          docket/ · cta/ · report/ (ReportPanel, ShadowReport, InvestigationSteps) ·
+│  │                          modals/ (HomeModals, PayModal, RestoreModal, DisputeModal, ReplyModal) · notices/
 │  ├─ (site)/<page>/page.tsx  one folder per doc page; pricing/ and contact/ also have components/, data/
 │  ├─ (admin)/admin/          ADMIN: page.tsx, components/ (Dashboard + cards), styles/
 │  └─ _api/                   http.ts · research.ts · samples.ts · track.ts · markets.ts · admin.ts
@@ -208,7 +208,7 @@ Nav entries: `constants/navigation.ts`.
 | Add a sample report                 | new `public/samples/<id>.json`, PDF in `public/sample-reports/`, entry in `constants/samples.ts`     |
 | Fill in company details             | `constants/business.ts`                                                                              |
 | Terms / Privacy / Methodology text  | `constants/terms.ts`, `components/content/*Content.tsx` (shared by pages and modals)                 |
-| Home look and feel                  | `(home)/styles/_*.scss` (global class names; later partials override earlier ones)                   |
+| Home copy, links, stats, footer     | `constants/home.ts` (typed in `types/home.ts`); the markup is in `(home)/components/<section>/`      |
 | Brand colours/fonts                 | edit `brand/tokens.json`, run `npm run tokens` (regenerates `src/styles/_theme.scss`), commit it     |
 | New backend route to proxy          | `rewrites()` in `next.config.ts`                                                                     |
 | New API call                        | function in `app/_api/<area>.ts` using `http()`; call it from a hook, never a component              |
@@ -230,7 +230,7 @@ Nav entries: `constants/navigation.ts`.
 | Live search fails              | `/api/investigate` via proxy (`API_ORIGIN`, backend running?); `_api/research.ts`; 428 → `utils/proofOfWork.ts` |
 | `/r/<ref>` 404                 | proxy rule in `next.config.ts`; backend must serve it                                                           |
 | Admin login loops              | `store/adminSession`; 401 from `/api/admin/*`; credentials set on the server                                    |
-| Styling glitch on home         | find the class in `(home)/styles/`; check override order in `home.scss`                                         |
+| Styling glitch on home         | the classes are on the element itself; check the component, and `components/ui/{Button,Field,Modal}`            |
 | Build fails on SCSS            | a stray `}` or a selector without a body in a legacy partial (browsers ignore these, Sass does not)             |
 | Brand colours not updating     | run `npm run tokens`; CI uses the committed `_theme.scss`                                                       |
 
@@ -240,11 +240,11 @@ Nav entries: `constants/navigation.ts`.
 - Server components are the default; add `"use client"` only for state, effects or event handlers.
 - No inline styles. Tailwind first, SCSS only for structural or repeated rules.
   - **Tailwind** (default, with responsive `sm:`/`md:`/`lg:` classes; breakpoints are 600/900/1200px): layout, spacing, colour, type, state. Colours come from the brand tokens through `src/styles/tailwind.css` (`bg-navy`, `text-slate`, `border-rule`, `text-disputed`...). The admin console has its own theme in `admin/styles/console.css`.
-  - **SCSS** for prose rules on plain tags (`DocPage.module.scss`), the raw-tag rules inside the desks (`desk.module.scss`), the colour variables in `admin.scss`, and the legacy home partials. The desks' and dashboard's shared looks are Tailwind class constants in `admin/styles/ui.ts`.
+  - **SCSS** for prose rules on plain tags (`DocPage.module.scss`), the raw-tag rules inside the desks (`desk.module.scss`), the colour variables in `admin.scss`, and nothing on the home page. The desks' and dashboard's shared looks are Tailwind class constants in `admin/styles/ui.ts`.
   - Unlayered CSS beats Tailwind utilities. Wrap any global rule that a utility may need to override in `@layer base`.
-  - `(home)` does not load Tailwind yet; it is still SCSS.
+  - `(home)`, `(report)`, `(site)` and `(admin)` all use Tailwind. The home page has no SCSS.
 - Strings go through `t()`. Data in `constants/`. Network in `app/_api/`.
-- SCSS: use nesting, the shared variables/mixins (`src/styles/`, top of `admin.scss`) and `@each` maps instead of repeating rules. The home partials are nested without changing compiled output; keep rule order, because later rules override earlier ones.
+- SCSS: use nesting, the shared variables/mixins (`src/styles/`, top of `admin.scss`) and `@each` maps instead of repeating rules.
 
 ## 9. Commands
 

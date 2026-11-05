@@ -1,7 +1,7 @@
 import type { Engines, Health } from '@/types/admin';
 import { Panel } from '@/components/console/kit/Panel';
 import { fmt } from '@/utils/format';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 
 export function SystemCard({
   engines,

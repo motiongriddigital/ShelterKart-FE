@@ -2,10 +2,25 @@
    Breakpoints match styles/_breakpoints.scss. Structural or repeated rules (prose, tables) stay in SCSS. */
 @import 'tailwindcss';
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
   --breakpoint-sm: 600px;
   --breakpoint-md: 900px;
   --breakpoint-lg: 1200px;
+
+  /* Semantic tokens the shared components (Button ...) are written against. */
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+  --color-primary: #1d4ed8;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #0f172a;
+  --color-accent: #f1f5f9;
+  --color-accent-foreground: #0f172a;
+  --color-destructive: #e11d48;
+  --color-input: #cbd5e1;
+  --color-ring: #2563eb;
 
   --color-paper: var(--sk-paper);
   --color-ink: var(--sk-ink);

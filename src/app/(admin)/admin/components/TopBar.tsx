@@ -3,7 +3,7 @@ import { LayoutDashboard, RefreshCw } from 'lucide-react';
 import { PageHeader } from '@/components/console/PageHeader';
 import { cn } from '@/utils/cn';
 import { SegTabs } from './SegTabs';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 
 type Props = {
   status: string;
