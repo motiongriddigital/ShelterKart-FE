@@ -15,7 +15,7 @@ export async function SiteHeader() {
   const t = await getT();
   const count = Object.keys(MARKETS).length;
   const links = HEADER_LINKS.map((l) =>
-    'href' in l && l.href === '#markets' ? { ...l, label: t('{n} Markets', { n: count }) } : l,
+    'href' in l && l.href === '/#markets' ? { ...l, label: t('{n} Markets', { n: count }) } : l,
   );
 
   return (
@@ -40,7 +40,7 @@ export async function SiteHeader() {
         </nav>
 
         <div className="ms-auto flex items-center gap-2 lg:ms-0">
-          <Link href="#search" className={`${buttonVariants({ size: 'sm' })} whitespace-nowrap`}>
+          <Link href="/#search" className={`${buttonVariants({ size: 'sm' })} whitespace-nowrap`}>
             <span className="sm:hidden">{t('Search')}</span>
             <span className="hidden sm:inline">{t('Search Public Record')}</span>
           </Link>

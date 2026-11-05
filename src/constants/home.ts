@@ -4,9 +4,9 @@ import type { DocketClaim, FooterColumn, NavLink, Pillar, Stat } from '@/types/h
 // Copy and structure of the home page. English text is also the i18n key, so each string goes through t().
 
 export const HEADER_LINKS: NavLink[] = [
-  { label: 'Markets', href: '#markets' },
+  { label: 'Markets', href: '/#markets' },
   { label: 'Home Buying Guide', guide: true },
-  { label: 'Sample Reports', href: '#samples' },
+  { label: 'Sample Reports', href: '/#samples' },
   { label: 'Our Principles', modal: 'principlesModal' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Restore a purchase', modal: 'restoreModal' },
@@ -121,8 +121,8 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: 'Verification scope',
     links: [
-      { label: 'Coverage markets', href: '#markets' },
-      { label: 'Sample dossiers', href: '#samples' },
+      { label: 'Coverage markets', href: '/#markets' },
+      { label: 'Sample dossiers', href: '/#samples' },
       { label: 'How a report is built', href: '/methodology' },
       { label: 'How we grade evidence', href: '/evidence' },
       { label: 'Home Buying Guide', guide: true },

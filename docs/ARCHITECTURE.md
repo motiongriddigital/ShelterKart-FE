@@ -60,7 +60,7 @@ src/
 │  ├─ (site)/<page>/page.tsx  one folder per doc page; pricing/ and contact/ also have components/, data/
 │  ├─ (admin)/admin/          ADMIN: page.tsx, components/ (Dashboard + cards), styles/
 │  └─ _api/                   http.ts · research.ts · samples.ts · track.ts · markets.ts · admin.ts
-├─ components/                shared UI: layout/ (DocPage, DocNav, Masthead, SiteFooter, DraftBanner),
+├─ components/                shared UI: layout/ (DocPage, DocNav, SiteHeader, SiteFooter, NavItem, DraftBanner),
 │                             ui/ (Modal, Flag, BrandMark, ActionLink, Placeholder), content/ (Terms, Privacy,
 │                             Methodology, Principles text, used by both the doc pages and the home modals)
 ├─ hooks/                     see section 5
