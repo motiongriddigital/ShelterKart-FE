@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { Logo } from '@/components/ui/Logo';
 import { FOOTER_COLUMNS } from '@/constants/home';
 import { getT } from '@/i18n/server';
 import { NavItem } from './NavItem';
@@ -9,14 +9,7 @@ export async function SiteFooter() {
     <footer className="border-t border-slate-200 bg-white">
       <div className="mx-auto grid max-w-[1900px] gap-8 px-4 py-10 md:grid-cols-[1.4fr_repeat(3,1fr)] md:px-8 xl:px-12">
         <div>
-          <Image
-            src="/logo/shelterkart-lockup.svg"
-            alt="ShelterKart"
-            width={907}
-            height={211}
-            unoptimized
-            className="h-8 w-auto max-w-none"
-          />
+          <Logo />
           <p className="mt-3 text-sm font-semibold text-slate-800">
             {t('The public record, before you commit.')}
           </p>

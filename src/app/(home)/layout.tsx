@@ -5,6 +5,7 @@ import { BASE_METADATA } from '@/configs/metadata';
 import { langInfo } from '@/i18n';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { getDict, getLang } from '@/i18n/server';
+import { ThemeScript } from '@/components/ui/ThemeScript';
 import '@/styles/tailwind.css';
 
 export const metadata: Metadata = {
@@ -21,9 +22,13 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
     <html
       lang={lang}
       dir={langInfo(lang).dir}
+      suppressHydrationWarning
       className="min-[1280px]:text-[112.5%] min-[1600px]:text-[125%]"
     >
-      <body className="bg-white font-['Manrope_Variable',system-ui,sans-serif] text-slate-900 antialiased [&_h1]:font-['Plus_Jakarta_Sans_Variable'] [&_h2]:font-['Plus_Jakarta_Sans_Variable'] [&_h3]:font-['Plus_Jakarta_Sans_Variable']">
+      <head>
+        <ThemeScript />
+      </head>
+      <body className="bg-background font-['Manrope_Variable',system-ui,sans-serif] text-slate-900 antialiased [&_h1]:font-['Plus_Jakarta_Sans_Variable'] [&_h2]:font-['Plus_Jakarta_Sans_Variable'] [&_h3]:font-['Plus_Jakarta_Sans_Variable']">
         <I18nProvider lang={lang} dict={dict}>
           {children}
         </I18nProvider>

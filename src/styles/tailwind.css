@@ -49,3 +49,65 @@
   --radius-md: var(--sk-radius-md);
   --radius-lg: var(--sk-radius-lg);
 }
+
+/* Dark theme for the public pages. Utilities read the palette variables, so remapping them here flips every
+   slate/blue/emerald/rose/amber class at once without a dark: variant on each element.
+   Neutral #121316, primary #E5A93C, secondary #38BDF8, tertiary #10B981. */
+.dark {
+  color-scheme: dark;
+
+  --color-background: #121316;
+  --color-foreground: #f1f2f5;
+  --color-primary: #e5a93c;
+  --color-primary-foreground: #1a1203;
+  --color-secondary: #26282e;
+  --color-secondary-foreground: #f1f2f5;
+  --color-accent: #26282e;
+  --color-accent-foreground: #f1f2f5;
+  --color-destructive: #fb7185;
+  --color-input: #3b3e47;
+  --color-ring: #e5a93c;
+
+  --color-white: #1c1d21;
+  --color-slate-50: #17181c;
+  --color-slate-100: #1f2126;
+  --color-slate-200: #2c2e35;
+  --color-slate-300: #3b3e47;
+  --color-slate-400: #7d8190;
+  --color-slate-500: #9a9eac;
+  --color-slate-600: #b4b8c4;
+  --color-slate-700: #cdd0d9;
+  --color-slate-800: #e2e4ea;
+  --color-slate-900: #f1f2f5;
+  --color-slate-950: #0b0c0e;
+
+  --color-blue-50: #0f2230;
+  --color-blue-100: #12304a;
+  --color-blue-200: #1d4a6b;
+  --color-blue-500: #38bdf8;
+  --color-blue-600: #38bdf8;
+  --color-blue-700: #7dd3fc;
+  --color-blue-800: #bae6fd;
+
+  --color-emerald-50: #0c261d;
+  --color-emerald-200: #17503b;
+  --color-emerald-700: #34d399;
+  --color-rose-50: #2b1417;
+  --color-rose-200: #5c2530;
+  --color-rose-600: #fb7185;
+  --color-rose-700: #fda4af;
+  --color-violet-50: #1f1a33;
+  --color-violet-200: #3d3566;
+  --color-violet-700: #c4b5fd;
+  --color-amber-50: #2a2010;
+  --color-amber-200: #5a4318;
+  --color-amber-300: #7a5a1c;
+  --color-amber-700: #fbbf24;
+  --color-amber-800: #fcd34d;
+  --color-amber-900: #fde68a;
+
+  --sk-ink: #f1f2f5;
+  --sk-inference: #7dd3fc;
+  --sk-disputed: #fb7185;
+  --sk-disputed-bg: #2b1417;
+}

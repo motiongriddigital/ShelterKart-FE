@@ -30,7 +30,9 @@ export async function PillarCards() {
             <span
               className={cn(
                 'mx-auto grid size-10 place-items-center rounded-full',
-                p.featured ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700',
+                p.featured
+                  ? 'bg-slate-900 text-white dark:bg-amber-400 dark:text-slate-950'
+                  : 'bg-slate-100 text-slate-700',
               )}
             >
               <Icon className="size-5" strokeWidth={1.6} aria-hidden="true" />
