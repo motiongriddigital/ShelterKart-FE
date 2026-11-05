@@ -1,15 +1,15 @@
 import Link from 'next/link';
+import { SiteFooter } from '@/components/layout/SiteFooter';
+import { SiteHeader } from '@/components/layout/SiteHeader';
+import { SiteModals } from '@/components/modals/SiteModals';
 import { getT } from '@/i18n/server';
 import { orderedMarkets } from '@/utils/markets';
 import { PublicRecordCta } from './components/cta/PublicRecordCta';
 import { DocketComparison } from './components/docket/DocketComparison';
 import { GuideCard } from './components/guide/GuideCard';
 import { Hero } from './components/hero/Hero';
-import { SiteFooter } from './components/layout/SiteFooter';
-import { SiteHeader } from './components/layout/SiteHeader';
 import { StatusStrip } from './components/layout/StatusStrip';
 import { MarketCoverage } from './components/markets/MarketCoverage';
-import { HomeModals } from './components/modals/HomeModals';
 import { ConsentBanner } from './components/notices/ConsentBanner';
 import { DemoBanner } from './components/notices/DemoBanner';
 import { PageViewTracker } from './components/notices/PageViewTracker';
@@ -55,7 +55,7 @@ export default async function HomePage() {
         <PublicRecordCta />
       </main>
       <SiteFooter />
-      <HomeModals />
+      <SiteModals />
     </>
   );
 }

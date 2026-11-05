@@ -25,6 +25,8 @@ body {
   }
 }
 
-a {
-  color: inherit;
+@layer base {
+  a {
+    color: inherit;
+  }
 }

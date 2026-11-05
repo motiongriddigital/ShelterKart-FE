@@ -1,13 +1,16 @@
-body {
-  font-family: var(--sk-font-text);
-  line-height: var(--sk-line);
-  color: var(--sk-ink-soft);
-}
+// In a layer so Tailwind utilities (also layered) can override these defaults.
+@layer base {
+  body {
+    font-family: var(--sk-font-text);
+    line-height: var(--sk-line);
+    color: var(--sk-ink-soft);
+  }
 
-h1,
-h2,
-h3 {
-  font-family: var(--sk-font-display);
-  color: var(--sk-ink);
-  font-weight: 600;
+  h1,
+  h2,
+  h3 {
+    font-family: var(--sk-font-display);
+    color: var(--sk-ink);
+    font-weight: 600;
+  }
 }

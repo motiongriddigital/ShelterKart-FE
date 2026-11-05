@@ -5,7 +5,7 @@ import { TermsContent } from '@/components/content/TermsContent';
 import { Modal } from '@/components/ui/Modal';
 import { DEFAULT_LANG } from '@/i18n/languages';
 import { getLang, getT } from '@/i18n/server';
-import { GuideModal } from '../guide/GuideModal';
+import { GuideModal } from './GuideModal';
 import { DisputeModal } from './DisputeModal';
 import { PayModal } from './PayModal';
 import { ReplyModal } from './ReplyModal';
@@ -16,7 +16,7 @@ const PROSE =
   'text-sm leading-relaxed text-slate-700 [&_a]:text-blue-700 [&_a]:underline [&_h4]:mb-1 [&_h4]:mt-5 [&_h4]:font-bold [&_h4]:text-slate-900 [&_li]:mb-1 [&_ol]:mb-3 [&_ol]:list-decimal [&_ol]:ps-5 [&_p]:mb-3 [&_ul]:mb-3 [&_ul]:list-disc [&_ul]:ps-5';
 
 /** The static dialogs. Their text is server-rendered; only the open/close behaviour is client-side. */
-export async function HomeModals() {
+export async function SiteModals() {
   const t = await getT();
   const lang = await getLang();
   // Said only when the page is not in English.
