@@ -12,7 +12,7 @@ import { cn } from '@/utils/cn';
 import { PageHeader } from '../PageHeader';
 import { useGeoGate } from './LiveGate';
 import { Panel, Stat, rowCls, tableWrap, td, th } from '../kit/Panel';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 
 type Metric = 'users' | 'paid' | 'conversion';
 type Topo = Parameters<typeof feature>[0];

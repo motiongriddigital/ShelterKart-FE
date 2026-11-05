@@ -1,7 +1,7 @@
 import { SENDER_CHECK } from '@/constants/admin';
 import type { DevResponse, Dispute, Held } from '@/types/admin';
 import { bars } from '@/app/(admin)/admin/styles/ui';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 
 export function DisputesQueue({
   rows,

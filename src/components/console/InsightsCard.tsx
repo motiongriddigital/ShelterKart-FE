@@ -22,7 +22,7 @@ import {
   type InsightTone,
 } from '@/constants/adminInsights';
 import { cn } from '@/utils/cn';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/Button';
 
 const ROTATE_MS = 6000;
 const ROTATE_HELD_MS = 15000;

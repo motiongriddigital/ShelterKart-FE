@@ -1,7 +1,7 @@
 'use client';
 import type { FormEvent, ReactNode } from 'react';
 import type { Loose } from '@/types/desk';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/console/ui/input';
 import { dk } from '@/app/(admin)/admin/styles/ui';
 import { cn } from '@/utils/cn';

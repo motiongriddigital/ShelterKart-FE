@@ -1,6 +1,6 @@
 import { platformName } from '@/constants/social';
 import type { Loose } from '@/types/desk';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 import { dk } from '@/app/(admin)/admin/styles/ui';
 import { cn } from '@/utils/cn';
 

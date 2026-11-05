@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useFactsDesk } from '@/hooks/useFactsDesk';
 import type { Loose, Market } from '@/types/desk';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/console/ui/input';
 import { dk } from '@/app/(admin)/admin/styles/ui';
 import { cn } from '@/utils/cn';

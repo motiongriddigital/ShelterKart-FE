@@ -1,6 +1,6 @@
 'use client';
 import { cn } from '@/utils/cn';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 
 export type SegTab<T extends string> = { id: T; label: string; count?: number };
 

@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 import { Input } from '../ui/input';
 
 type Kind = 'account' | 'ip';

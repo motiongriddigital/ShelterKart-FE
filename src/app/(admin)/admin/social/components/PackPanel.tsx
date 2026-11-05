@@ -4,7 +4,7 @@ import { platformName } from '@/constants/social';
 import { useWeeklyPack } from '@/hooks/useWeeklyPack';
 import { nextMondays } from '@/utils/social';
 import { PostCard } from './PostCard';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/console/ui/input';
 import { dk, tone as tones, type Tone } from '@/app/(admin)/admin/styles/ui';
 import { cn } from '@/utils/cn';

@@ -42,7 +42,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from './ui/sidebar';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/Button';
 import { Input } from './ui/input';
 
 const linkClass = (active: boolean) =>

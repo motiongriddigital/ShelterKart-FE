@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { INCIDENT_KINDS, PAUSE_SCOPES, PLATFORMS, platformName } from '@/constants/social';
 import type { Loose, Market } from '@/types/desk';
 import { utc } from '@/utils/social';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/console/ui/input';
 import { dk, tone } from '@/app/(admin)/admin/styles/ui';
 import { cn } from '@/utils/cn';

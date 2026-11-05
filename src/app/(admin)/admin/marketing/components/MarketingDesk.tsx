@@ -5,7 +5,7 @@ import { DeskShell } from '../../components/DeskShell';
 import { AnchorMarkets } from './AnchorMarkets';
 import { InputsPanel } from './InputsPanel';
 import { Tables } from './Tables';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 import { dk, tone, type Tone } from '@/app/(admin)/admin/styles/ui';
 import { cn } from '@/utils/cn';
 

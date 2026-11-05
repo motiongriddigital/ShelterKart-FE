@@ -9,7 +9,7 @@ import { PackPanel } from './PackPanel';
 import { PausePanel } from './PausePanel';
 import { QueuePanel } from './QueuePanel';
 import { StatusPanel } from './StatusPanel';
-import { Button } from '@/components/console/ui/button';
+import { Button } from '@/components/ui/Button';
 import { dk, tone } from '@/app/(admin)/admin/styles/ui';
 import { cn } from '@/utils/cn';
 
