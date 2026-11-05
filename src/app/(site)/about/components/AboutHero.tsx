@@ -22,7 +22,7 @@ export function AboutHero() {
         </p>
       </div>
       <div className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 pe-5 shadow-sm">
-        <span className="grid size-10 place-items-center rounded-md bg-slate-900 text-white">
+        <span className="grid size-10 place-items-center rounded-md bg-slate-900 text-white dark:bg-amber-400 dark:text-slate-950">
           <ShieldCheck className="size-5" aria-hidden="true" />
         </span>
         <div className="leading-tight">
