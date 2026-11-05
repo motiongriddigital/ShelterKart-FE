@@ -12,3 +12,23 @@ export type PriceByCurrencyRow = {
   typical: string;
   range: string;
 };
+
+export type ScopeCard = {
+  eyebrow: string;
+  badge: string;
+  title: string;
+  text: string;
+  points: string[];
+  featured?: boolean;
+};
+
+export type PriceFactor = {
+  code: string;
+  badge: string;
+  title: string;
+  text: string;
+};
+
+export type EvidenceTier = { label: string; note: string; percent: number };
+
+export type GovernanceItem = { title: string; text: string };
