@@ -53,7 +53,7 @@
 /* Dark theme for the public pages. Utilities read the palette variables, so remapping them here flips every
    slate/blue/emerald/rose/amber class at once without a dark: variant on each element.
    Neutral #121316, primary #E5A93C, secondary #38BDF8, tertiary #10B981. */
-.dark {
+:root.dark {
   color-scheme: dark;
 
   --color-background: #121316;
@@ -106,11 +106,21 @@
   --color-amber-800: #fcd34d;
   --color-amber-900: #fde68a;
 
+  /* The --color-* tokens resolve var(--sk-*) at :root, so they are set here directly rather than via --sk-*. */
+  --color-paper: #121316;
+  --color-slate: #9a9eac;
+  --color-rule: #2c2e35;
+  --color-ink: #f1f2f5;
+  --color-ink-soft: #cdd0d9;
+  --color-inference: #7dd3fc;
+  --color-inference-bg: #0f2230;
+  --color-disputed: #fb7185;
+  --color-disputed-bg: #2b1417;
+
+  /* Page-level tokens read by globals.scss (body background, text). */
   --sk-paper: #121316;
-  --sk-slate: #9a9eac;
-  --sk-rule: #2c2e35;
   --sk-ink: #f1f2f5;
-  --sk-inference: #7dd3fc;
-  --sk-disputed: #fb7185;
-  --sk-disputed-bg: #2b1417;
+  --sk-ink-soft: #cdd0d9;
+  --sk-rule: #2c2e35;
+  --sk-slate: #9a9eac;
 }

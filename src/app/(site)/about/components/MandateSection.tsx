@@ -64,7 +64,7 @@ export function MandateSection() {
             is accountable solely to the homebuyer whose life savings are at stake.”
           </blockquote>
           <p className="mt-3 flex items-center gap-2 text-[0.6875rem] text-slate-600">
-            <span className="grid size-7 place-items-center rounded-full bg-slate-900 text-[0.625rem] font-bold text-white">
+            <span className="grid size-7 place-items-center rounded-full bg-slate-900 text-[0.625rem] font-bold text-white dark:bg-amber-400 dark:text-slate-950">
               SK
             </span>
             <span className="leading-tight">
