@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useState } from 'react';
-import { checkCredentials } from '@/app/_api/admin';
+import { checkCredentials } from '@/services/admin';
 import { useAdminSession } from '@/store/adminSession';
 
 export function useAdminLogin() {

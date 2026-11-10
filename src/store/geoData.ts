@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { fetchGeo, adminErrorMessage } from '@/app/_api/adminPeople';
+import { fetchGeo, adminErrorMessage } from '@/services/adminPeople';
 import { COUNTRY_STATS, MARKET_LIST, type CountryStat } from '@/constants/adminSeedGeo';
 import { geoStatsFromApi, notPlaced } from '@/utils/adminGeo';
 import { useAdminSession } from './adminSession';

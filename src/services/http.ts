@@ -1,5 +1,3 @@
-import { API_ORIGIN } from '@/configs/env';
-
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -14,9 +12,8 @@ export class ApiError extends Error {
 type NextOpts = { revalidate?: number | false; tags?: string[] };
 type Options = Omit<RequestInit, 'body'> & { body?: unknown; next?: NextOpts; timeoutMs?: number };
 
-// Server (RSC) calls the API origin directly; the browser uses same-origin /api/* via rewrites.
-const base = () => (typeof window === 'undefined' ? API_ORIGIN : '');
-
+// The service layer's fetch wrapper. Browser code only: it calls our own Next.js API routes (app/api), which call the
+// real server. Server components talk to the backend through app/api/_lib/backend.ts instead.
 export async function http<T>(
   path: string,
   { body, timeoutMs = 15000, headers, ...init }: Options = {},
@@ -24,7 +21,7 @@ export async function http<T>(
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
-    const res = await fetch(`${base()}${path}`, {
+    const res = await fetch(path, {
       ...init,
       headers: { ...(body !== undefined && { 'Content-Type': 'application/json' }), ...headers },
       body: body === undefined ? undefined : JSON.stringify(body),

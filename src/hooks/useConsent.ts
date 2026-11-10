@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-import { getSourceConsentMode } from '@/app/_api/consent';
+import { getSourceConsentMode } from '@/services/consent';
 import { IS_DEMO } from '@/configs/env';
 import {
   captureVisitSource,

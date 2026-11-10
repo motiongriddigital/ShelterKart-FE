@@ -10,7 +10,8 @@ const nextConfig: NextConfig = {
     includePaths: [path.join(process.cwd(), 'src/styles')],
   },
   async rewrites() {
-    // Everything the Express backend serves itself: its API, the live report pages and the guide's downloads.
+    // What the Express backend serves itself: the live report pages, the guide's downloads and the /api paths that
+    // pages it serves (and its webhooks) use. A route handler in app/api wins over the /api rewrite at the same path.
     return [
       '/api/:path*',
       '/r/:path*',

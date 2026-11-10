@@ -1,6 +1,6 @@
 'use client';
 import { useCallback } from 'react';
-import { track } from '@/app/_api/track';
+import { track } from '@/services/track';
 import { IS_DEMO } from '@/configs/env';
 import { useModalStore } from '@/store/modal';
 

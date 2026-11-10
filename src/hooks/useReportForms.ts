@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-import { submitDeveloperReply, submitDispute } from '@/app/_api/research';
+import { submitDeveloperReply, submitDispute } from '@/services/research';
 import { IS_DEMO } from '@/configs/env';
 import { useT } from '@/hooks/useT';
 import { useModalStore } from '@/store/modal';

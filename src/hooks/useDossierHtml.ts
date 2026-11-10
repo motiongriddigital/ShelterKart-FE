@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getDossierHtml } from '@/app/_api/samples';
+import { getDossierHtml } from '@/services/samples';
 import type { DossierHtml } from '@/types/report';
 
 export function useDossierHtml(id: string | null) {

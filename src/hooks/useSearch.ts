@@ -4,7 +4,7 @@ import { DEMO_RECORDS } from '@/constants/demoRecords';
 import { IS_DEMO } from '@/configs/env';
 import { matchDemoRecords } from '@/utils/demoSearch';
 import { findDossier } from '@/utils/dossiers';
-import { fetchCandidates, getSearchMode, startInvestigation } from '@/app/_api/research';
+import { fetchCandidates, getSearchMode, startInvestigation } from '@/services/research';
 import { useT } from '@/hooks/useT';
 import { MARKETS } from '@/constants/markets';
 import { usePreferences } from '@/store/preferences';

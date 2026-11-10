@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { adminErrorMessage } from '@/app/_api/adminPeople';
+import { adminErrorMessage } from '@/services/adminPeople';
 import { useConsoleData } from '@/store/consoleData';
 import { SegTabs } from '@/app/(admin)/admin/components/SegTabs';
 import { btn, input } from '../kit/Panel';
