@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect } from 'react';
-import { getPricingCountries } from '@/app/_api/research';
+import { getPricingCountries } from '@/services/research';
 import { IS_DEMO } from '@/configs/env';
 import { useBuyer } from '@/store/buyer';
 import { readStored, writeStored } from '@/utils/storage';

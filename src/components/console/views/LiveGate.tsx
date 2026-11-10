@@ -2,7 +2,7 @@
 import { useEffect, type ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import { adminErrorMessage } from '@/app/_api/adminPeople';
+import { adminErrorMessage } from '@/services/adminPeople';
 import { useConsoleData } from '@/store/consoleData';
 import { useGeoData } from '@/store/geoData';
 import { PageHeader } from '../PageHeader';

@@ -1,4 +1,4 @@
-import { ApiError } from '@/app/_api/http';
+import { ApiError } from '@/services/http';
 import type { TFn } from '@/i18n';
 
 /** Human-readable and honest about what is not known: "could not reach" differs from "was rejected". */

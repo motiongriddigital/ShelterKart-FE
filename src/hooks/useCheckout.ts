@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useState } from 'react';
-import { getDossierHtml } from '@/app/_api/samples';
+import { getDossierHtml } from '@/services/samples';
 import { useBuyerCountry } from '@/hooks/useBuyerCountry';
 import { useCountdown } from '@/hooks/useCountdown';
 import { useLang, useT } from '@/hooks/useT';

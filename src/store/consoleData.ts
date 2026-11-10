@@ -19,7 +19,7 @@ import {
   revokeSession,
   revokeUserSessions,
   setUserDisabled,
-} from '@/app/_api/adminPeople';
+} from '@/services/adminPeople';
 import {
   banFromApi,
   purchasesFromApi,

@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-import { marketing } from '@/app/_api/marketing';
+import { marketing } from '@/services/marketing';
 import { useDeskAuth } from '@/hooks/useDeskAuth';
 import type { DeskResponse, Loose } from '@/types/desk';
 import { addDays } from '@/utils/marketingView';

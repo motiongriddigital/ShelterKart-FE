@@ -1,6 +1,6 @@
 'use client';
 import { useMemo } from 'react';
-import type { AdminAuth } from '@/app/_api/admin';
+import type { AdminAuth } from '@/services/admin';
 import { useAdminSession } from '@/store/adminSession';
 
 /** The signed-in admin's credentials (shared by the dashboard, the marketing desk and the social desk). */

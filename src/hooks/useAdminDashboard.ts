@@ -8,7 +8,7 @@ import {
   reviewResponse,
   runHealthCheck,
   type AdminAuth,
-} from '@/app/_api/admin';
+} from '@/services/admin';
 import { useAdminSession } from '@/store/adminSession';
 import type { DashboardData } from '@/types/admin';
 

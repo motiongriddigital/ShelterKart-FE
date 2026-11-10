@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { social } from '@/app/_api/social';
+import { social } from '@/services/social';
 import { DESK_REFRESH_MS } from '@/constants/social';
 import { useDeskAuth } from '@/hooks/useDeskAuth';
 import type { Loose, Market } from '@/types/desk';

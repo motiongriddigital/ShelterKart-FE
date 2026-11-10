@@ -34,7 +34,7 @@ page.tsx / components   UI only: render props, call hooks, no business logic
         │
   store/ (Zustand)      state shared between components or routes
   utils/                pure functions (matching, prices, validators, proof-of-work)
-  app/_api/             every network call (fetch wrapper + one file per area)
+  services/             every network call (fetch wrapper + one file per area)
         │
   constants/ types/     static data and TypeScript types
   configs/ i18n/        env, fonts, metadata, translations
@@ -59,7 +59,7 @@ src/
 │  │                          modals/ (HomeModals, PayModal, RestoreModal, DisputeModal, ReplyModal) · notices/
 │  ├─ (site)/<page>/page.tsx  one folder per doc page; pricing/ and contact/ also have components/, data/
 │  ├─ (admin)/admin/          ADMIN: page.tsx, components/ (Dashboard + cards), styles/
-│  └─ _api/                   http.ts · research.ts · samples.ts · track.ts · markets.ts · admin.ts
+│  └─ services/                   http.ts · research.ts · samples.ts · track.ts · markets.ts · admin.ts
 ├─ components/                shared UI: layout/ (DocPage, DocNav, SiteHeader, SiteFooter, NavItem, DraftBanner),
 │                             ui/ (Modal, Flag, BrandMark, ActionLink, Placeholder), content/ (Terms, Privacy,
 │                             Methodology, Principles text, used by both the doc pages and the home modals)
@@ -114,7 +114,7 @@ Voice: mic button → `useVoiceSearch` (Web Speech API) → confirm panel → `o
 investigate(id)  store/report.view = investigating ─(~4.7 s)─► preview ─Unlock─► checkout ─Pay─► full
 ReportPanel reads store/report.view
    investigating → InvestigationSteps (useStepProgress)
-   preview/full  → useDossierHtml → _api/samples.getDossierHtml → public/samples/<id>.json
+   preview/full  → useDossierHtml → services/samples.getDossierHtml → public/samples/<id>.json
                  → ShadowReport mounts the pre-rendered HTML in a shadow root
 ```
 
@@ -131,7 +131,7 @@ ReportPanel reads store/report.view
 
 ### 4.6 Live mode (`NEXT_PUBLIC_DEMO_MODE=false`)
 
-`useSearch.startLive` → `_api/research.startInvestigation` → `POST /api/investigate`. On HTTP 428 `challenge` it solves
+`useSearch.startLive` → `services/research.startInvestigation` → `POST /api/investigate`. On HTTP 428 `challenge` it solves
 `utils/proofOfWork.ts` and retries → `window.location = /r/<ref>` (Express page; its paid checkout is NOT in this app).
 Restore (`useRestore`), dispute and reply (`useReportForms`) post to `/api/research/recover`, `/api/dispute`,
 `/api/developer-response`.
@@ -154,8 +154,8 @@ Add a dialog: add its id to `ModalId` in `store/modal.ts`, render `<Modal id=...
 ### 4.8 Admin
 
 ```
-/admin ─► RequireAdminSession (guards/) ─ no session ─► LoginScreen ─ useAdminLogin ─► _api/admin.checkCredentials
-                                       └ session ────► Dashboard ─ useAdminDashboard ─► _api/admin.loadDashboard
+/admin ─► RequireAdminSession (guards/) ─ no session ─► LoginScreen ─ useAdminLogin ─► services/admin.checkCredentials
+                                       └ session ────► Dashboard ─ useAdminDashboard ─► services/admin.loadDashboard
 ```
 
 - **Live**: Basic-auth header kept in memory only (`store/adminSession`), all calls to `/api/admin/*`.
@@ -167,11 +167,11 @@ Add a dialog: add its id to `ModalId` in `store/modal.ts`, render `<Modal id=...
 
 - `/admin/marketing` (`(admin)/admin/marketing/`): weekly numbers per market, early warnings, Phase 1 gate, repeat/change/stop,
   ranking, and the input forms (spend, AI-answer checks, effort, settings). Logic: `hooks/useMarketingDashboard.ts`,
-  pure view helpers `utils/marketingView.ts`, API `app/_api/marketing.ts`.
+  pure view helpers `utils/marketingView.ts`, API `services/marketing.ts`.
 - `/admin/social` (`(admin)/admin/social/`): the social marketing desk: status, next-24-hours queue with veto, weekly pack
   (plan, build, read sample, PIN approval), facts keeper, pauses and incidents, audit chain. Hooks `useSocialDesk`,
-  `useWeeklyPack`, `useFactsDesk`; API `app/_api/social.ts`.
-- Both use `app/_api/desk.ts` (`deskCall`: never throws, returns `{ok, error, status}`), share `DeskShell` (sign-in guard +
+  `useWeeklyPack`, `useFactsDesk`; API `services/social.ts`.
+- Both use `services/desk.ts` (`deskCall`: never throws, returns `{ok, error, status}`), share `DeskShell` (sign-in guard +
   nav) and the CSS module `admin/styles/desk.module.scss`. They need the live backend; demo mode shows a message.
 
 ### 4.9 Doc pages
@@ -211,28 +211,28 @@ Nav entries: `constants/navigation.ts`.
 | Home copy, links, stats, footer     | `constants/home.ts` (typed in `types/home.ts`); the markup is in `(home)/components/<section>/`      |
 | Brand colours/fonts                 | edit `brand/tokens.json`, run `npm run tokens` (regenerates `src/styles/_theme.scss`), commit it     |
 | New backend route to proxy          | `rewrites()` in `next.config.ts`                                                                     |
-| New API call                        | function in `app/_api/<area>.ts` using `http()`; call it from a hook, never a component              |
+| New API call                        | function in `services/<area>.ts` using `http()`; call it from a hook, never a component              |
 | Demo records for search             | `constants/demoRecords.ts`                                                                           |
 | Admin panel numbers/targets         | `constants/admin.ts` (`TARGETS`), `utils/adminMetrics.ts`                                            |
 | Env flags                           | `configs/env.ts` (`IS_DEMO`, `API_ORIGIN`, `SITE_URL`)                                               |
 
 ## 7. Debugging guide
 
-| Symptom                        | Look at                                                                                                         |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| Page text in wrong language    | cookie `sk_lang`; `i18n/server.ts: getLang`; missing key falls back to English                                  |
-| Language switch does nothing   | `useLanguageSwitch` (cookie + `router.refresh`); is the page dynamic? (home reads cookies)                      |
-| Market click ignored           | `store/preferences.ts`, `MarketPicker.tsx`                                                                      |
-| Search shows nothing           | `useSearch.ts` → `utils/demoSearch.ts` → `SuggestPanel.tsx`; `view.mode` tells which branch ran                 |
-| Report area blank after search | `store/report.view`; `/samples/<id>.json` loads? (Network tab); `ReportPanel.tsx`                               |
-| Checkout price wrong / missing | `useStartCheckout` (country → `quotes[iso]`), `store/buyer.ts`, `useBuyerCountry`                               |
-| Dialog won't open/close        | `store/modal.openId`; `Modal.tsx`; is the id in `ModalId`?                                                      |
-| Live search fails              | `/api/investigate` via proxy (`API_ORIGIN`, backend running?); `_api/research.ts`; 428 → `utils/proofOfWork.ts` |
-| `/r/<ref>` 404                 | proxy rule in `next.config.ts`; backend must serve it                                                           |
-| Admin login loops              | `store/adminSession`; 401 from `/api/admin/*`; credentials set on the server                                    |
-| Styling glitch on home         | the classes are on the element itself; check the component, and `components/ui/{Button,Field,Modal}`            |
-| Build fails on SCSS            | a stray `}` or a selector without a body in a legacy partial (browsers ignore these, Sass does not)             |
-| Brand colours not updating     | run `npm run tokens`; CI uses the committed `_theme.scss`                                                       |
+| Symptom                        | Look at                                                                                                             |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| Page text in wrong language    | cookie `sk_lang`; `i18n/server.ts: getLang`; missing key falls back to English                                      |
+| Language switch does nothing   | `useLanguageSwitch` (cookie + `router.refresh`); is the page dynamic? (home reads cookies)                          |
+| Market click ignored           | `store/preferences.ts`, `MarketPicker.tsx`                                                                          |
+| Search shows nothing           | `useSearch.ts` → `utils/demoSearch.ts` → `SuggestPanel.tsx`; `view.mode` tells which branch ran                     |
+| Report area blank after search | `store/report.view`; `/samples/<id>.json` loads? (Network tab); `ReportPanel.tsx`                                   |
+| Checkout price wrong / missing | `useStartCheckout` (country → `quotes[iso]`), `store/buyer.ts`, `useBuyerCountry`                                   |
+| Dialog won't open/close        | `store/modal.openId`; `Modal.tsx`; is the id in `ModalId`?                                                          |
+| Live search fails              | `/api/investigate` via proxy (`API_ORIGIN`, backend running?); `services/research.ts`; 428 → `utils/proofOfWork.ts` |
+| `/r/<ref>` 404                 | proxy rule in `next.config.ts`; backend must serve it                                                               |
+| Admin login loops              | `store/adminSession`; 401 from `/api/admin/*`; credentials set on the server                                        |
+| Styling glitch on home         | the classes are on the element itself; check the component, and `components/ui/{Button,Field,Modal}`                |
+| Build fails on SCSS            | a stray `}` or a selector without a body in a legacy partial (browsers ignore these, Sass does not)                 |
+| Brand colours not updating     | run `npm run tokens`; CI uses the committed `_theme.scss`                                                           |
 
 ## 8. Conventions
 
@@ -243,7 +243,7 @@ Nav entries: `constants/navigation.ts`.
   - **SCSS** for prose rules on plain tags (`DocPage.module.scss`), the raw-tag rules inside the desks (`desk.module.scss`), the colour variables in `admin.scss`, and nothing on the home page. The desks' and dashboard's shared looks are Tailwind class constants in `admin/styles/ui.ts`.
   - Unlayered CSS beats Tailwind utilities. Wrap any global rule that a utility may need to override in `@layer base`.
   - `(home)`, `(report)`, `(site)` and `(admin)` all use Tailwind. The home page has no SCSS.
-- Strings go through `t()`. Data in `constants/`. Network in `app/_api/`.
+- Strings go through `t()`. Data in `constants/`. Network in `services/`.
 - SCSS: use nesting, the shared variables/mixins (`src/styles/`, top of `admin.scss`) and `@each` maps instead of repeating rules.
 
 ## 9. Commands

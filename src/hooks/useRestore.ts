@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useState } from 'react';
-import { recoverAccess } from '@/app/_api/research';
+import { recoverAccess } from '@/services/research';
 import { IS_DEMO } from '@/configs/env';
 import { useT } from '@/hooks/useT';
 import { useModalStore } from '@/store/modal';
