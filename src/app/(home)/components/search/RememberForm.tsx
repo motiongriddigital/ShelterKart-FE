@@ -38,7 +38,7 @@ export function RememberForm({ onSubmit }: { onSubmit: (r: Remembered) => void }
       onSubmit={submit}
       className="grid gap-3 border-t border-slate-100 px-4 py-3 sm:grid-cols-3"
     >
-      <p className="text-xs text-slate-500 sm:col-span-3">
+      <p className="text-sm text-slate-600 sm:col-span-3">
         {t('Tell us what you remember, and we will look again.')}
       </p>
       {field('developer', t('Developer'))}

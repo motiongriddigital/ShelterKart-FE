@@ -22,7 +22,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={toggle}
       aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
       aria-pressed={dark}
-      className={cn('border-slate-200 text-slate-700', className)}
+      className={cn('border-slate-300 text-slate-700', className)}
     >
       {dark ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
     </Button>

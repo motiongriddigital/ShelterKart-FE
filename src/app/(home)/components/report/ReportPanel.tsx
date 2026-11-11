@@ -53,7 +53,7 @@ export function ReportPanel() {
       {dossier && (view.kind === 'preview' || view.kind === 'full') && (
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-md md:p-6">
           <div className="mb-4 flex flex-wrap items-center gap-3">
-            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-800">
+            <span className="rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-800">
               {place}
             </span>
             {view.kind === 'full' && (
@@ -69,7 +69,7 @@ export function ReportPanel() {
                   {t('Report an inaccuracy')}
                 </Button>
                 {paidContact && (
-                  <p className="w-full text-xs text-slate-500">
+                  <p className="w-full text-sm text-slate-600">
                     {t('In the live product, the report and its PDF are sent to {email}.', {
                       email: paidContact.email,
                     })}
@@ -79,7 +79,7 @@ export function ReportPanel() {
             )}
           </div>
           {failed && (
-            <p className="text-sm text-rose-600">
+            <p className="text-base text-rose-600">
               {t('This report could not be loaded. Try again.')}
             </p>
           )}

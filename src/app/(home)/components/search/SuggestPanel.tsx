@@ -19,12 +19,12 @@ type Props = {
 };
 
 const ITEM =
-  'flex w-full flex-wrap items-center gap-2 border-t border-slate-100 px-4 py-2.5 text-start text-sm hover:bg-slate-50';
+  'flex w-full flex-wrap items-center gap-2 border-t border-slate-100 px-4 py-2.5 text-start text-base hover:bg-slate-50';
 const LINK_BTN =
-  'block w-full border-t border-slate-100 px-4 py-2.5 text-start text-sm font-semibold text-blue-700 hover:bg-blue-50';
+  'block w-full border-t border-slate-100 px-4 py-2.5 text-start text-base font-semibold text-blue-700 hover:bg-blue-50';
 
 const Hint = ({ children, empty }: { children: React.ReactNode; empty?: boolean }) => (
-  <p className={empty ? 'px-4 py-3 text-sm text-slate-700' : 'px-4 py-2 text-xs text-slate-500'}>
+  <p className={empty ? 'px-4 py-3 text-base text-slate-700' : 'px-4 py-2 text-sm text-slate-600'}>
     {children}
   </p>
 );
@@ -50,17 +50,17 @@ function CandidateRow({
         {[c.name + (c.phase ? ` · ${c.phase}` : ''), c.locality, c.city].filter(Boolean).join(', ')}
       </span>
       {best && (
-        <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700">
+        <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-sm font-bold text-emerald-700">
           {t('Best match')}
         </span>
       )}
-      <span className="w-full text-xs text-slate-500">{meta.join(' · ')}</span>
+      <span className="w-full text-sm text-slate-600">{meta.join(' · ')}</span>
     </button>
   );
 }
 
 const Line = ({ label, value }: { label: string; value: string }) => (
-  <p className="px-4 py-0.5 text-sm text-slate-700">
+  <p className="px-4 py-0.5 text-base text-slate-700">
     <strong>{label}: </strong>
     {value}
   </p>
@@ -190,7 +190,7 @@ function Body({
           <Hint>{t('Matches so far, grouped by country. Choose one.')}</Hint>
           {groupByCountry(view.hits).map(({ country, items }) => (
             <div key={country}>
-              <div className="bg-slate-50 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600">
                 {country} · {items.length}
               </div>
               {items.map((it) => (
@@ -204,7 +204,7 @@ function Body({
                     {it.r.name}, {it.r.locality}, {it.r.city}
                   </span>
                   {it.best && (
-                    <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700">
+                    <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-sm font-bold text-emerald-700">
                       {t('Best match')}
                     </span>
                   )}

@@ -4,6 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Comfortable touch targets on the public pages (about 44px). The admin does not load this file and keeps its own. */
+:root {
+  --btn-h: 2.75rem;
+  --btn-h-sm: 2.75rem;
+  --btn-h-lg: 3rem;
+}
+
 @theme {
   --breakpoint-sm: 600px;
   --breakpoint-md: 900px;

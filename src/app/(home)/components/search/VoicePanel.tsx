@@ -22,7 +22,7 @@ export function VoicePanel({ panel, onAllow, onTypeInstead, onConfirm, onEdit }:
     <div
       role="status"
       aria-live="polite"
-      className="mt-3 rounded-lg border border-blue-100 bg-blue-50 p-3 text-sm text-slate-700"
+      className="mt-3 rounded-lg border border-blue-100 bg-blue-50 p-3 text-base text-slate-700"
     >
       {panel.kind === 'note' && <p>{panel.text}</p>}
 
@@ -59,7 +59,7 @@ export function VoicePanel({ panel, onAllow, onTypeInstead, onConfirm, onEdit }:
               {t('Edit')}
             </Button>
           </Actions>
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-sm text-slate-600">
             {t(
               'Speech is turned into text by your browser. ShelterKart does not record your voice.',
             )}

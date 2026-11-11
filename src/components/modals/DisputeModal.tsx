@@ -13,7 +13,7 @@ export function DisputeModal() {
   const f = useDisputeForm();
   return (
     <Modal id="disputeModal" title={t('Report an inaccuracy')}>
-      <p className="text-sm leading-relaxed text-slate-600">
+      <p className="text-base leading-relaxed text-slate-700">
         {t(
           'We review every dispute against the original source document. Submission does not guarantee removal or alteration of any finding — see',
         )}{' '}
@@ -42,7 +42,7 @@ export function DisputeModal() {
       />
       <p
         role="status"
-        className={`mt-2 min-h-5 text-sm ${f.result && !f.result.ok ? 'text-rose-600' : 'text-slate-600'}`}
+        className={`mt-2 min-h-5 text-base ${f.result && !f.result.ok ? 'text-rose-600' : 'text-slate-700'}`}
       >
         {f.result?.text}
       </p>

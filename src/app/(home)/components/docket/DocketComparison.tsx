@@ -23,12 +23,10 @@ function Claims({ items, t }: { items: DocketClaim[]; t: (s: string) => string }
         >
           <dl>
             <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-              <dt className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                {t(c.label)}
-              </dt>
-              {c.ref && <span className="text-[10px] text-slate-400">{c.ref}</span>}
+              <dt className="text-sm font-semibold text-slate-600">{t(c.label)}</dt>
+              {c.ref && <span className="text-sm text-slate-600">{c.ref}</span>}
             </div>
-            <dd className="mt-1 text-sm font-medium text-slate-900">{t(c.text)}</dd>
+            <dd className="mt-1 text-base font-medium text-slate-900">{t(c.text)}</dd>
           </dl>
         </li>
       ))}
@@ -42,24 +40,22 @@ export async function DocketComparison() {
   return (
     <section className="px-4 pb-14 md:px-8">
       <div className="mx-auto max-w-5xl text-center">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-blue-700">
-          {t(DOCKET.eyebrow)}
-        </p>
+        <p className="text-sm font-bold text-blue-700">{t(DOCKET.eyebrow)}</p>
         <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
           {t(DOCKET.title)}
         </h2>
-        <p className="mx-auto mt-2 max-w-2xl text-xs leading-relaxed text-slate-500">
+        <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
           {t(DOCKET.sub)}
         </p>
       </div>
 
       <div className="mx-auto mt-6 max-w-5xl overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 bg-slate-50 px-4 py-2.5 text-xs">
-          <span className="flex items-center gap-2 text-slate-600">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 bg-slate-50 px-4 py-2.5 text-sm">
+          <span className="flex items-center gap-2 text-slate-700">
             <FileText className="size-3.5" aria-hidden="true" />
             {t(DOCKET.sample)}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded bg-rose-50 px-2 py-0.5 text-[10px] font-bold uppercase text-rose-700">
+          <span className="inline-flex items-center gap-1.5 rounded bg-rose-50 px-2 py-0.5 text-sm font-bold text-rose-700">
             <CircleAlert className="size-3" aria-hidden="true" />
             {t(DOCKET.verdict)}
           </span>
@@ -67,13 +63,13 @@ export async function DocketComparison() {
 
         <div className="grid divide-slate-200 md:grid-cols-2 md:divide-x rtl:md:divide-x-reverse">
           <div className="p-4 md:p-5">
-            <h3 className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <h3 className="flex items-center justify-between text-sm font-bold text-slate-600">
               {t(DOCKET.claimsTitle)}
             </h3>
             <Claims items={DOCKET.claims} t={t} />
           </div>
           <div className="border-t border-slate-200 p-4 md:border-t-0 md:p-5">
-            <h3 className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-blue-700">
+            <h3 className="flex items-center justify-between text-sm font-bold text-blue-700">
               {t(DOCKET.recordTitle)}
               <Landmark className="size-3.5" aria-hidden="true" />
             </h3>
@@ -81,7 +77,7 @@ export async function DocketComparison() {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-slate-50 px-4 py-2.5 text-[11px] text-slate-500">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-600">
           <span className="flex items-center gap-1.5">
             <FileCheck2 className="size-3.5" aria-hidden="true" />
             {t(DOCKET.footnote)}

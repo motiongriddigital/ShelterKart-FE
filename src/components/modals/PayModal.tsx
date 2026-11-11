@@ -10,7 +10,7 @@ import { countryName, fmtMoney, fmtPrice } from '@/utils/price';
 
 const Line = ({ label, value, strong }: { label: string; value?: string; strong?: boolean }) => (
   <div
-    className={`flex justify-between gap-3 py-1.5 text-sm ${strong ? 'mt-1 border-t border-slate-200 pt-2.5 font-bold text-slate-900' : 'text-slate-600'}`}
+    className={`flex justify-between gap-3 py-1.5 text-base ${strong ? 'mt-1 border-t border-slate-200 pt-2.5 font-bold text-slate-900' : 'text-slate-700'}`}
   >
     <span>{label}</span>
     {value !== undefined && <span className="tabular-nums">{value}</span>}
@@ -32,31 +32,29 @@ export function PayModal() {
         type="button"
         onClick={close}
         aria-label="Close"
-        className="absolute end-3 top-3 grid size-8 place-items-center rounded-md text-xl leading-none text-slate-500 hover:bg-slate-100"
+        className="absolute end-3 top-3 grid size-8 place-items-center rounded-md text-xl leading-none text-slate-600 hover:bg-slate-100"
       >
         ×
       </button>
-      <p className="text-[10px] font-bold uppercase tracking-widest text-blue-700">
-        {t('Checkout')}
-      </p>
+      <p className="text-sm font-bold text-blue-700">{t('Checkout')}</p>
       <h3 id="payModal-title" className="mt-1 pe-8 text-xl font-bold text-slate-900">
         {t('Unlock the full report')}
       </h3>
       {c.session && q && (
         <>
-          <p className="mt-1 text-sm font-semibold text-slate-700">
+          <p className="mt-1 text-base font-semibold text-slate-700">
             {c.session.title}
             {q.depthLabel ? ` · ${t('{depth} report', { depth: t(q.depthLabel) })}` : ''}
           </p>
           <p
-            className="mt-2 rounded-md bg-amber-50 p-2 text-xs text-amber-900"
+            className="mt-2 rounded-md bg-amber-50 p-2 text-sm text-amber-900"
             role="alert"
             hidden={!c.session.banner}
           >
             {c.session.banner}
           </p>
           <div className="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
-            <p className="mb-1 text-xs font-bold text-slate-500">
+            <p className="mb-1 text-sm font-bold text-slate-600">
               ShelterKart due diligence report
             </p>
             <Line label={t('Report fee')} value={fmtMoney(q.net, q.currency)} />
@@ -74,11 +72,11 @@ export function PayModal() {
             )}
             <Line strong label={t('Total to pay')} value={fmtMoney(q.gross, q.currency)} />
           </div>
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-sm text-slate-600">
             {t('Currency: {code}', { code: q.currency })} ·{' '}
             {t('Prices shown for: {country}', { country: countryName(q.country, locale) })}
           </p>
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-sm text-slate-600">
             {t('Price locked until {time} ({left} left)', {
               time: new Date(q.expiresAt).toLocaleTimeString(locale, {
                 hour: '2-digit',
@@ -122,7 +120,7 @@ export function PayModal() {
               onChange={(e) => c.setPhone(e.target.value)}
             />
           </div>
-          <p className="mt-3 text-xs leading-relaxed text-slate-600">
+          <p className="mt-3 text-sm leading-relaxed text-slate-700">
             <strong>{t('Why this price?')}</strong>{' '}
             <span>
               {t(
@@ -130,7 +128,7 @@ export function PayModal() {
               )}
             </span>
           </p>
-          <p className="mt-3 text-xs leading-relaxed text-slate-600">
+          <p className="mt-3 text-sm leading-relaxed text-slate-700">
             <span>
               {t('Developers can reply to any finding, and any error is corrected and dated.')}
             </span>{' '}
@@ -142,12 +140,12 @@ export function PayModal() {
               {t('How it works')}
             </Link>
           </p>
-          <p className="mt-3 text-xs leading-relaxed text-slate-600">
+          <p className="mt-3 text-sm leading-relaxed text-slate-700">
             {t(
               'Every question for each team at the developer, with why it matters and what closes it; every finding with its link and status; the reasoning and where sources disagree; a tracker; and the PDF.',
             )}
           </p>
-          <p className="mt-3 text-xs italic leading-relaxed text-slate-500">
+          <p className="mt-3 text-sm italic leading-relaxed text-slate-600">
             {t(
               'Demo: no money is taken. In the live product this step is Razorpay’s secure checkout (UPI, cards, net banking).',
             )}
@@ -155,7 +153,7 @@ export function PayModal() {
           <Button className="mt-4 w-full" size="lg" disabled={c.busy} onClick={c.pay}>
             {t('Pay {amount}', { amount: fmtPrice(q.gross, q.currency) })}
           </Button>
-          <p role="status" className="mt-2 min-h-5 text-sm text-slate-600">
+          <p role="status" className="mt-2 min-h-5 text-base text-slate-700">
             {c.message}
           </p>
         </>

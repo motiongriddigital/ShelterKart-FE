@@ -10,12 +10,13 @@ export function AccountButton() {
   return (
     <button
       type="button"
-      aria-label={t('Restore a purchase')}
       title={t('Restore a purchase')}
       onClick={() => open('restoreModal')}
-      className="hidden size-9 place-items-center rounded-full bg-slate-900 text-white dark:bg-amber-400 dark:text-slate-950 hover:bg-slate-800 sm:grid"
+      className="hidden h-11 items-center gap-2 rounded-md border border-slate-300 px-3 text-base font-medium text-slate-700 hover:bg-slate-50 sm:flex"
     >
-      <User className="size-4" aria-hidden="true" />
+      <User className="size-5" aria-hidden="true" />
+      <span className="hidden xl:inline">{t('My purchases')}</span>
+      <span className="sr-only xl:hidden">{t('Restore a purchase')}</span>
     </button>
   );
 }

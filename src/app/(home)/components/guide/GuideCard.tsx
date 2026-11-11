@@ -12,18 +12,16 @@ export function GuideCard() {
     <section className="px-4 pb-10 md:px-8">
       <div className="mx-auto grid max-w-3xl gap-5 rounded-xl border border-slate-200 border-s-4 border-s-blue-700 bg-white p-5 shadow-md md:grid-cols-[1fr_auto] md:items-center md:p-6">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-blue-700">
-            {t('Free public edition')}
-          </p>
+          <p className="text-sm font-bold text-blue-700">{t('Free public edition')}</p>
           <h2 className="mt-1 text-xl font-bold text-slate-900">
             {t('The ShelterKart Home Buying Guide')}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          <p className="mt-2 text-base leading-relaxed text-slate-700">
             {t(
               'What to check, what to ask, and what a good answer sounds like. 12 comprehensive chapters with zero marketing fluff, free for any property market.',
             )}
           </p>
-          <p className="mt-3 text-[11px] text-slate-400">{t('The guide is in English.')}</p>
+          <p className="mt-3 text-sm text-slate-600">{t('The guide is in English.')}</p>
         </div>
 
         <div className="flex flex-col gap-2 md:w-48">

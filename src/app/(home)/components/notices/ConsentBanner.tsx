@@ -6,7 +6,7 @@ import { useT } from '@/hooks/useT';
 import { useModalStore } from '@/store/modal';
 
 const BAR =
-  'fixed inset-x-3 bottom-3 z-[60] mx-auto flex max-w-3xl flex-wrap items-center gap-3 rounded-lg bg-[#0f172a] p-4 text-sm text-[#fff] shadow-2xl';
+  'fixed inset-x-3 bottom-3 z-[60] mx-auto flex max-w-3xl flex-wrap items-center gap-3 rounded-lg bg-[#0f172a] p-4 text-base text-[#fff] shadow-2xl';
 
 export function ConsentBanner() {
   const t = useT();

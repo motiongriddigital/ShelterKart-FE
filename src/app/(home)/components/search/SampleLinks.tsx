@@ -10,10 +10,11 @@ export function SampleLinks() {
   const t = useT();
   const { showFull } = useDossierFlow();
   return (
-    <div id="samples" className="mt-5 flex flex-wrap items-center justify-center gap-2 text-start">
-      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-        {t('Read a full sample report:')}
-      </p>
+    <div
+      id="samples"
+      className="scroll-mt-24 mt-5 flex flex-wrap items-center justify-center gap-2 text-start"
+    >
+      <p className="text-sm font-bold text-slate-600">{t('Read a full sample report:')}</p>
       {SAMPLE_DOSSIERS.map((x) => (
         <Link
           key={x.id}
@@ -22,7 +23,7 @@ export function SampleLinks() {
             e.preventDefault();
             showFull(x.id);
           }}
-          className="inline-flex items-center gap-1.5 rounded-md border border-blue-100 bg-blue-50 px-2.5 py-1.5 text-[11px] font-medium text-blue-800 transition-colors hover:bg-blue-100"
+          className="inline-flex items-center gap-1.5 rounded-md border border-blue-100 bg-blue-50 px-2.5 py-1.5 text-sm font-medium text-blue-800 transition-colors hover:bg-blue-100"
         >
           <FileText className="size-3" aria-hidden="true" />
           {t(x.city)}

@@ -8,7 +8,8 @@ import { PublicRecordCta } from './components/cta/PublicRecordCta';
 import { DocketComparison } from './components/docket/DocketComparison';
 import { GuideCard } from './components/guide/GuideCard';
 import { Hero } from './components/hero/Hero';
-import { StatusStrip } from './components/layout/StatusStrip';
+import { PillarCards } from './components/hero/PillarCards';
+import { HowItWorks } from './components/how/HowItWorks';
 import { MarketCoverage } from './components/markets/MarketCoverage';
 import { ConsentBanner } from './components/notices/ConsentBanner';
 import { DemoBanner } from './components/notices/DemoBanner';
@@ -24,7 +25,7 @@ export default async function HomePage() {
       <DemoBanner />
       <Link
         href="#search"
-        className="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-[70] focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm"
+        className="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-[70] focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-base"
       >
         {t('Skip to search')}
       </Link>
@@ -45,11 +46,22 @@ export default async function HomePage() {
       </noscript>
 
       <SiteHeader />
-      <StatusStrip />
       <main>
         <Hero />
-        <MarketCoverage markets={orderedMarkets()} />
         <SearchPanel />
+        <HowItWorks />
+        <section aria-labelledby="trust-title" className="px-4 pb-12 md:px-8">
+          <div className="mx-auto max-w-5xl">
+            <h2
+              id="trust-title"
+              className="text-center text-2xl font-bold tracking-tight text-slate-900 md:text-3xl"
+            >
+              {t('Why you can trust ShelterKart')}
+            </h2>
+            <PillarCards />
+          </div>
+        </section>
+        <MarketCoverage markets={orderedMarkets()} />
         <GuideCard />
         <DocketComparison />
         <PublicRecordCta />

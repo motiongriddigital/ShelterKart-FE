@@ -18,7 +18,7 @@ export function GuideModal() {
       panelClassName="flex h-[92vh] max-w-5xl flex-col overflow-hidden p-0 md:p-0"
     >
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-3">
-        <span id="guideModal-title" className="text-sm font-bold text-slate-900">
+        <span id="guideModal-title" className="text-base font-bold text-slate-900">
           {t('The ShelterKart Home Buying Guide')}
         </span>
         <span className="flex gap-2">
