@@ -1,5 +1,8 @@
 import { ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
+import { Decor } from '@/components/illustrations/Decor';
+import { ResearchBuildingArt } from '@/components/illustrations/ResearchBuildingArt';
+import { SkylineArt } from '@/components/illustrations/SkylineArt';
 import { buttonVariants } from '@/components/ui/Button';
 import { PUBLIC_RECORD } from '@/constants/home';
 import { getT } from '@/i18n/server';
@@ -7,8 +10,14 @@ import { getT } from '@/i18n/server';
 export async function PublicRecordCta() {
   const t = await getT();
   return (
-    <section className="bg-[#061428] px-4 py-14 text-center text-[#fff] md:px-8 md:py-20">
-      <div className="mx-auto max-w-4xl">
+    <section className="relative overflow-hidden bg-[#061428] px-4 pb-32 pt-14 text-center text-[#fff] md:px-8 md:pb-40 md:pt-20">
+      <Decor className="inset-x-0 bottom-0">
+        <SkylineArt className="h-24 w-full text-[#fff]/15 md:h-36" />
+      </Decor>
+      <Decor className="start-8 top-10 hidden w-44 lg:block">
+        <ResearchBuildingArt className="w-full text-[#fff]/15" />
+      </Decor>
+      <div className="relative mx-auto max-w-4xl">
         <span className="mx-auto grid size-10 place-items-center rounded-lg border border-[#fff]/15 bg-[#fff]/5">
           <ShieldCheck className="size-5" aria-hidden="true" />
         </span>

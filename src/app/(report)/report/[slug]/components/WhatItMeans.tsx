@@ -1,4 +1,6 @@
 import { CheckCircle2, ClipboardList, FileWarning, MessageCircleQuestion } from 'lucide-react';
+import { Decor } from '@/components/illustrations/Decor';
+import { LandPlotArt } from '@/components/illustrations/LandPlotArt';
 import type { PropertyReport } from '@/types/propertyReport';
 
 /** The answer first, in plain words: what was found and what to do, before the detail below. */
@@ -29,7 +31,10 @@ export function WhatItMeans({ report }: { report: PropertyReport }) {
       aria-labelledby="meaning-title"
       className="mx-auto max-w-[1900px] px-4 pt-8 md:px-8 xl:px-12"
     >
-      <div className="rounded-xl border border-blue-200 bg-blue-50 p-5 md:p-6">
+      <div className="relative overflow-hidden rounded-xl border border-blue-200 bg-blue-50 p-5 md:p-6">
+        <Decor className="-bottom-8 -end-8 hidden w-44 lg:block">
+          <LandPlotArt className="w-full text-blue-600/15" />
+        </Decor>
         <h2 id="meaning-title" className="text-2xl font-bold text-slate-900">
           What this means for you
         </h2>

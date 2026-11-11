@@ -38,7 +38,7 @@ export function ReportHero({ report }: { report: PropertyReport }) {
                 <dd
                   className={cn(
                     'text-right font-semibold text-slate-900',
-                    row.highlight && 'rounded bg-amber-100 px-1.5 text-amber-800',
+                    row.highlight && 'rounded-md bg-amber-100 px-1.5 text-amber-800',
                   )}
                 >
                   {row.value}

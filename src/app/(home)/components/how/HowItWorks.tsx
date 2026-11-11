@@ -1,4 +1,6 @@
 import { FileSearch, Search, Unlock, type LucideIcon } from 'lucide-react';
+import { Decor } from '@/components/illustrations/Decor';
+import { KeyHouseArt } from '@/components/illustrations/KeyHouseArt';
 import { HOW_IT_WORKS } from '@/constants/home';
 import { getT } from '@/i18n/server';
 import type { Step } from '@/types/home';
@@ -13,7 +15,14 @@ const ICONS: Record<Step['icon'], LucideIcon> = {
 export async function HowItWorks() {
   const t = await getT();
   return (
-    <section id="how" aria-labelledby="how-title" className="scroll-mt-24 px-4 pb-12 md:px-8">
+    <section
+      id="how"
+      aria-labelledby="how-title"
+      className="relative scroll-mt-24 overflow-x-clip px-4 pb-12 md:px-8"
+    >
+      <Decor className="-end-4 -top-6 hidden w-44 xl:block">
+        <KeyHouseArt className="w-full text-blue-600/25" />
+      </Decor>
       <div className="mx-auto max-w-5xl">
         <h2
           id="how-title"

@@ -52,9 +52,12 @@
   --font-display: var(--sk-font-display);
   --font-text: var(--sk-font-text);
 
-  --radius-sm: var(--sk-radius-sm);
-  --radius-md: var(--sk-radius-md);
-  --radius-lg: var(--sk-radius-lg);
+  /* Set here, not from --sk-radius-*: the home and report pages do not load those, which made every corner square. */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
 }
 
 /* Dark theme for the public pages. Utilities read the palette variables, so remapping them here flips every

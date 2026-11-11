@@ -59,7 +59,7 @@ export function PriceByCurrencyTable({ rows }: { rows: PriceByCurrencyRow[] }) {
                   <td className="px-4 py-2.5 font-medium text-slate-900">{r.currency}</td>
                   <td className="px-4 py-2.5">
                     <span
-                      className={`rounded px-1.5 py-0.5 text-[0.625rem] font-bold ${
+                      className={`rounded-md px-1.5 py-0.5 text-[0.625rem] font-bold ${
                         on
                           ? 'bg-slate-900 text-white dark:bg-amber-400 dark:text-slate-950'
                           : 'bg-slate-100 text-slate-700'

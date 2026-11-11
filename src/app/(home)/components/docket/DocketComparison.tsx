@@ -55,7 +55,7 @@ export async function DocketComparison() {
             <FileText className="size-3.5" aria-hidden="true" />
             {t(DOCKET.sample)}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded bg-rose-50 px-2 py-0.5 text-sm font-bold text-rose-700">
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-rose-50 px-2 py-0.5 text-sm font-bold text-rose-700">
             <CircleAlert className="size-3" aria-hidden="true" />
             {t(DOCKET.verdict)}
           </span>

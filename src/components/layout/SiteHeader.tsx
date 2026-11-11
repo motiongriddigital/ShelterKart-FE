@@ -51,7 +51,7 @@ export async function SiteHeader() {
                 <NavItem
                   key={l.label}
                   link={l}
-                  className={`${NAV} block rounded px-3 py-3 hover:bg-slate-50`}
+                  className={`${NAV} block rounded-md px-3 py-3 hover:bg-slate-50`}
                 />
               ))}
             </nav>

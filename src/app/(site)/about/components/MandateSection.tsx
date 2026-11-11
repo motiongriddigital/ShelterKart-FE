@@ -27,7 +27,7 @@ export function MandateSection() {
         <div className="rounded-lg bg-[#0a1c33] p-5 text-[#fff]">
           <div className="flex items-center justify-between text-[0.5625rem] font-semibold uppercase tracking-wider text-[#94a3b8]">
             <span>Independent pipeline</span>
-            <span className="rounded bg-[#fff]/10 px-1.5 py-0.5 text-[#fff]">● Live feed</span>
+            <span className="rounded-md bg-[#fff]/10 px-1.5 py-0.5 text-[#fff]">● Live feed</span>
           </div>
           <h2 className="mt-2 text-lg font-bold text-[#fff]">
             Statutory Cross-Verification Hierarchy

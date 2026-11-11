@@ -31,7 +31,7 @@ export function PriceByValueTable({ rows }: { rows: PriceByValueRow[] }) {
                     <strong className="text-slate-900">{r.value}</strong>{' '}
                     <span className="text-slate-500">({r.approx})</span>
                     {benchmark && (
-                      <span className="ms-2 rounded bg-slate-900 px-1.5 py-0.5 text-[0.5625rem] font-bold uppercase tracking-wider text-white dark:bg-amber-400 dark:text-slate-950">
+                      <span className="ms-2 rounded-md bg-slate-900 px-1.5 py-0.5 text-[0.5625rem] font-bold uppercase tracking-wider text-white dark:bg-amber-400 dark:text-slate-950">
                         Benchmark
                       </span>
                     )}

@@ -1,10 +1,15 @@
 import Link from 'next/link';
+import { Decor } from '@/components/illustrations/Decor';
+import { SkylineArt } from '@/components/illustrations/SkylineArt';
 import type { PropertyReport } from '@/types/propertyReport';
 
 export function ReportFooter({ report }: { report: PropertyReport }) {
   return (
-    <footer className="mt-14 border-t border-slate-200 bg-slate-50">
-      <div className="mx-auto max-w-[1900px] px-4 py-8 md:px-8 xl:px-12">
+    <footer className="relative mt-14 overflow-hidden border-t border-slate-200 bg-slate-50">
+      <Decor className="inset-x-0 bottom-0">
+        <SkylineArt className="h-20 w-full text-blue-600/20 md:h-28" />
+      </Decor>
+      <div className="relative mx-auto max-w-[1900px] px-4 pb-24 pt-8 md:px-8 md:pb-32 xl:px-12">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-base font-bold text-slate-900">ShelterKart</p>

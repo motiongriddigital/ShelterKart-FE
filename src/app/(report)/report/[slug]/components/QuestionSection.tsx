@@ -14,7 +14,7 @@ export function QuestionSection({ report }: { report: PropertyReport }) {
           <li key={q.question} className="rounded-lg border border-slate-200 bg-white p-4">
             <div className="flex items-center justify-between gap-2">
               <p className="flex items-center gap-2 text-sm font-bold text-slate-600">
-                <span className="grid size-5 place-items-center rounded bg-slate-900 text-sm text-white">
+                <span className="grid size-5 place-items-center rounded-md bg-slate-900 text-sm text-white">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 {q.category}

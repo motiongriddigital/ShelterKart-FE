@@ -1,4 +1,8 @@
 import Image from 'next/image';
+import { BlueprintArt } from '@/components/illustrations/BlueprintArt';
+import { Decor } from '@/components/illustrations/Decor';
+import { ResearchBuildingArt } from '@/components/illustrations/ResearchBuildingArt';
+import { SkylineArt } from '@/components/illustrations/SkylineArt';
 import { TRACED_TO } from '@/constants/home';
 import { getT } from '@/i18n/server';
 
@@ -8,9 +12,18 @@ export async function Hero() {
   return (
     <section
       id="landing"
-      className="bg-gradient-to-b from-slate-50 to-white px-4 pb-6 pt-8 md:px-8 md:pt-12"
+      className="relative overflow-x-clip bg-gradient-to-b from-slate-50 to-white px-4 pb-28 pt-8 md:px-8 md:pb-44 md:pt-12"
     >
-      <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+      <Decor className="inset-x-0 bottom-0">
+        <SkylineArt className="h-24 w-full text-blue-600/25 md:h-36" />
+      </Decor>
+      <Decor className="start-6 top-10 hidden w-60 -rotate-3 lg:block xl:start-16">
+        <BlueprintArt className="w-full text-blue-600/25" />
+      </Decor>
+      <Decor className="end-6 top-8 hidden w-56 lg:block xl:end-16">
+        <ResearchBuildingArt className="w-full text-blue-600/25" />
+      </Decor>
+      <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
         <Image
           src="/logo/shelterkart-mark.svg"
           alt=""

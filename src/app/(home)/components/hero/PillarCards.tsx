@@ -38,7 +38,7 @@ export async function PillarCards() {
               <Icon className="size-5" strokeWidth={1.6} aria-hidden="true" />
             </span>
             {p.featured && (
-              <span className="mt-3 inline-block rounded bg-emerald-50 px-2 py-0.5 text-sm font-bold text-emerald-700">
+              <span className="mt-3 inline-block rounded-md bg-emerald-50 px-2 py-0.5 text-sm font-bold text-emerald-700">
                 {t(p.tag)}
               </span>
             )}

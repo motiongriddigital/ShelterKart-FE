@@ -15,7 +15,7 @@ export function ReportHeader({ report }: { report: PropertyReport }) {
             <br />
             on the record.
           </span>
-          <span className="rounded border border-slate-300 px-1.5 py-0.5 text-sm font-bold text-slate-600">
+          <span className="rounded-md border border-slate-300 px-1.5 py-0.5 text-sm font-bold text-slate-600">
             Independent
           </span>
         </Link>
