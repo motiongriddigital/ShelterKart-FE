@@ -6,7 +6,7 @@ export function InvestigationSteps({ title, steps }: { title: string; steps: str
   const current = useStepProgress(steps.length, DEMO_STEP_MS * 1.5);
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-md">
-      <p className="text-sm font-semibold text-slate-900">{title}</p>
+      <p className="text-base font-semibold text-slate-900">{title}</p>
       <ol className="mt-3 grid gap-2">
         {steps.map((s, i) => {
           const state = i < current ? 'done' : i === current ? 'running' : 'waiting';
@@ -14,7 +14,7 @@ export function InvestigationSteps({ title, steps }: { title: string; steps: str
             <li
               key={s}
               data-state={state}
-              className="group flex items-center gap-2.5 text-sm text-slate-400 data-[state=done]:text-emerald-700 data-[state=running]:font-semibold data-[state=running]:text-blue-700"
+              className="group flex items-center gap-2.5 text-base text-slate-600 data-[state=done]:text-emerald-700 data-[state=running]:font-semibold data-[state=running]:text-blue-700"
             >
               <span
                 aria-hidden="true"

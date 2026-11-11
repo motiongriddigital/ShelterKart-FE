@@ -26,13 +26,13 @@ export function LanguageSelect() {
 
   return (
     <div className="flex flex-col items-start gap-2 md:items-end">
-      <label className="flex items-center gap-2 text-[11px] text-slate-500">
+      <label className="flex items-center gap-2 text-sm text-slate-600">
         <Languages className="size-3.5" aria-hidden="true" />
         {t('Language')}
         <Select
           value={lang}
           onChange={(e) => setLanguage(e.target.value as LangCode)}
-          className="w-auto py-1.5 text-xs"
+          className="w-auto py-1.5 text-sm"
         >
           {LANGUAGES.map((l) => (
             <option key={l.code} value={l.code}>
@@ -51,10 +51,10 @@ export function LanguageSelect() {
               lang={c}
               aria-pressed={c === lang}
               onClick={() => setLanguage(c)}
-              className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${
+              className={`rounded-full border px-2.5 py-0.5 text-sm font-medium ${
                 c === lang
                   ? 'border-blue-600 bg-blue-50 text-blue-800'
-                  : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                  : 'border-slate-200 text-slate-700 hover:bg-slate-50'
               }`}
             >
               {langInfo(c).native}
@@ -64,7 +64,7 @@ export function LanguageSelect() {
       )}
 
       {lang !== DEFAULT_LANG && (
-        <p role="status" className="max-w-sm text-[11px] leading-snug text-slate-500 md:text-end">
+        <p role="status" className="max-w-sm text-sm leading-snug text-slate-600 md:text-end">
           {said}{' '}
           <button
             type="button"

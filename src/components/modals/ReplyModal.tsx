@@ -13,7 +13,7 @@ export function ReplyModal() {
   const f = useReplyForm();
   return (
     <Modal id="replyModal" title={t('Developer Right of Reply')}>
-      <p className="text-sm leading-relaxed text-slate-600">
+      <p className="text-base leading-relaxed text-slate-700">
         {t('Free and unconditional. See')}{' '}
         <ActionLink
           className="cursor-pointer font-semibold text-blue-700 underline"
@@ -54,7 +54,7 @@ export function ReplyModal() {
       />
       <p
         role="status"
-        className={`mt-2 min-h-5 text-sm ${f.result && !f.result.ok ? 'text-rose-600' : 'text-slate-600'}`}
+        className={`mt-2 min-h-5 text-base ${f.result && !f.result.ok ? 'text-rose-600' : 'text-slate-700'}`}
       >
         {f.result?.text}
       </p>

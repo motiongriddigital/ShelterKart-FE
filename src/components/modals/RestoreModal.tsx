@@ -10,7 +10,7 @@ export function RestoreModal() {
   const r = useRestore();
   return (
     <Modal id="restoreModal" title={t('Restore a report you bought')}>
-      <p className="text-sm leading-relaxed text-slate-600">
+      <p className="text-base leading-relaxed text-slate-700">
         {t(
           'On a new phone, or after clearing your browser? Enter the payment ID from your Razorpay receipt email. It starts with',
         )}{' '}
@@ -27,7 +27,7 @@ export function RestoreModal() {
         onChange={(e) => r.setPaymentId(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && r.submit()}
       />
-      <p role="status" className="mt-2 min-h-5 text-sm text-slate-600">
+      <p role="status" className="mt-2 min-h-5 text-base text-slate-700">
         {r.message}
       </p>
       <Button className="mt-3 w-full" disabled={r.busy} onClick={r.submit}>

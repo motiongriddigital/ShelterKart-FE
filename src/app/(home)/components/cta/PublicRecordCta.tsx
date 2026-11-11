@@ -15,7 +15,7 @@ export async function PublicRecordCta() {
         <h2 className="mt-5 text-3xl font-extrabold tracking-tight md:text-4xl">
           {t(PUBLIC_RECORD.title)}
         </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[#cbd5e1]">
+        <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-[#cbd5e1]">
           {t(PUBLIC_RECORD.sub)}
         </p>
 
@@ -23,9 +23,7 @@ export async function PublicRecordCta() {
           {PUBLIC_RECORD.stats.map((s) => (
             <div key={s.label} className="rounded-lg border border-[#fff]/10 bg-[#fff]/5 p-4">
               <dd className="text-2xl font-bold tabular-nums md:text-3xl">{s.value}</dd>
-              <dt className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-                {t(s.label)}
-              </dt>
+              <dt className="mt-1 text-sm font-semibold text-slate-600">{t(s.label)}</dt>
             </div>
           ))}
         </dl>

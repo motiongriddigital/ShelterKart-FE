@@ -38,19 +38,15 @@ export async function PillarCards() {
               <Icon className="size-5" strokeWidth={1.6} aria-hidden="true" />
             </span>
             {p.featured && (
-              <span className="mt-3 inline-block rounded bg-emerald-50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-700">
+              <span className="mt-3 inline-block rounded bg-emerald-50 px-2 py-0.5 text-sm font-bold text-emerald-700">
                 {t(p.tag)}
               </span>
             )}
-            <h2 className="mt-3 text-base font-bold text-slate-900">{t(p.title)}</h2>
-            <p className="mx-auto mt-1 max-w-[16rem] text-xs leading-relaxed text-slate-500">
+            <h3 className="mt-3 text-lg font-bold text-slate-900">{t(p.title)}</h3>
+            <p className="mx-auto mt-1 max-w-[18rem] text-base leading-relaxed text-slate-600">
               {t(p.text)}
             </p>
-            {!p.featured && (
-              <p className="mt-3 text-[9px] font-bold uppercase tracking-wider text-blue-700">
-                {t(p.tag)}
-              </p>
-            )}
+            {!p.featured && <p className="mt-3 text-sm font-bold text-blue-700">{t(p.tag)}</p>}
           </li>
         );
       })}

@@ -19,3 +19,5 @@ export type DocketClaim = { label: string; text: string; flag?: 'bad' | 'ok'; re
 export type Stat = { value: string; label: string };
 
 export type FooterColumn = { title: string; links: NavLink[] };
+
+export type Step = { icon: 'search' | 'preview' | 'unlock'; title: string; text: string };

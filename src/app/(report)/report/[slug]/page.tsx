@@ -10,6 +10,7 @@ import { ReportHeader } from './components/ReportHeader';
 import { ReportHero } from './components/ReportHero';
 import { ReportTopBar } from './components/ReportTopBar';
 import { SourcesSection } from './components/SourcesSection';
+import { WhatItMeans } from './components/WhatItMeans';
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -32,6 +33,7 @@ export default async function PropertyReportPage({ params }: Params) {
       <ReportHeader report={report} />
       <main>
         <ReportHero report={report} />
+        <WhatItMeans report={report} />
         <DiscrepancySection report={report} />
         <QuestionSection report={report} />
         <NumbersSection report={report} />

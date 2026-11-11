@@ -24,12 +24,12 @@ const HUBTOWN_CELESTE: PropertyReport = {
     { label: 'Total Sanctioned Units', value: '211 Flats / Units' },
   ],
   stats: [
-    { label: 'Total Findings', value: 43, tone: 'slate' },
-    { label: 'Official Confirmed', value: 6, tone: 'green' },
-    { label: 'Reported Sources', value: 37, tone: 'blue' },
-    { label: 'Source Disagreements', value: 2, tone: 'amber' },
-    { label: 'Reasoned Findings', value: 8, tone: 'violet' },
-    { label: 'Action Questions', value: 30, tone: 'slate' },
+    { label: 'Things we found', value: 43, tone: 'slate' },
+    { label: 'Confirmed officially', value: 6, tone: 'green' },
+    { label: 'Reported elsewhere', value: 37, tone: 'blue' },
+    { label: 'Sources disagree', value: 2, tone: 'amber' },
+    { label: 'Our own conclusions', value: 8, tone: 'violet' },
+    { label: 'Questions to ask', value: 30, tone: 'slate' },
   ],
   discrepancies: [
     {
