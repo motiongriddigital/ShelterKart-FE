@@ -5,9 +5,10 @@ import { DiscrepancySection } from './components/DiscrepancySection';
 import { DueDiligenceMatrix } from './components/DueDiligenceMatrix';
 import { NumbersSection } from './components/NumbersSection';
 import { QuestionSection } from './components/QuestionSection';
-import { ReportFooter } from './components/ReportFooter';
-import { ReportHeader } from './components/ReportHeader';
+import { ReportDisclaimer } from './components/ReportDisclaimer';
+import { ReportActions } from './components/ReportActions';
 import { ReportHero } from './components/ReportHero';
+import { ReportNav } from './components/ReportNav';
 import { ReportTopBar } from './components/ReportTopBar';
 import { SourcesSection } from './components/SourcesSection';
 import { WhatItMeans } from './components/WhatItMeans';
@@ -30,8 +31,9 @@ export default async function PropertyReportPage({ params }: Params) {
   return (
     <>
       <ReportTopBar report={report} />
-      <ReportHeader report={report} />
+      <ReportNav />
       <main>
+        <ReportActions report={report} />
         <ReportHero report={report} />
         <WhatItMeans report={report} />
         <DiscrepancySection report={report} />
@@ -39,8 +41,8 @@ export default async function PropertyReportPage({ params }: Params) {
         <NumbersSection report={report} />
         <DueDiligenceMatrix checklist={report.checklist} />
         <SourcesSection report={report} />
+        <ReportDisclaimer report={report} />
       </main>
-      <ReportFooter report={report} />
     </>
   );
 }

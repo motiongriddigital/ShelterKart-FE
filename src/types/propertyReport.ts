@@ -1,7 +1,7 @@
 export type Tone = 'green' | 'blue' | 'amber' | 'violet' | 'slate' | 'red';
 
 export type LedgerRow = { label: string; value: string; highlight?: boolean };
-export type Stat = { label: string; value: number; tone: Tone };
+export type Stat = { label: string; value: number; tone: Tone; hint: string };
 
 export type Claim = { label: string; title: string; note: string };
 export type Discrepancy = {
