@@ -1,11 +1,16 @@
 import { ShieldCheck } from 'lucide-react';
+import { BlueprintArt } from '@/components/illustrations/BlueprintArt';
+import { Decor } from '@/components/illustrations/Decor';
 
 export function AboutHero() {
   return (
-    <section className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <section className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <Decor className="end-60 top-0 hidden w-52 lg:block xl:end-72">
+        <BlueprintArt className="w-full text-blue-600/25" />
+      </Decor>
       <div>
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.6875rem] text-slate-500">
-          <span className="rounded border border-slate-200 bg-slate-50 px-2 py-0.5 font-semibold uppercase tracking-wide">
+          <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 font-semibold uppercase tracking-wide">
             Statutory disclosure &amp; corporate mission
           </span>
           <span>Gazette Code: SK-ABT-2026</span>

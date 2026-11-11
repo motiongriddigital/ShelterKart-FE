@@ -26,7 +26,7 @@ export function MarketCoverage({ markets }: { markets: Market[] }) {
             {t('Where is the property?')}
             <strong className="text-base text-slate-900">{t(label)}</strong>
             {registry && (
-              <span className="rounded bg-blue-50 px-1.5 py-0.5 text-sm font-bold text-blue-700">
+              <span className="rounded-md bg-blue-50 px-1.5 py-0.5 text-sm font-bold text-blue-700">
                 {registry}
               </span>
             )}

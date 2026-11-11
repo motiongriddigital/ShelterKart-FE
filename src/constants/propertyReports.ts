@@ -17,25 +17,40 @@ const HUBTOWN_CELESTE: PropertyReport = {
   summary:
     '43 findings from 28 sources. 2 disagreements between sources and 8 conclusions drawn by reasoning. Research, not advice. Inputs shown as what public sources show and it does not tell you whether to buy.',
   ledger: [
-    { label: 'Official Filing Entity', value: 'Nayan Real Estate Pvt Ltd' },
-    { label: 'Public Marketed Brand', value: 'Hubtown Limited' },
-    { label: 'RERA Revised End Date', value: '31 Jul 2028', highlight: true },
-    { label: 'Marketed Possession', value: 'Dec 2027 / Mar 2027' },
-    { label: 'Total Sanctioned Units', value: '211 Flats / Units' },
+    { label: 'Company in the official record', value: 'Nayan Real Estate Pvt Ltd' },
+    { label: 'Name on the brochure', value: 'Hubtown Limited' },
+    { label: 'Official finish date (revised)', value: '31 Jul 2028', highlight: true },
+    { label: 'Handover date promised', value: 'Dec 2027 / Mar 2027' },
+    { label: 'Homes approved', value: '211 Flats / Units' },
   ],
   stats: [
-    { label: 'Things we found', value: 43, tone: 'slate' },
-    { label: 'Confirmed officially', value: 6, tone: 'green' },
-    { label: 'Reported elsewhere', value: 37, tone: 'blue' },
-    { label: 'Sources disagree', value: 2, tone: 'amber' },
-    { label: 'Our own conclusions', value: 8, tone: 'violet' },
-    { label: 'Questions to ask', value: 30, tone: 'slate' },
+    { label: 'Things we found', value: 43, tone: 'slate', hint: 'Facts gathered from 28 sources' },
+    { label: 'Confirmed officially', value: 6, tone: 'green', hint: 'Seen in an official record' },
+    {
+      label: 'Reported elsewhere',
+      value: 37,
+      tone: 'blue',
+      hint: 'Found in news and reviews only',
+    },
+    {
+      label: 'Sources disagree',
+      value: 2,
+      tone: 'amber',
+      hint: 'Two records say different things',
+    },
+    {
+      label: 'Our own conclusions',
+      value: 8,
+      tone: 'violet',
+      hint: 'Worked out by us from the facts',
+    },
+    { label: 'Questions to ask', value: 30, tone: 'slate', hint: 'To put to the seller' },
   ],
   discrepancies: [
     {
       tag: 'Contractual Entity',
       code: 'ASD 30 · 01',
-      title: 'Who Sells Vs Who Contracts',
+      title: 'Who sells it, and who signs the contract',
       claimed: {
         label: 'Promoted marketing',
         title: '"Hubtown Limited"',
@@ -54,7 +69,7 @@ const HUBTOWN_CELESTE: PropertyReport = {
     {
       tag: 'Timeline Gap',
       code: 'ASD 30 · 02',
-      title: 'Completion Timeline Disparity',
+      title: 'The finish date does not match',
       claimed: {
         label: 'Brochure / sales pitch',
         title: 'Dec 2027 / March 2027',
@@ -73,7 +88,7 @@ const HUBTOWN_CELESTE: PropertyReport = {
     {
       tag: 'FSI / Plan Approval',
       code: 'ASD 30 · 03',
-      title: 'Carpet Area vs Sanctioned Built-Up',
+      title: 'The size sold is bigger than the size approved',
       claimed: {
         label: 'Proposed carpet (211 units)',
         title: '6,481.25 sq m',
@@ -154,7 +169,7 @@ const HUBTOWN_CELESTE: PropertyReport = {
     },
   ],
   numbers: {
-    title: 'Quoted Asking vs Registered Transaction Data',
+    title: 'The price asked versus the price on record',
     badge: 'Registry Verified Comps',
     rows: [
       {
@@ -186,7 +201,7 @@ const HUBTOWN_CELESTE: PropertyReport = {
       '* Transaction benchmark sourced from documented Sub-Registrar / IGR filings for Hubtown Celeste pin code cluster.',
     statutory: {
       rule: 'MahaRERA Rule 18',
-      title: 'Delay Interest Exposure',
+      title: 'What a delay could cost you',
       intro:
         'If the builder misses the informal target (Dec 2027) but stays within their MahaRERA registration (July 2028), you bear the carrying cost without statutory penalty entitlement.',
       rows: [
@@ -247,31 +262,31 @@ const HUBTOWN_CELESTE: PropertyReport = {
     {
       authority: 'MahaRERA Public Portal',
       document: 'PS1900008925 Certificate',
-      status: { label: 'Verified Official Source', tone: 'green' },
+      status: { label: 'Confirmed in an official record', tone: 'green' },
       note: 'Registration valid up to 31/07/2028. Promoter: Nayan Real Estate Pvt Ltd.',
     },
     {
       authority: 'MCGM / BMC Building Proposal',
       document: 'IOD & CC Ledger 2024',
-      status: { label: 'Verified Official Source', tone: 'green' },
+      status: { label: 'Confirmed in an official record', tone: 'green' },
       note: 'Sanctioned built-up area approved at 2,623.62 sq m.',
     },
     {
       authority: 'IGR Maharashtra',
       document: 'Index-II Sub-Registrar Filings',
-      status: { label: 'Verified Official Source', tone: 'green' },
+      status: { label: 'Confirmed in an official record', tone: 'green' },
       note: 'Historical registrations average ₹1.50 Cr for standard units.',
     },
     {
       authority: 'Promoter Marketing Portal',
       document: 'celeste.hubtown.com / Collaterals',
-      status: { label: 'Sources Disagree', tone: 'amber' },
+      status: { label: 'Sources disagree', tone: 'amber' },
       note: 'Projects possession for Dec 2027, which identifies Hubtown directly.',
     },
     {
       authority: 'Ministry of Corporate Affairs (MCA)',
       document: 'CIN: U70109MH2007PTC174823',
-      status: { label: 'Reported in Review', tone: 'blue' },
+      status: { label: 'Reported by other sources', tone: 'blue' },
       note: 'Entity financials and director status cross-verified.',
     },
   ],

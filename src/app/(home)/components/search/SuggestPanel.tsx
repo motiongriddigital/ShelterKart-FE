@@ -50,7 +50,7 @@ function CandidateRow({
         {[c.name + (c.phase ? ` · ${c.phase}` : ''), c.locality, c.city].filter(Boolean).join(', ')}
       </span>
       {best && (
-        <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-sm font-bold text-emerald-700">
+        <span className="rounded-md bg-emerald-50 px-1.5 py-0.5 text-sm font-bold text-emerald-700">
           {t('Best match')}
         </span>
       )}
@@ -204,7 +204,7 @@ function Body({
                     {it.r.name}, {it.r.locality}, {it.r.city}
                   </span>
                   {it.best && (
-                    <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-sm font-bold text-emerald-700">
+                    <span className="rounded-md bg-emerald-50 px-1.5 py-0.5 text-sm font-bold text-emerald-700">
                       {t('Best match')}
                     </span>
                   )}

@@ -9,7 +9,7 @@ export function EntityNotice() {
         <strong className="text-slate-900">
           Statutory Compliance &amp; Legal Entity Disclosure
         </strong>{' '}
-        <span className="ms-1 rounded bg-blue-50 px-1.5 py-0.5 text-[0.5625rem] font-bold uppercase tracking-wider text-blue-700">
+        <span className="ms-1 rounded-md bg-blue-50 px-1.5 py-0.5 text-[0.5625rem] font-bold uppercase tracking-wider text-blue-700">
           Active registry
         </span>
         <br />

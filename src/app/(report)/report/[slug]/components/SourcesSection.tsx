@@ -1,44 +1,35 @@
 import type { PropertyReport } from '@/types/propertyReport';
 import { Chip } from './Chip';
+import { LandPlotArt } from '@/components/illustrations/LandPlotArt';
 import { SectionHeading } from './SectionHeading';
-
-const HEAD = ['Source authority', 'Document / reference', 'Verification status', 'Observation'];
 
 export function SourcesSection({ report }: { report: PropertyReport }) {
   return (
-    <section className="mx-auto max-w-[1900px] px-4 pt-12 md:px-8 xl:px-12">
+    <section
+      id="sources"
+      className="mx-auto max-w-[1900px] scroll-mt-36 px-4 pt-14 md:px-8 xl:px-12"
+    >
       <SectionHeading
+        art={<LandPlotArt className="w-full text-blue-600/20" />}
         eyebrow="Part 5 · Where this came from"
         title="The official sources we used"
         sub="Every finding in this report comes from one of these records."
       />
-      <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
-        <table className="w-full min-w-[40rem] border-collapse text-left text-sm">
-          <thead>
-            <tr className="bg-slate-50 text-sm text-slate-600">
-              {HEAD.map((h) => (
-                <th key={h} scope="col" className="px-4 py-2.5 font-bold">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="text-slate-700">
-            {report.sources.map((s) => (
-              <tr key={s.authority} className="border-t border-slate-100 align-top">
-                <th scope="row" className="px-4 py-3 font-semibold text-slate-900">
-                  {s.authority}
-                </th>
-                <td className="px-4 py-3 font-mono text-sm">{s.document}</td>
-                <td className="px-4 py-3">
-                  <Chip tone={s.status.tone}>{s.status.label}</Chip>
-                </td>
-                <td className="px-4 py-3">{s.note}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {report.sources.map((s) => (
+          <li
+            key={s.authority}
+            className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5"
+          >
+            <Chip tone={s.status.tone} className="self-start">
+              {s.status.label}
+            </Chip>
+            <h3 className="mt-3 text-lg font-bold text-slate-900">{s.authority}</h3>
+            <p className="mt-1 text-base text-slate-700">{s.document}</p>
+            <p className="mt-3 text-base leading-relaxed text-slate-800">{s.note}</p>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

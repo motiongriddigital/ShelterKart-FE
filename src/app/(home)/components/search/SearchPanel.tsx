@@ -1,6 +1,9 @@
 'use client';
 import { useCallback, useRef } from 'react';
 import { Mic, Search } from 'lucide-react';
+import { Decor } from '@/components/illustrations/Decor';
+import { DocumentSealArt } from '@/components/illustrations/DocumentSealArt';
+import { LandPlotArt } from '@/components/illustrations/LandPlotArt';
 import { Button } from '@/components/ui/Button';
 import { IS_DEMO } from '@/configs/env';
 import { useDossierFlow } from '@/hooks/useDossierFlow';
@@ -29,7 +32,13 @@ export function SearchPanel() {
   const voice = useVoiceSearch({ onSearch: submit, onEdit: setQuery, focusInput });
 
   return (
-    <section id="search" className="scroll-mt-24 px-4 pb-10 md:px-8">
+    <section id="search" className="relative scroll-mt-24 overflow-x-clip px-4 pb-10 md:px-8">
+      <Decor className="start-4 top-16 hidden w-44 lg:block xl:start-12 xl:w-56">
+        <LandPlotArt className="w-full text-blue-600/25" />
+      </Decor>
+      <Decor className="end-4 top-24 hidden w-40 lg:block xl:end-12 xl:w-52">
+        <DocumentSealArt className="w-full text-blue-600/25" />
+      </Decor>
       <div
         ref={cardRef}
         className="mx-auto max-w-3xl rounded-xl border border-slate-200 bg-white p-5 text-center shadow-lg md:p-8"

@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteModals } from '@/components/modals/SiteModals';
+import { Decor } from '@/components/illustrations/Decor';
+import { SkylineArt } from '@/components/illustrations/SkylineArt';
 import { getT } from '@/i18n/server';
 import { orderedMarkets } from '@/utils/markets';
 import { PublicRecordCta } from './components/cta/PublicRecordCta';
@@ -25,7 +27,7 @@ export default async function HomePage() {
       <DemoBanner />
       <Link
         href="#search"
-        className="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-[70] focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-base"
+        className="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:z-[70] focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-base"
       >
         {t('Skip to search')}
       </Link>
@@ -50,8 +52,14 @@ export default async function HomePage() {
         <Hero />
         <SearchPanel />
         <HowItWorks />
-        <section aria-labelledby="trust-title" className="px-4 pb-12 md:px-8">
-          <div className="mx-auto max-w-5xl">
+        <section
+          aria-labelledby="trust-title"
+          className="relative overflow-x-clip px-4 pb-24 md:px-8 md:pb-32"
+        >
+          <Decor className="inset-x-0 bottom-0">
+            <SkylineArt className="h-20 w-full text-blue-600/20 md:h-32" />
+          </Decor>
+          <div className="relative mx-auto max-w-5xl">
             <h2
               id="trust-title"
               className="text-center text-2xl font-bold tracking-tight text-slate-900 md:text-3xl"
