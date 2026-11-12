@@ -15,18 +15,20 @@ export function MarketCoverage({ markets }: { markets: Market[] }) {
   const registry = MARKET_REGISTRY[market];
 
   return (
-    <section id="markets" className="scroll-mt-24 px-4 py-10 md:px-8">
-      <div className="mx-auto max-w-5xl rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+    <section id="markets" className="scroll-mt-24 px-4 pt-4 pb-8 md:px-8">
+      <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p
-            className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600"
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 text-base text-cream/80"
             aria-live="polite"
           >
-            <Globe className="size-5 text-blue-700" aria-hidden="true" />
+            <Globe className="size-5 text-gold" aria-hidden="true" />
             {t('Where is the property?')}
-            <strong className="text-base text-slate-900">{t(label)}</strong>
+            <strong key={market} className="anim-caption font-display text-xl text-cream">
+              {t(label)}
+            </strong>
             {registry && (
-              <span className="rounded-md bg-blue-50 px-1.5 py-0.5 text-sm font-bold text-blue-700">
+              <span className="rounded-md border border-gold/50 px-2 py-0.5 text-sm font-semibold text-gold">
                 {registry}
               </span>
             )}
@@ -34,7 +36,7 @@ export function MarketCoverage({ markets }: { markets: Market[] }) {
           <LanguageSelect />
         </div>
 
-        <p className="mt-2 text-base text-slate-700">
+        <p className="mt-2 text-base text-cream/75">
           {t('Pick the country. The records we search and the price you pay follow your choice.')}
         </p>
 
@@ -49,10 +51,10 @@ export function MarketCoverage({ markets }: { markets: Market[] }) {
                   aria-label={t('Select {country}', { country: t(m.label) })}
                   onClick={() => select(m.code as MarketCode)}
                   className={cn(
-                    'flex w-full flex-col items-center gap-1 rounded-lg border px-1 py-3 text-sm font-semibold text-slate-600 transition-colors',
+                    'flex w-full flex-col items-center gap-1 rounded-lg border px-1 py-3 text-sm font-semibold text-cream/80 transition-colors',
                     active
-                      ? 'border-blue-600 bg-blue-50 text-blue-800 ring-1 ring-blue-600'
-                      : 'border-transparent hover:border-slate-200 hover:bg-slate-50',
+                      ? 'border-gold bg-cream/10 text-cream ring-1 ring-gold'
+                      : 'border-cream/15 bg-cream/5 hover:border-cream/40 hover:bg-cream/10',
                   )}
                 >
                   <Flag

@@ -32,12 +32,12 @@ export function SearchPanel() {
   const voice = useVoiceSearch({ onSearch: submit, onEdit: setQuery, focusInput });
 
   return (
-    <section id="search" className="relative scroll-mt-24 overflow-x-clip px-4 pb-10 md:px-8">
+    <section id="search" className="relative scroll-mt-24 px-4 pb-8 md:px-8">
       <Decor className="start-4 top-16 hidden w-44 lg:block xl:start-12 xl:w-56">
-        <LandPlotArt className="w-full text-blue-600/25" />
+        <LandPlotArt className="w-full text-cream/15" />
       </Decor>
       <Decor className="end-4 top-24 hidden w-40 lg:block xl:end-12 xl:w-52">
-        <DocumentSealArt className="w-full text-blue-600/25" />
+        <DocumentSealArt className="w-full text-cream/15" />
       </Decor>
       <div
         ref={cardRef}
