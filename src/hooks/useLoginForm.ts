@@ -1,7 +1,9 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState, type FormEvent } from 'react';
-import { LOGIN_ERRORS } from '@/constants/auth';
+import { LOGIN_ERRORS, VERIFY_PATH } from '@/constants/auth';
 import { useT } from '@/hooks/useT';
+import { useSignIn } from '@/store/signIn';
 import type { LoginErrors, LoginValues } from '@/types/login';
 import { isEmail } from '@/utils/validators';
 
@@ -16,11 +18,13 @@ function validate(v: LoginValues): LoginErrors {
 }
 
 /**
- * State and checks of the sign-in form. It validates and stops there: the call to the sign-in service is added here
- * (in `submit`, through services/auth) once the API exists.
+ * State and checks of the sign-in form. When the form is valid it keeps the email for the next step and opens the
+ * verify page. The call to the sign-in service is added in `submit` (through services/auth) once the API exists.
  */
 export function useLoginForm() {
   const t = useT();
+  const router = useRouter();
+  const setEmail = useSignIn((s) => s.setEmail);
   const [values, setValues] = useState<LoginValues>(EMPTY);
   const [errors, setErrors] = useState<LoginErrors>({});
   const [showPassword, setShowPassword] = useState(false);
@@ -35,9 +39,14 @@ export function useLoginForm() {
       e.preventDefault();
       const found = validate(values);
       setErrors(found);
-      return Object.keys(found).length === 0;
+      const ok = Object.keys(found).length === 0;
+      if (ok) {
+        setEmail(values.email.trim());
+        router.push(VERIFY_PATH);
+      }
+      return ok;
     },
-    [values],
+    [values, setEmail, router],
   );
 
   const error = (key: keyof LoginValues) => (errors[key] ? t(errors[key]) : undefined);

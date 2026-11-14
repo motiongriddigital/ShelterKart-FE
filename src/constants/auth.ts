@@ -10,6 +10,9 @@ export const LOGIN_COPY = {
   note: 'We never share your details. Nothing is sold.',
 } as const;
 
+/** Where signing in goes next: the page that asks for the code. */
+export const VERIFY_PATH = '/login/verify';
+
 export const LOGIN_ERRORS = {
   email: 'Enter a valid email address, such as you@example.com.',
   password: 'Enter your password.',
