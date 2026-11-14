@@ -11,6 +11,9 @@ export function useResendTimer(seconds: number) {
     return () => clearTimeout(id);
   }, [left]);
 
-  const restart = useCallback(() => setLeft(seconds), [seconds]);
+  // The first value can change once the pending sign-in is read back from session storage.
+  useEffect(() => setLeft(seconds), [seconds]);
+
+  const restart = useCallback((next?: number) => setLeft(next ?? seconds), [seconds]);
   return { left, ready: left <= 0, restart };
 }

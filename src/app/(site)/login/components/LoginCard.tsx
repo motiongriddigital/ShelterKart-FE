@@ -11,7 +11,8 @@ import { TermsCheckbox } from './TermsCheckbox';
 /** The sign-in card: email, password, the terms box and the button. It only checks the form for now. */
 export function LoginCard() {
   const t = useT();
-  const { values, set, submit, error, showPassword, toggleShowPassword } = useLoginForm();
+  const { values, set, signIn, error, formError, busy, showPassword, toggleShowPassword } =
+    useLoginForm();
   const ShowIcon = showPassword ? EyeOff : Eye;
 
   return (
@@ -23,7 +24,7 @@ export function LoginCard() {
 
       <form
         noValidate
-        onSubmit={submit}
+        onSubmit={signIn}
         className="rounded-2xl border border-slate-200 border-t-2 border-t-gold bg-white p-6 shadow-lg md:p-8"
       >
         <DocumentMark size={48} className="mx-auto" />
@@ -75,8 +76,23 @@ export function LoginCard() {
           />
         </div>
 
-        <Button type="submit" variant="gold" size="lg" className="mt-6 w-full text-base">
-          {t(LOGIN_COPY.submit)}
+        {formError && (
+          <p
+            role="alert"
+            className="mt-4 rounded-lg border border-rose-600 bg-rose-50 px-4 py-3 text-base text-rose-700"
+          >
+            {formError}
+          </p>
+        )}
+
+        <Button
+          type="submit"
+          variant="gold"
+          size="lg"
+          disabled={busy}
+          className="mt-6 w-full text-base"
+        >
+          {busy ? t(LOGIN_COPY.submitting) : t(LOGIN_COPY.submit)}
           <ArrowRight aria-hidden="true" />
         </Button>
         <p className="mt-4 text-center text-base text-slate-700">{t(LOGIN_COPY.note)}</p>

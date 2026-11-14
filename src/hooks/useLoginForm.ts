@@ -3,8 +3,10 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState, type FormEvent } from 'react';
 import { LOGIN_ERRORS, VERIFY_PATH } from '@/constants/auth';
 import { useT } from '@/hooks/useT';
+import { requestSignInCode } from '@/services/auth';
 import { useSignIn } from '@/store/signIn';
 import type { LoginErrors, LoginValues } from '@/types/login';
+import { failureMessage } from '@/utils/apiErrors';
 import { isEmail } from '@/utils/validators';
 
 const EMPTY: LoginValues = { email: '', password: '', acceptedTerms: false };
@@ -18,35 +20,55 @@ function validate(v: LoginValues): LoginErrors {
 }
 
 /**
- * State and checks of the sign-in form. When the form is valid it keeps the email for the next step and opens the
- * verify page. The call to the sign-in service is added in `submit` (through services/auth) once the API exists.
+ * The sign-in form: its values, its checks, and the sign-in itself. `signIn` checks the form, asks the server for a
+ * code (service), keeps what the verify step needs (state), then opens the verify page.
  */
 export function useLoginForm() {
   const t = useT();
   const router = useRouter();
-  const setEmail = useSignIn((s) => s.setEmail);
+  const startVerification = useSignIn((s) => s.startVerification);
   const [values, setValues] = useState<LoginValues>(EMPTY);
   const [errors, setErrors] = useState<LoginErrors>({});
+  const [formError, setFormError] = useState<string>();
+  const [busy, setBusy] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const set = useCallback(<K extends keyof LoginValues>(key: K, value: LoginValues[K]) => {
     setValues((v) => ({ ...v, [key]: value }));
     setErrors((e) => ({ ...e, [key]: undefined })); // a field's message goes away as soon as it is edited
+    setFormError(undefined);
   }, []);
 
-  const submit = useCallback(
-    (e: FormEvent) => {
+  const signIn = useCallback(
+    async (e: FormEvent) => {
       e.preventDefault();
       const found = validate(values);
       setErrors(found);
-      const ok = Object.keys(found).length === 0;
-      if (ok) {
-        setEmail(values.email.trim());
+      if (Object.keys(found).length) return;
+
+      const email = values.email.trim();
+      setBusy(true);
+      setFormError(undefined);
+      try {
+        const sent = await requestSignInCode({
+          email,
+          password: values.password,
+          termsAccepted: values.acceptedTerms,
+        });
+        startVerification({
+          email,
+          acceptedTerms: values.acceptedTerms,
+          codeLength: sent.codeLength,
+          cooldownSeconds: sent.cooldownSeconds,
+        });
         router.push(VERIFY_PATH);
+      } catch (err) {
+        setFormError(failureMessage(err, t));
+      } finally {
+        setBusy(false);
       }
-      return ok;
     },
-    [values, setEmail, router],
+    [values, startVerification, router, t],
   );
 
   const error = (key: keyof LoginValues) => (errors[key] ? t(errors[key]) : undefined);
@@ -54,8 +76,10 @@ export function useLoginForm() {
   return {
     values,
     set,
-    submit,
+    signIn,
     error,
+    formError,
+    busy,
     showPassword,
     toggleShowPassword: () => setShowPassword((s) => !s),
   };

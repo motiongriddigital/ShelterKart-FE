@@ -8,6 +8,14 @@ export type SessionUser = {
   createdAt: string;
 };
 
+/** What asking for a sign-in code sends. `termsAccepted` is needed on a first sign-in (`consent_required`). */
+export type RequestCodeInput = {
+  email: string;
+  password?: string;
+  termsAccepted?: boolean;
+  language?: string;
+};
+
 export type RequestCodeResult = {
   ok: boolean;
   cooldownSeconds: number;

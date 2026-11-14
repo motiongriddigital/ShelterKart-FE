@@ -1,9 +1,9 @@
 'use client';
 import { useRef, type ClipboardEvent, type KeyboardEvent } from 'react';
-import { CODE_LENGTH } from '@/constants/verify';
 import { cn } from '@/utils/cn';
 
 type Props = {
+  length: number;
   value: string;
   onChange: (code: string) => void;
   invalid?: boolean;
@@ -11,14 +11,14 @@ type Props = {
 };
 
 /** One box per digit, grouped 3 and 3. Typing moves on, Backspace moves back, and a pasted code fills every box. */
-export function CodeInput({ value, onChange, invalid, describedBy }: Props) {
+export function CodeInput({ length, value, onChange, invalid, describedBy }: Props) {
   const boxes = useRef<(HTMLInputElement | null)[]>([]);
-  const focus = (i: number) => boxes.current[Math.min(Math.max(i, 0), CODE_LENGTH - 1)]?.focus();
+  const focus = (i: number) => boxes.current[Math.min(Math.max(i, 0), length - 1)]?.focus();
 
   const type = (i: number, raw: string) => {
     const digits = raw.replace(/\D/g, '');
     if (!digits) return;
-    const next = (value.slice(0, i) + digits).slice(0, CODE_LENGTH);
+    const next = (value.slice(0, i) + digits).slice(0, length);
     onChange(next + value.slice(next.length));
     focus(i + digits.length);
   };
@@ -37,7 +37,7 @@ export function CodeInput({ value, onChange, invalid, describedBy }: Props) {
 
   const paste = (e: ClipboardEvent) => {
     e.preventDefault();
-    const digits = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, CODE_LENGTH);
+    const digits = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, length);
     onChange(digits);
     focus(digits.length);
   };
@@ -45,12 +45,12 @@ export function CodeInput({ value, onChange, invalid, describedBy }: Props) {
   return (
     <div
       role="group"
-      aria-label="Your 6-digit code"
+      aria-label={`Your ${length}-digit code`}
       className="flex items-center justify-center gap-1 sm:gap-2"
     >
-      {Array.from({ length: CODE_LENGTH }, (_, i) => (
+      {Array.from({ length: length }, (_, i) => (
         <span key={i} className="contents">
-          {i === CODE_LENGTH / 2 && (
+          {i === length / 2 && (
             <span aria-hidden="true" className="h-0.5 w-2 bg-slate-400 sm:mx-1 sm:w-3" />
           )}
           <input
@@ -60,9 +60,9 @@ export function CodeInput({ value, onChange, invalid, describedBy }: Props) {
             type="text"
             inputMode="numeric"
             autoComplete={i === 0 ? 'one-time-code' : 'off'}
-            maxLength={CODE_LENGTH}
+            maxLength={length}
             value={value[i] ?? ''}
-            aria-label={`Digit ${i + 1} of ${CODE_LENGTH}`}
+            aria-label={`Digit ${i + 1} of ${length}`}
             aria-invalid={invalid ? true : undefined}
             aria-describedby={describedBy}
             onChange={(e) => type(i, e.target.value)}

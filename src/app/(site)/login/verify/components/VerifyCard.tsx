@@ -4,8 +4,7 @@ import { useEffect } from 'react';
 import { ArrowLeft, Mail, Pencil } from 'lucide-react';
 import { DocumentMark } from '@/components/illustrations/DocumentMark';
 import { Button } from '@/components/ui/Button';
-import { RESEND_SECONDS, VERIFY_COPY } from '@/constants/verify';
-import { useResendTimer } from '@/hooks/useResendTimer';
+import { VERIFY_COPY } from '@/constants/verify';
 import { useT } from '@/hooks/useT';
 import { useVerifyCodeForm } from '@/hooks/useVerifyCodeForm';
 import { useSignIn } from '@/store/signIn';
@@ -15,12 +14,11 @@ import { ResendRow } from './ResendRow';
 /** The verify-code card: the code, a way to ask for a new one, and the button. It only checks the code for now. */
 export function VerifyCard() {
   const t = useT();
-  const email = useSignIn((s) => s.email);
   useEffect(() => {
     void useSignIn.persist.rehydrate(); // the email is kept in session storage, which only the browser can read
   }, []);
-  const { code, setCode, error, submit } = useVerifyCodeForm();
-  const { left, ready, restart } = useResendTimer(RESEND_SECONDS);
+  const { email, code, setCode, codeLength, error, formError, busy, verify, resend, timer } =
+    useVerifyCodeForm();
 
   return (
     <div className="mx-auto w-full max-w-md">
@@ -31,14 +29,16 @@ export function VerifyCard() {
 
       <form
         noValidate
-        onSubmit={submit}
+        onSubmit={verify}
         className="rounded-2xl border border-slate-200 border-t-2 border-t-gold bg-white p-6 shadow-lg md:p-8"
       >
         <DocumentMark size={48} className="mx-auto" />
         <h1 className="mt-3 text-center text-3xl font-semibold text-slate-900">
           {t(VERIFY_COPY.title)}
         </h1>
-        <p className="mt-2 text-center text-base text-slate-700">{t(VERIFY_COPY.sub)}</p>
+        <p className="mt-2 text-center text-base text-slate-700">
+          {t(VERIFY_COPY.sub, { n: codeLength })}
+        </p>
 
         <div className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-base">
           <span className="flex min-w-0 items-center gap-2 text-slate-900">
@@ -55,10 +55,11 @@ export function VerifyCard() {
         </div>
 
         <p id="code-label" className="mt-6 text-center text-base font-semibold text-slate-900">
-          {t(VERIFY_COPY.codeLabel)}
+          {t(VERIFY_COPY.codeLabel, { n: codeLength })}
         </p>
         <div className="mt-3">
           <CodeInput
+            length={codeLength}
             value={code}
             onChange={setCode}
             invalid={!!error}
@@ -72,10 +73,25 @@ export function VerifyCard() {
         )}
         <p className="mt-3 text-center text-base text-slate-700">{t(VERIFY_COPY.once)}</p>
 
-        <ResendRow left={left} ready={ready} onResend={restart} />
+        <ResendRow left={timer.left} ready={timer.ready} onResend={resend} />
 
-        <Button type="submit" variant="gold" size="lg" className="mt-6 w-full text-base">
-          {t(VERIFY_COPY.submit)}
+        {formError && (
+          <p
+            role="alert"
+            className="mt-4 rounded-lg border border-rose-600 bg-rose-50 px-4 py-3 text-base text-rose-700"
+          >
+            {formError}
+          </p>
+        )}
+
+        <Button
+          type="submit"
+          variant="gold"
+          size="lg"
+          disabled={busy}
+          className="mt-6 w-full text-base"
+        >
+          {busy ? t(VERIFY_COPY.verifying) : t(VERIFY_COPY.submit)}
         </Button>
         <Link
           href="/login"

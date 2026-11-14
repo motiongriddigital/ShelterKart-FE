@@ -1,19 +1,16 @@
 import { http, ApiError } from './http';
 import { proofOfWork } from './research';
-import type { RequestCodeResult, VerifyCodeResult } from '@/types/auth';
+import type { RequestCodeInput, RequestCodeResult, VerifyCodeResult } from '@/types/auth';
 
 const isChallenge = (e: unknown) =>
   e instanceof ApiError && e.status === 428 && (e.body as { code?: string })?.code === 'challenge';
 
 /** Asks for a sign-in code by e-mail; solves the anti-bot check when the server asks for it. */
-export async function requestSignInCode(
-  email: string,
-  language?: string,
-): Promise<RequestCodeResult> {
+export async function requestSignInCode(input: RequestCodeInput): Promise<RequestCodeResult> {
   const post = (pow?: object) =>
     http<RequestCodeResult>('/api/auth/request-code', {
       method: 'POST',
-      body: { email, language, pow },
+      body: { ...input, pow },
     });
   try {
     return await post();
