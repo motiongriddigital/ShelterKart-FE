@@ -12,7 +12,7 @@ export function AccountButton() {
       type="button"
       title={t('Restore a purchase')}
       onClick={() => open('restoreModal')}
-      className="hidden h-11 items-center gap-2 rounded-md border border-slate-300 px-3 text-base font-medium text-slate-700 hover:bg-slate-50 sm:flex"
+      className="hidden h-11 items-center gap-2 rounded-md border border-cream/30 px-3 text-base font-medium text-cream hover:bg-cream/10 sm:flex"
     >
       <User className="size-5" aria-hidden="true" />
       <span className="hidden xl:inline">{t('My purchases')}</span>

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function PricingPage() {
   return (
-    <div className="font-['Manrope_Variable',system-ui,sans-serif] [&_:is(h1,h2,h3)]:font-['Plus_Jakarta_Sans_Variable'] mx-auto max-w-[1900px] px-4 pb-14 pt-7 text-ink md:px-8 xl:px-12">
+    <div className="mx-auto max-w-[1900px] px-4 pb-14 pt-7 text-ink md:px-8 xl:px-12">
       <DraftBanner />
       <DocNav current="pricing" />
       <div className="space-y-10 md:space-y-12">

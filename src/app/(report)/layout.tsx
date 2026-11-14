@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
-import '@fontsource-variable/manrope';
-import '@fontsource-variable/plus-jakarta-sans';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteModals } from '@/components/modals/SiteModals';
-import { ThemeScript } from '@/components/ui/ThemeScript';
+import { fontVariables } from '@/configs/fonts';
 import { BASE_METADATA } from '@/configs/metadata';
 import { langInfo } from '@/i18n';
 import { I18nProvider } from '@/i18n/I18nProvider';
@@ -22,13 +20,9 @@ export default async function ReportLayout({ children }: { children: React.React
     <html
       lang={lang}
       dir={langInfo(lang).dir}
-      suppressHydrationWarning
-      className="min-[1280px]:text-[112.5%] min-[1600px]:text-[125%]"
+      className={`dark ${fontVariables} min-[1280px]:text-[112.5%] min-[1600px]:text-[125%]`}
     >
-      <head>
-        <ThemeScript />
-      </head>
-      <body className="bg-background font-['Manrope_Variable',system-ui,sans-serif] text-slate-900 antialiased [&_h1]:font-['Plus_Jakarta_Sans_Variable'] [&_h2]:font-['Plus_Jakarta_Sans_Variable'] [&_h3]:font-['Plus_Jakarta_Sans_Variable']">
+      <body className="bg-background font-text text-slate-900 antialiased">
         <I18nProvider lang={lang} dict={dict}>
           <SiteHeader />
           {children}

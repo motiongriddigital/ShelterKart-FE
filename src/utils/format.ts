@@ -25,3 +25,7 @@ export function money(amount: number, currency: string): string {
 export const shortDate = (t: string) =>
   new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
 export const dateTime = (t?: string) => (t ? new Date(t).toLocaleString() : '—');
+
+/** Seconds as a clock: 45 becomes "0:45", 125 becomes "2:05". */
+export const formatClock = (seconds: number) =>
+  `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;

@@ -26,13 +26,13 @@ export function LanguageSelect() {
 
   return (
     <div className="flex flex-col items-start gap-2 md:items-end">
-      <label className="flex items-center gap-2 text-sm text-slate-600">
-        <Languages className="size-3.5" aria-hidden="true" />
+      <label className="flex items-center gap-2 text-base text-cream/80">
+        <Languages className="size-5 text-gold" aria-hidden="true" />
         {t('Language')}
         <Select
           value={lang}
           onChange={(e) => setLanguage(e.target.value as LangCode)}
-          className="w-auto py-1.5 text-sm"
+          className="w-auto py-1.5 text-base text-slate-900"
         >
           {LANGUAGES.map((l) => (
             <option key={l.code} value={l.code}>
@@ -53,8 +53,8 @@ export function LanguageSelect() {
               onClick={() => setLanguage(c)}
               className={`rounded-full border px-2.5 py-0.5 text-sm font-medium ${
                 c === lang
-                  ? 'border-blue-600 bg-blue-50 text-blue-800'
-                  : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                  ? 'border-gold bg-cream/10 text-cream'
+                  : 'border-cream/25 text-cream/80 hover:bg-cream/10'
               }`}
             >
               {langInfo(c).native}
@@ -64,12 +64,12 @@ export function LanguageSelect() {
       )}
 
       {lang !== DEFAULT_LANG && (
-        <p role="status" className="max-w-sm text-sm leading-snug text-slate-600 md:text-end">
+        <p role="status" className="max-w-sm text-base leading-snug text-cream/75 md:text-end">
           {said}{' '}
           <button
             type="button"
             onClick={() => setLanguage(DEFAULT_LANG)}
-            className="font-semibold text-blue-700 underline"
+            className="font-semibold text-gold underline"
           >
             {t('Show English')}
           </button>

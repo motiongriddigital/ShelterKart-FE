@@ -1,0 +1,56 @@
+audited the homepage and the report page. The main cause is that the pages are built for expert readers and look like a legal registry, not for someone who wants to know whether a flat is safe to buy.
+
+What I found
+
+1. Text is too small, which hurts the 80-year-old most
+
+On the homepage, 128 of 159 pieces of text render below 14px, and about 73 are at 10px or 9px.
+The report page has the same problem. Most labels, chips and table headers are 9–11px.
+Around 80 text elements use the light grey slate-400/500, which is hard to read for ageing eyes and in bright light.
+I couldn’t get a reliable contrast measurement, because my checker misread Tailwind’s colour format. This comes from reading the code, not a contrast test.
+
+2. The main action isn’t visible when the page opens
+
+The first screen shows a logo, a tagline and three feature cards. The search box is several scrolls down.
+The header has seven links plus a button. “36 Markets” and “Sample Reports” don’t say what they do.
+
+3. Jargon with no plain meaning
+
+“Docket” appears 31 times, “dossier” 29, “statutory” 14, “variance” 8, “ledger” 8, plus “encumbrance”, “provenance”, “cross-verification” and “RERA/NOC” without explanation.
+A young buyer may know “RERA”. Many older buyers don’t know “docket” or “encumbrance”. Nothing explains these words where they appear.
+
+4. Too many labels, all in capitals
+
+About 29 uppercase micro-labels, a status strip and extra badges (“Registry”, “Audit stamp”) compete with the one thing the page is for.
+
+5. The path isn’t spelled out
+
+There’s no plain “how this works: 1 search, 2 see free preview, 3 unlock the full report” anywhere near the search box.
+The report is dense: a summary tile row, stats and many sections. There’s no short “what this means for you” answer at the top.
+
+6. Smaller points
+
+Icon-only controls (the account button, the theme toggle) have tooltips but no visible text, and the interactive items are small.
+The demo banner and cookie notice stack on top of the page.
+Proposed fixes
+
+Homepage and report, same rules for both:
+
+Text: a 16px minimum for readable text. Body text 18px, labels 14px, with no text below 14px.
+Colour: darker grey for secondary text, and no more slate-400 for words people need to read. It would be checked in light and dark mode.
+Controls: at least 44px tall buttons and inputs, with the label visible next to the icon.
+Wording: plain-language labels everywhere, so “Certified Dossier” becomes “Full report” and “Search Public Docket” becomes “Check a property”. Where a specialist term has to stay, a short plain explanation sits beside it.
+Capitals: remove most all-caps micro-labels.
+
+Homepage:
+
+Make “Check a property” the first thing on the screen, with the search box at the top.
+Add a three-step “How it works” row right under it.
+Cut the header to four links: Check a property, How it works, Pricing and Help.
+Move the status strip and the “Registry” badges out of the main reading path.
+
+Report:
+
+Put a “What this means for you” summary at the top, with a clear colour and word status, so colour isn’t the only signal.
+Add a one-line plain explanation to each section heading.
+Make the question lists and the next steps easier to find.

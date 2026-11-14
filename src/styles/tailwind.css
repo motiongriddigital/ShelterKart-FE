@@ -1,8 +1,23 @@
-/* Tailwind for the public site. Utilities read the brand tokens (styles/_theme.scss), so there is one source of colour.
+/* Tailwind for the public site. The brand palette (paper, navy ink, gold) is defined here, so the home, report and
+   site pages share one source of colour.
    Breakpoints match styles/_breakpoints.scss. Structural or repeated rules (prose, tables) stay in SCSS. */
 @import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
+
+/* Type and page defaults of the brand: text in Instrument Sans, headings in Fraunces. */
+@layer base {
+  html {
+    font-family: var(--font-text);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+}
 
 /* Comfortable touch targets on the public pages (about 44px). The admin does not load this file and keeps its own. */
 :root {
@@ -16,41 +31,67 @@
   --breakpoint-md: 900px;
   --breakpoint-lg: 1200px;
 
+  /* The V2 brand palette: paper and navy ink, a navy chrome, gold and cream accents. The palette classes the pages
+     already use (slate, blue) are remapped onto it, so every page takes the theme without per-element changes.
+     slate = the navy-tinted neutrals; blue = the gold accent (links, eyebrows, highlights). */
+  --color-slate-50: #f5f1ea;
+  --color-slate-100: #efe9dd;
+  --color-slate-200: #e4ddd1;
+  --color-slate-300: #d3c9b8;
+  --color-slate-400: #8a97ab;
+  --color-slate-500: #6c7c93;
+  --color-slate-600: #52657f;
+  --color-slate-700: #2f4460;
+  --color-slate-800: #1b3150;
+  --color-slate-900: #0a1c33;
+  --color-slate-950: #061428;
+
+  --color-blue-50: #fbf3de;
+  --color-blue-100: #f5e6c2;
+  --color-blue-200: #e8d3a0;
+  --color-blue-500: #d3a245;
+  --color-blue-600: #b58634;
+  --color-blue-700: #8a6321;
+  --color-blue-800: #6b4a15;
+
   /* Semantic tokens the shared components (Button ...) are written against. */
-  --color-background: #ffffff;
-  --color-foreground: #0f172a;
-  --color-primary: #1d4ed8;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #f1f5f9;
-  --color-secondary-foreground: #0f172a;
-  --color-accent: #f1f5f9;
-  --color-accent-foreground: #0f172a;
-  --color-destructive: #e11d48;
-  --color-input: #cbd5e1;
-  --color-ring: #2563eb;
+  --color-background: #faf8f5;
+  --color-foreground: #0a1c33;
+  --color-primary: #0a1c33;
+  --color-primary-foreground: #f5e6c2;
+  --color-secondary: #f5f1ea;
+  --color-secondary-foreground: #0a1c33;
+  --color-accent: #fbf3de;
+  --color-accent-foreground: #0a1c33;
+  --color-destructive: #8a3a2e;
+  --color-input: #d3c9b8;
+  --color-ring: #d3a245;
 
-  --color-paper: var(--sk-paper);
-  --color-ink: var(--sk-ink);
-  --color-ink-soft: var(--sk-ink-soft);
-  --color-slate: var(--sk-slate);
-  --color-rule: var(--sk-rule);
-  --color-navy: var(--sk-navy);
-  --color-cream: var(--sk-cream);
-  --color-gold: var(--sk-gold);
-  --color-gold-dark: var(--sk-gold-dark);
-  --color-tint: var(--sk-tint);
-  --color-cool: var(--sk-cool);
-  --color-verified: var(--sk-verified);
-  --color-verified-bg: var(--sk-verified-bg);
-  --color-reported: var(--sk-reported);
-  --color-reported-bg: var(--sk-reported-bg);
-  --color-inference: var(--sk-inference);
-  --color-inference-bg: var(--sk-inference-bg);
-  --color-disputed: var(--sk-disputed);
-  --color-disputed-bg: var(--sk-disputed-bg);
+  --color-paper: #faf8f5;
+  --color-ink: #0a1c33;
+  --color-ink-soft: #2f4460;
+  --color-slate: #52657f;
+  --color-rule: #e4ddd1;
+  --color-navy: #061428;
+  --color-cream: #f5e6c2;
+  --color-gold: #d3a245;
+  --color-gold-dark: #8a6321;
+  --color-tint: #fbf3de;
+  --color-cool: #f1f4f9;
+  --color-verified: #1d6338;
+  --color-verified-bg: #e3f0e8;
+  --color-reported: #7a5200;
+  --color-reported-bg: #f6ecd6;
+  --color-inference: #2a5a8c;
+  --color-inference-bg: #e4ebf4;
+  --color-disputed: #8a3a2e;
+  --color-disputed-bg: #f7e3df;
 
-  --font-display: var(--sk-font-display);
-  --font-text: var(--sk-font-text);
+  /* Fraunces for headings, Instrument Sans for text (next/font variables set on <html>, see configs/fonts.ts). */
+  --font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --font-text:
+    var(--font-instrument), 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Arabic', 'Noto Sans JP',
+    'Noto Sans TC', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
 
   /* Set here, not from --sk-radius-*: the home and report pages do not load those, which made every corner square. */
   --radius-sm: 0.5rem;
@@ -60,44 +101,44 @@
   --radius-2xl: 1.5rem;
 }
 
-/* Dark theme for the public pages. Utilities read the palette variables, so remapping them here flips every
-   slate/blue/emerald/rose/amber class at once without a dark: variant on each element.
-   Neutral #121316, primary #E5A93C, secondary #38BDF8, tertiary #10B981. */
+/* The public site is dark only: the V2 navy palette. Utilities read the palette variables, so remapping them here
+   flips every slate, blue, emerald, rose and amber class at once. The <html> element carries the .dark class
+   permanently (see the layouts). Navy page #061428, cards #0A1C33, gold accent #D3A245, cream text #F5E6C2. */
 :root.dark {
   color-scheme: dark;
 
-  --color-background: #121316;
-  --color-foreground: #f1f2f5;
-  --color-primary: #e5a93c;
-  --color-primary-foreground: #1a1203;
-  --color-secondary: #26282e;
-  --color-secondary-foreground: #f1f2f5;
-  --color-accent: #26282e;
-  --color-accent-foreground: #f1f2f5;
-  --color-destructive: #fb7185;
-  --color-input: #3b3e47;
-  --color-ring: #e5a93c;
+  --color-background: #061428;
+  --color-foreground: #f5e6c2;
+  --color-primary: #d3a245;
+  --color-primary-foreground: #061428;
+  --color-secondary: #0f2744;
+  --color-secondary-foreground: #f5e6c2;
+  --color-accent: #0f2744;
+  --color-accent-foreground: #f5e6c2;
+  --color-destructive: #f0a090;
+  --color-input: #2a466b;
+  --color-ring: #d3a245;
 
-  --color-white: #1c1d21;
-  --color-slate-50: #17181c;
-  --color-slate-100: #1f2126;
-  --color-slate-200: #2c2e35;
-  --color-slate-300: #3b3e47;
-  --color-slate-400: #7d8190;
-  --color-slate-500: #9a9eac;
-  --color-slate-600: #b4b8c4;
-  --color-slate-700: #cdd0d9;
-  --color-slate-800: #e2e4ea;
-  --color-slate-900: #f1f2f5;
-  --color-slate-950: #0b0c0e;
+  --color-white: #0a1c33;
+  --color-slate-50: #0c2038;
+  --color-slate-100: #102844;
+  --color-slate-200: #1c3556;
+  --color-slate-300: #2a466b;
+  --color-slate-400: #6d7e96;
+  --color-slate-500: #8d9bb0;
+  --color-slate-600: #aab6c8;
+  --color-slate-700: #cdd6e3;
+  --color-slate-800: #e8e2d2;
+  --color-slate-900: #f5e6c2;
+  --color-slate-950: #061428;
 
-  --color-blue-50: #0f2230;
-  --color-blue-100: #12304a;
-  --color-blue-200: #1d4a6b;
-  --color-blue-500: #38bdf8;
-  --color-blue-600: #38bdf8;
-  --color-blue-700: #7dd3fc;
-  --color-blue-800: #bae6fd;
+  --color-blue-50: #2a2214;
+  --color-blue-100: #3a2f17;
+  --color-blue-200: #5a4720;
+  --color-blue-500: #d3a245;
+  --color-blue-600: #d3a245;
+  --color-blue-700: #e3b455;
+  --color-blue-800: #f0cd85;
 
   --color-emerald-50: #0c261d;
   --color-emerald-200: #17503b;
@@ -117,20 +158,125 @@
   --color-amber-900: #fde68a;
 
   /* The --color-* tokens resolve var(--sk-*) at :root, so they are set here directly rather than via --sk-*. */
-  --color-paper: #121316;
-  --color-slate: #9a9eac;
-  --color-rule: #2c2e35;
-  --color-ink: #f1f2f5;
-  --color-ink-soft: #cdd0d9;
-  --color-inference: #7dd3fc;
-  --color-inference-bg: #0f2230;
-  --color-disputed: #fb7185;
-  --color-disputed-bg: #2b1417;
+  --color-paper: #061428;
+  --color-slate: #aab6c8;
+  --color-rule: #1c3556;
+  --color-ink: #f5e6c2;
+  --color-ink-soft: #cdd6e3;
+  --color-inference: #8ab4e8;
+  --color-inference-bg: #0f2238;
+  --color-disputed: #f0a090;
+  --color-disputed-bg: #3a1d1a;
 
   /* Page-level tokens read by globals.scss (body background, text). */
-  --sk-paper: #121316;
-  --sk-ink: #f1f2f5;
-  --sk-ink-soft: #cdd0d9;
-  --sk-rule: #2c2e35;
-  --sk-slate: #9a9eac;
+  --sk-paper: #061428;
+  --sk-ink: #f5e6c2;
+  --sk-ink-soft: #cdd6e3;
+  --sk-rule: #1c3556;
+  --sk-slate: #aab6c8;
+}
+
+/* Motion of the first page, as in V2: one sequence of about two seconds, then still. The rules draw in, the page
+   outline traces itself, the three nodes light in turn and the arcs register once. Nothing loops. */
+@keyframes ruleDraw {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes markRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes markTrace {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes arcRegister {
+  from {
+    stroke: transparent;
+  }
+  45% {
+    stroke: rgba(211, 162, 69, 0.7);
+  }
+}
+@keyframes captionIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* The sequence starts only once the page is ready (see MotionStarter): <html> gets .motion-wait before the first paint,
+   which holds the first frame, then .motion-run, which plays it. Starting during hydration is what made it stutter.
+   Without JavaScript neither class is set and the finished page simply shows. */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    --ease-apple: cubic-bezier(0.28, 0.11, 0.32, 1);
+  }
+
+  .motion-wait .anim-rule-1,
+  .motion-wait .anim-rule-2 {
+    transform: scaleX(0);
+  }
+  .motion-wait .anim-rise,
+  .motion-wait .anim-fold,
+  .motion-wait .anim-lines,
+  .motion-wait .anim-fade,
+  .motion-wait [class*='anim-node-'] {
+    opacity: 0;
+  }
+  .motion-wait .anim-arc {
+    stroke: transparent;
+  }
+  .anim-trace {
+    stroke-dasharray: 170;
+    stroke-dashoffset: 170;
+  }
+
+  .motion-run .anim-rule-1 {
+    transform-origin: center;
+    animation: ruleDraw 1.9s var(--ease-apple) 0.3s backwards;
+  }
+  .motion-run .anim-rule-2 {
+    transform-origin: center;
+    animation: ruleDraw 1.9s var(--ease-apple) 0.42s backwards;
+  }
+  .motion-run .anim-rise {
+    animation: markRise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s backwards;
+  }
+  .motion-run .anim-trace {
+    animation: markTrace 1.4s ease-out 0.35s forwards;
+  }
+  .motion-run .anim-fold {
+    animation: fadeIn 0.5s ease-out 1.5s backwards;
+  }
+  .motion-run .anim-lines {
+    animation: fadeIn 0.5s ease-out 1.8s backwards;
+  }
+  .motion-run .anim-fade {
+    animation: fadeIn 0.9s var(--ease-apple) 0.5s backwards;
+  }
+  .motion-run .anim-node-0 {
+    animation: fadeIn 0.55s var(--ease-apple) 1.15s backwards;
+  }
+  .motion-run .anim-node-1 {
+    animation: fadeIn 0.55s var(--ease-apple) 1.32s backwards;
+  }
+  .motion-run .anim-node-2 {
+    animation: fadeIn 0.55s var(--ease-apple) 1.49s backwards;
+  }
+  .motion-run .anim-arc {
+    animation: arcRegister 1.1s var(--ease-apple) 1.5s backwards;
+  }
+  .anim-caption {
+    animation: captionIn 0.5s var(--ease-apple);
+  }
 }
