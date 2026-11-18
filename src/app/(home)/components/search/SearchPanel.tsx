@@ -84,10 +84,11 @@ export function SearchPanel() {
             variant="dark"
             size="lg"
             onClick={() => submit()}
+            disabled={search.researching}
             className="w-full text-base sm:w-auto"
           >
             <Search className="size-5" aria-hidden="true" />
-            {t('Search')}
+            {search.researching ? t('Searching…') : t('Search')}
           </Button>
         </div>
 

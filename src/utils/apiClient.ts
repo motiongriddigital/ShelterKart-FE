@@ -11,7 +11,7 @@ import { API_ORIGIN } from '@/configs/env';
  */
 export const apiClient = axios.create({
   baseURL: API_ORIGIN,
-  timeout: 35_000,
+  timeout: 90_000, // a research search asks AI engines and can take a while
   maxRedirects: 0,
   // A 4xx or 5xx from the server is an answer to relay as it is, not an exception.
   validateStatus: () => true,

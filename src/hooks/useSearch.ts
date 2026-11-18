@@ -5,6 +5,7 @@ import { IS_DEMO } from '@/configs/env';
 import { matchDemoRecords } from '@/utils/demoSearch';
 import { findDossier } from '@/utils/dossiers';
 import { fetchCandidates, getSearchMode, startInvestigation } from '@/services/research';
+import { useCustomResearch } from '@/hooks/useCustomResearch';
 import { useT } from '@/hooks/useT';
 import { MARKETS } from '@/constants/markets';
 import { usePreferences } from '@/store/preferences';
@@ -34,6 +35,7 @@ type Options = { onDossier?: (id: string) => void };
 
 export function useSearch({ onDossier }: Options = {}) {
   const t = useT();
+  const research = useCustomResearch();
   const [busy, setBusy] = useState(false);
   const [searchMode, setSearchMode] = useState<SearchMode>('shadow');
 
@@ -122,26 +124,18 @@ export function useSearch({ onDossier }: Options = {}) {
     [startLive],
   );
 
+  // The search button: research the property by name. The report page opens when the answer arrives.
   const submit = useCallback(
-    (text?: string) => {
+    async (text?: string) => {
       const q = (text ?? query).trim();
-      if (!q) return;
+      if (!q || research.busy) return;
       if (text !== undefined) setQuery(text);
-      if (!IS_DEMO) {
-        if (busy) return;
-        if (searchMode === 'on') showCandidates(q);
-        else startLive(q);
-        return;
-      }
-      const dossier = findDossier(q);
-      if (dossier && onDossier) {
-        setVisible(false);
-        onDossier(dossier.id);
-        return;
-      }
-      showResults(q);
+      setView({ mode: 'live', message: t('Researching this property. This takes a few seconds.') });
+      setVisible(true);
+      const problem = await research.search(q);
+      if (problem) setView({ mode: 'live', message: problem });
     },
-    [query, showResults, onDossier, busy, startLive, showCandidates, searchMode],
+    [query, research, t],
   );
 
   const pickDidYouMean = useCallback(
@@ -164,6 +158,7 @@ export function useSearch({ onDossier }: Options = {}) {
     () => ({
       query,
       setQuery,
+      researching: research.busy,
       view,
       visible,
       submit,
@@ -178,6 +173,7 @@ export function useSearch({ onDossier }: Options = {}) {
     }),
     [
       query,
+      research.busy,
       view,
       visible,
       submit,
