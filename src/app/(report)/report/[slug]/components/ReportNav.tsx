@@ -1,14 +1,14 @@
-import { REPORT_SECTIONS } from '@/constants/reportSections';
+import { REPORT_SECTIONS, type ReportSection } from '@/constants/reportSections';
 
 /** "On this page": one tap to any part of the report, so a reader always knows where they are. */
-export function ReportNav() {
+export function ReportNav({ sections = REPORT_SECTIONS }: { sections?: readonly ReportSection[] }) {
   return (
     <nav
       aria-label="On this page"
       className="sticky top-[4.5rem] z-30 border-b border-slate-200 bg-white/95 backdrop-blur"
     >
       <ul className="mx-auto flex max-w-[1900px] gap-2 overflow-x-auto px-4 py-2.5 md:px-8 xl:px-12">
-        {REPORT_SECTIONS.map((s) => (
+        {sections.map((s) => (
           <li key={s.id} className="shrink-0">
             <a
               href={`#${s.id}`}
