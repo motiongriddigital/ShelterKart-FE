@@ -372,5 +372,17 @@
  "Close to what you typed": "Nahe an Ihrer Eingabe",
  "A project by the developer you named": "Ein Projekt des genannten Bauträgers",
  "A project by that developer, in that area": "Ein Projekt dieses Bauträgers in dieser Gegend",
- "A project in the area you named": "Ein Projekt in der genannten Gegend"
+ "A project in the area you named": "Ein Projekt in der genannten Gegend",
+ "We cannot find that page": "Diese Seite finden wir nicht",
+ "The link may be wrong, or the page may have moved. You can search for a property instead.": "Der Link ist vielleicht falsch, oder die Seite wurde verschoben. Sie können stattdessen nach einer Immobilie suchen.",
+ "Drawing of a house with a question mark above it": "Zeichnung eines Hauses mit einem Fragezeichen darüber",
+ "Back to search": "Zurück zur Suche",
+ "We could not find this report": "Wir konnten diesen Bericht nicht finden",
+ "A report is kept only in the tab where it was searched. Search for the property again to get it back.": "Ein Bericht wird nur in dem Tab gespeichert, in dem gesucht wurde. Suchen Sie die Immobilie erneut, um ihn zurückzuholen.",
+ "Drawing of an empty report page with a magnifying glass": "Zeichnung einer leeren Berichtsseite mit einer Lupe",
+ "Search for a property": "Nach einer Immobilie suchen",
+ "Something went wrong": "Etwas ist schiefgelaufen",
+ "Nothing was lost. Please try again.": "Es ist nichts verloren gegangen. Bitte versuchen Sie es erneut.",
+ "Drawing of a plug that has come out of its socket": "Zeichnung eines Steckers, der aus der Steckdose gezogen ist",
+ "Drawing of a magnifying glass over an empty list": "Zeichnung einer Lupe über einer leeren Liste"
 }

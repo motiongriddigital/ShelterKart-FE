@@ -372,5 +372,17 @@
  "Close to what you typed": "入力された内容に近い物件",
  "A project by the developer you named": "指定された開発会社の物件",
  "A project by that developer, in that area": "その開発会社の、その地域の物件",
- "A project in the area you named": "指定された地域の物件"
+ "A project in the area you named": "指定された地域の物件",
+ "We cannot find that page": "そのページは見つかりません",
+ "The link may be wrong, or the page may have moved. You can search for a property instead.": "リンクが間違っているか、ページが移動した可能性があります。代わりに物件を検索できます。",
+ "Drawing of a house with a question mark above it": "上にクエスチョンマークがある家の絵",
+ "Back to search": "検索に戻る",
+ "We could not find this report": "このレポートは見つかりませんでした",
+ "A report is kept only in the tab where it was searched. Search for the property again to get it back.": "レポートは、検索したタブにのみ保存されます。もう一度物件を検索すると、取り戻せます。",
+ "Drawing of an empty report page with a magnifying glass": "虫眼鏡と空のレポートページの絵",
+ "Search for a property": "物件を検索する",
+ "Something went wrong": "問題が発生しました",
+ "Nothing was lost. Please try again.": "失われたものはありません。もう一度お試しください。",
+ "Drawing of a plug that has come out of its socket": "コンセントから抜けたプラグの絵",
+ "Drawing of a magnifying glass over an empty list": "空のリストの上にある虫眼鏡の絵"
 }
