@@ -1,6 +1,11 @@
 import { http, ApiError } from './http';
 import { proofOfWork } from './research';
-import type { RequestCodeInput, RequestCodeResult, VerifyCodeResult } from '@/types/auth';
+import type {
+  AuthSession,
+  RequestCodeInput,
+  RequestCodeResult,
+  VerifyCodeResult,
+} from '@/types/auth';
 
 const isChallenge = (e: unknown) =>
   e instanceof ApiError && e.status === 428 && (e.body as { code?: string })?.code === 'challenge';
@@ -28,6 +33,9 @@ export const verifySignInCode = (email: string, code: string, termsAccepted: boo
     method: 'POST',
     body: { email, code, termsAccepted },
   });
+
+/** Is a reader signed in? Used before a search that needs an account. */
+export const getAuthSession = () => http<AuthSession>('/api/auth/session');
 
 export const signOut = () => http<{ ok: boolean }>('/api/auth/logout', { method: 'POST' });
 

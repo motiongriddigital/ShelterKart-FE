@@ -15,6 +15,9 @@ export type RequestCodeInput = {
   language?: string;
 };
 
+/** Who is signed in. The server never answers 401 to this call. */
+export type AuthSession = { ok: boolean; authenticated: boolean };
+
 export type RequestCodeResult = {
   ok: boolean;
   cooldownSeconds: number;
