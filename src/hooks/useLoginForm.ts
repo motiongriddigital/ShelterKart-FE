@@ -9,12 +9,11 @@ import type { LoginErrors, LoginValues } from '@/types/login';
 import { failureMessage } from '@/utils/apiErrors';
 import { isEmail } from '@/utils/validators';
 
-const EMPTY: LoginValues = { email: '', password: '', acceptedTerms: false };
+const EMPTY: LoginValues = { email: '', acceptedTerms: false };
 
 function validate(v: LoginValues): LoginErrors {
   const errors: LoginErrors = {};
   if (!isEmail(v.email.trim())) errors.email = LOGIN_ERRORS.email;
-  if (!v.password) errors.password = LOGIN_ERRORS.password;
   if (!v.acceptedTerms) errors.acceptedTerms = LOGIN_ERRORS.acceptedTerms;
   return errors;
 }
@@ -23,7 +22,7 @@ function validate(v: LoginValues): LoginErrors {
  * The sign-in form: its values, its checks, and the sign-in itself. `signIn` checks the form, asks the server for a
  * code (service), keeps what the verify step needs (state), then opens the verify page.
  */
-export function useLoginForm() {
+export function useLoginForm(next?: string) {
   const t = useT();
   const router = useRouter();
   const startVerification = useSignIn((s) => s.startVerification);
@@ -31,7 +30,6 @@ export function useLoginForm() {
   const [errors, setErrors] = useState<LoginErrors>({});
   const [formError, setFormError] = useState<string>();
   const [busy, setBusy] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const set = useCallback(<K extends keyof LoginValues>(key: K, value: LoginValues[K]) => {
     setValues((v) => ({ ...v, [key]: value }));
@@ -50,14 +48,11 @@ export function useLoginForm() {
       setBusy(true);
       setFormError(undefined);
       try {
-        const sent = await requestSignInCode({
-          email,
-          password: values.password,
-          termsAccepted: values.acceptedTerms,
-        });
+        const sent = await requestSignInCode({ email, termsAccepted: values.acceptedTerms });
         startVerification({
           email,
           acceptedTerms: values.acceptedTerms,
+          next,
           codeLength: sent.codeLength,
           cooldownSeconds: sent.cooldownSeconds,
         });
@@ -68,7 +63,7 @@ export function useLoginForm() {
         setBusy(false);
       }
     },
-    [values, startVerification, router, t],
+    [values, next, startVerification, router, t],
   );
 
   const error = (key: keyof LoginValues) => (errors[key] ? t(errors[key]) : undefined);
@@ -80,7 +75,5 @@ export function useLoginForm() {
     error,
     formError,
     busy,
-    showPassword,
-    toggleShowPassword: () => setShowPassword((s) => !s),
   };
 }

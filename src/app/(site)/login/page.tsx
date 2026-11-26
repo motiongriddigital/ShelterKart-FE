@@ -3,6 +3,7 @@ import { BlueprintArt } from '@/components/illustrations/BlueprintArt';
 import { Decor } from '@/components/illustrations/Decor';
 import { KeyHouseArt } from '@/components/illustrations/KeyHouseArt';
 import { SkylineArt } from '@/components/illustrations/SkylineArt';
+import { safeNextPath } from '@/utils/validators';
 import { LoginCard } from './components/LoginCard';
 
 export const metadata: Metadata = {
@@ -12,8 +13,13 @@ export const metadata: Metadata = {
 };
 
 // The sign-in page: the V2 navy plate with the card in the middle. Layout, header, footer and dialogs come from the
-// site layout.
-export default function LoginPage() {
+// site layout. `?next=` is where to go after signing in (the back end sends signed-out visitors here from /r/:ref).
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const next = safeNextPath((await searchParams).next);
   return (
     <div className="relative overflow-x-clip bg-navy px-4 pb-40 pt-10 md:px-8 md:pb-48 md:pt-16">
       <div
@@ -30,7 +36,7 @@ export default function LoginPage() {
         <KeyHouseArt className="w-full text-cream/15" />
       </Decor>
       <div className="relative">
-        <LoginCard />
+        <LoginCard next={next} />
       </div>
     </div>
   );

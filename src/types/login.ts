@@ -1,7 +1,6 @@
 /** What the sign-in form holds. */
 export type LoginValues = {
   email: string;
-  password: string;
   acceptedTerms: boolean;
 };
 

@@ -5,3 +5,5 @@ export const stripPhone = (v: string) => v.replace(/[\s()-]/g, '');
 export const isPaymentId = (v: string) => /^pay_[A-Za-z0-9]{8,30}$/.test(v);
 /** A one-time code: exactly `length` digits. */
 export const isOneTimeCode = (v: string, length: number) => new RegExp(`^\\d{${length}}$`).test(v);
+/** A page of this site to return to after signing in: starts with a single `/`, never `//` or a full address. */
+export const safeNextPath = (v?: string | null) => (v && /^\/(?![/\\])/.test(v) ? v : undefined);
