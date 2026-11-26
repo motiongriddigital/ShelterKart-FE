@@ -11,14 +11,14 @@ import { failureMessage } from '@/utils/apiErrors';
 import { isOneTimeCode } from '@/utils/validators';
 
 /**
- * The verify-code form: the code, its check, and the two calls. `verify` checks the code, sends it with the email and
- * the terms answer kept at sign-in (service), stores the signed-in user (state) and goes on; `resend` asks for a new
+ * The verify-code form: the code, its check, and the two calls. `verify` checks the code, sends it with the email kept
+ * at sign-in (service), stores the signed-in user (state) and goes on; `resend` asks for a new
  * code and restarts the countdown.
  */
 export function useVerifyCodeForm() {
   const t = useT();
   const router = useRouter();
-  const { email, acceptedTerms, codeLength, cooldownSeconds, signedIn, startVerification } =
+  const { email, acceptedTerms, next, codeLength, cooldownSeconds, signedIn, startVerification } =
     useSignIn();
   const timer = useResendTimer(cooldownSeconds);
   const [code, setCodeState] = useState('');
@@ -47,14 +47,14 @@ export function useVerifyCodeForm() {
       try {
         const res = await verifySignInCode(email, code, acceptedTerms);
         signedIn(res.user);
-        router.push(AFTER_SIGN_IN_PATH);
+        router.push(next ?? AFTER_SIGN_IN_PATH);
       } catch (err) {
         setFormError(failureMessage(err, t));
       } finally {
         setBusy(false);
       }
     },
-    [code, codeLength, email, acceptedTerms, signedIn, router, t],
+    [code, codeLength, email, acceptedTerms, next, signedIn, router, t],
   );
 
   const resend = useCallback(async () => {
@@ -65,6 +65,7 @@ export function useVerifyCodeForm() {
       startVerification({
         email,
         acceptedTerms,
+        next,
         codeLength: sent.codeLength,
         cooldownSeconds: sent.cooldownSeconds,
       });
@@ -73,7 +74,7 @@ export function useVerifyCodeForm() {
     } catch (err) {
       setFormError(failureMessage(err, t));
     }
-  }, [email, acceptedTerms, startVerification, timer, t]);
+  }, [email, acceptedTerms, next, startVerification, timer, t]);
 
   return { email, code, setCode, codeLength, error, formError, busy, verify, resend, timer };
 }

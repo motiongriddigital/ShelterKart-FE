@@ -22,8 +22,8 @@ export async function requestSignInCode(input: RequestCodeInput): Promise<Reques
   }
 }
 
-/** Sets the session cookie. `termsAccepted` is needed on the first sign-in (the server answers `consent_required`). */
-export const verifySignInCode = (email: string, code: string, termsAccepted?: boolean) =>
+/** Sets the session cookie. `termsAccepted` is the terms box answer kept at sign-in. */
+export const verifySignInCode = (email: string, code: string, termsAccepted: boolean) =>
   http<VerifyCodeResult>('/api/auth/verify-code', {
     method: 'POST',
     body: { email, code, termsAccepted },

@@ -1,5 +1,5 @@
 'use client';
-import { ArrowRight, Eye, EyeOff, KeyRound, Mail } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
 import { DocumentMark } from '@/components/illustrations/DocumentMark';
 import { Button } from '@/components/ui/Button';
 import { LOGIN_COPY } from '@/constants/auth';
@@ -8,12 +8,10 @@ import { useT } from '@/hooks/useT';
 import { AuthField } from './AuthField';
 import { TermsCheckbox } from './TermsCheckbox';
 
-/** The sign-in card: email, password, the terms box and the button. It only checks the form for now. */
-export function LoginCard() {
+/** The sign-in card: the e-mail address and the button that sends a code, and the terms box. */
+export function LoginCard({ next }: { next?: string }) {
   const t = useT();
-  const { values, set, signIn, error, formError, busy, showPassword, toggleShowPassword } =
-    useLoginForm();
-  const ShowIcon = showPassword ? EyeOff : Eye;
+  const { values, set, signIn, error, formError, busy } = useLoginForm(next);
 
   return (
     <div className="mx-auto w-full max-w-md">
@@ -46,29 +44,6 @@ export function LoginCard() {
             onChange={(e) => set('email', e.target.value)}
             error={error('email')}
           />
-          <AuthField
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            label={t(LOGIN_COPY.password.label)}
-            placeholder={t(LOGIN_COPY.password.placeholder)}
-            icon={<KeyRound className="size-5" aria-hidden="true" />}
-            autoComplete="current-password"
-            value={values.password}
-            onChange={(e) => set('password', e.target.value)}
-            error={error('password')}
-            action={
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={toggleShowPassword}
-                aria-label={showPassword ? t('Hide password') : t('Show password')}
-                aria-pressed={showPassword}
-              >
-                <ShowIcon aria-hidden="true" />
-              </Button>
-            }
-          />
           <TermsCheckbox
             checked={values.acceptedTerms}
             onChange={(checked) => set('acceptedTerms', checked)}
@@ -95,7 +70,7 @@ export function LoginCard() {
           {busy ? t(LOGIN_COPY.submitting) : t(LOGIN_COPY.submit)}
           <ArrowRight aria-hidden="true" />
         </Button>
-        <p className="mt-4 text-center text-base text-slate-700">{t(LOGIN_COPY.note)}</p>
+        <p className="mt-2 text-center text-base text-slate-700">{t(LOGIN_COPY.note)}</p>
       </form>
     </div>
   );

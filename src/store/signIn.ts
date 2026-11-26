@@ -6,6 +6,8 @@ import type { SessionUser } from '@/types/auth';
 type SignInState = {
   /** The address a code was asked for; the verify page shows it. */
   email?: string;
+  /** The page to open after the code is accepted (`?next=` on the sign-in page). */
+  next?: string;
   /** The terms box ticked on the sign-in page; the verify step sends it with the code. */
   acceptedTerms: boolean;
   /** What the server said about the code it sent: how many digits, and how long until a new one can be asked for. */
@@ -16,6 +18,7 @@ type SignInState = {
   startVerification: (v: {
     email: string;
     acceptedTerms: boolean;
+    next?: string;
     codeLength?: number;
     cooldownSeconds?: number;
   }) => void;
@@ -25,6 +28,7 @@ type SignInState = {
 
 const FRESH = {
   email: undefined,
+  next: undefined,
   acceptedTerms: false,
   codeLength: CODE_LENGTH,
   cooldownSeconds: RESEND_SECONDS,
@@ -38,10 +42,11 @@ export const useSignIn = create<SignInState>()(
     (set) => ({
       ...FRESH,
       user: undefined,
-      startVerification: ({ email, acceptedTerms, codeLength, cooldownSeconds }) =>
+      startVerification: ({ email, acceptedTerms, next, codeLength, cooldownSeconds }) =>
         set({
           email,
           acceptedTerms,
+          next,
           codeLength: codeLength ?? CODE_LENGTH,
           cooldownSeconds: cooldownSeconds ?? RESEND_SECONDS,
         }),
@@ -52,9 +57,10 @@ export const useSignIn = create<SignInState>()(
       name: 'sk-sign-in',
       storage: createJSONStorage(() => sessionStorage),
       skipHydration: true,
-      partialize: ({ email, acceptedTerms, codeLength, cooldownSeconds }) => ({
+      partialize: ({ email, acceptedTerms, next, codeLength, cooldownSeconds }) => ({
         email,
         acceptedTerms,
+        next,
         codeLength,
         cooldownSeconds,
       }),
