@@ -14,6 +14,10 @@ export const LOGIN_COPY = {
 export const VERIFY_PATH = '/login/verify';
 /** Where a signed-in reader lands. */
 export const AFTER_SIGN_IN_PATH = '/';
+/** Where the home page is opened again after sign-in, so it knows to run the saved search. */
+export const RESUME_SEARCH_PATH = '/?resume=search';
+/** The sign-in page, with the page to come back to. */
+export const signInPath = (next: string) => `/login?next=${encodeURIComponent(next)}`;
 
 export const LOGIN_ERRORS = {
   email: 'Enter a valid email address, such as you@example.com.',
