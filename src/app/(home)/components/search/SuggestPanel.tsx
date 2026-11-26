@@ -1,4 +1,6 @@
 'use client';
+import { NoResultsDoodle } from '@/components/illustrations/doodles/NoResultsDoodle';
+import { NO_RESULTS_LABEL } from '@/constants/emptyStates';
 import { useT } from '@/hooks/useT';
 import { groupByCountry } from '@/utils/demoSearch';
 import type { SearchView } from '@/hooks/useSearch';
@@ -22,6 +24,11 @@ const ITEM =
   'flex w-full flex-wrap items-center gap-2 border-t border-slate-100 px-4 py-2.5 text-start text-base hover:bg-slate-50';
 const LINK_BTN =
   'block w-full border-t border-slate-100 px-4 py-2.5 text-start text-base font-semibold text-blue-700 hover:bg-blue-50';
+
+const NoResults = () => {
+  const t = useT();
+  return <NoResultsDoodle label={t(NO_RESULTS_LABEL)} className="mx-auto mt-3 w-28" />;
+};
 
 const Hint = ({ children, empty }: { children: React.ReactNode; empty?: boolean }) => (
   <p className={empty ? 'px-4 py-3 text-base text-slate-700' : 'px-4 py-2 text-sm text-slate-600'}>
@@ -116,6 +123,7 @@ function Body({
         <>
           {view.mode === 'notfound' && (
             <>
+              <NoResults />
               <Hint empty>{t('We could not find “{q}” in our list of projects yet.', { q })}</Hint>
               {closest.length > 0 && <Hint>{t('Closest projects we know')}</Hint>}
               {closest.map((c, i) => (
@@ -133,6 +141,7 @@ function Body({
     case 'empty':
       return (
         <>
+          <NoResults />
           <Hint empty>
             {t(
               'We do not have this project in our records yet. Tell us the name, the city and your e-mail, and we will tell you when it is researched.',

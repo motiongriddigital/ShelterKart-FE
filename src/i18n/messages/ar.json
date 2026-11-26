@@ -393,5 +393,17 @@
  "Close to what you typed": "قريب مما كتبت",
  "A project by the developer you named": "مشروع للمطوّر الذي ذكرته",
  "A project by that developer, in that area": "مشروع لهذا المطوّر في هذه المنطقة",
- "A project in the area you named": "مشروع في المنطقة التي ذكرتها"
+ "A project in the area you named": "مشروع في المنطقة التي ذكرتها",
+ "We cannot find that page": "لا يمكننا العثور على هذه الصفحة",
+ "The link may be wrong, or the page may have moved. You can search for a property instead.": "قد يكون الرابط خاطئًا أو تم نقل الصفحة. يمكنك البحث عن عقار بدلًا من ذلك.",
+ "Drawing of a house with a question mark above it": "رسم لمنزل يعلوه علامة استفهام",
+ "Back to search": "العودة إلى البحث",
+ "We could not find this report": "لم نتمكن من العثور على هذا التقرير",
+ "A report is kept only in the tab where it was searched. Search for the property again to get it back.": "يُحفظ التقرير في علامة التبويب التي جرى فيها البحث فقط. ابحث عن العقار مرة أخرى لاستعادته.",
+ "Drawing of an empty report page with a magnifying glass": "رسم لصفحة تقرير فارغة مع عدسة مكبّرة",
+ "Search for a property": "ابحث عن عقار",
+ "Something went wrong": "حدث خطأ ما",
+ "Nothing was lost. Please try again.": "لم يضع أي شيء. يرجى المحاولة مرة أخرى.",
+ "Drawing of a plug that has come out of its socket": "رسم لقابس خرج من مقبسه",
+ "Drawing of a magnifying glass over an empty list": "رسم لعدسة مكبّرة فوق قائمة فارغة"
 }

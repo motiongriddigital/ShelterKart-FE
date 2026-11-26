@@ -372,5 +372,17 @@
  "Close to what you typed": "Parecido a lo que escribió",
  "A project by the developer you named": "Un proyecto del promotor indicado",
  "A project by that developer, in that area": "Un proyecto de ese promotor, en esa zona",
- "A project in the area you named": "Un proyecto en la zona indicada"
+ "A project in the area you named": "Un proyecto en la zona indicada",
+ "We cannot find that page": "No encontramos esa página",
+ "The link may be wrong, or the page may have moved. You can search for a property instead.": "Puede que el enlace sea incorrecto o que la página se haya movido. Puede buscar una propiedad en su lugar.",
+ "Drawing of a house with a question mark above it": "Dibujo de una casa con un signo de interrogación encima",
+ "Back to search": "Volver a la búsqueda",
+ "We could not find this report": "No pudimos encontrar este informe",
+ "A report is kept only in the tab where it was searched. Search for the property again to get it back.": "Un informe se guarda solo en la pestaña donde se buscó. Busque la propiedad de nuevo para recuperarlo.",
+ "Drawing of an empty report page with a magnifying glass": "Dibujo de una página de informe vacía con una lupa",
+ "Search for a property": "Buscar una propiedad",
+ "Something went wrong": "Algo salió mal",
+ "Nothing was lost. Please try again.": "No se perdió nada. Inténtelo de nuevo.",
+ "Drawing of a plug that has come out of its socket": "Dibujo de un enchufe que se ha salido de su toma",
+ "Drawing of a magnifying glass over an empty list": "Dibujo de una lupa sobre una lista vacía"
 }

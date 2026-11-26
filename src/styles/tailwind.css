@@ -280,3 +280,31 @@
     animation: captionIn 0.5s var(--ease-apple);
   }
 }
+
+/* The doodles on the "nothing here" pages (components/illustrations/doodles): each stroke draws itself once, then one
+   detail bobs once, about two seconds in all. With "reduce motion" on none of this applies and the drawing is still. */
+@media (prefers-reduced-motion: no-preference) {
+  .doodle-draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: doodleDraw 1.2s ease-out forwards;
+  }
+  .doodle-late {
+    animation-delay: 0.5s;
+  }
+  .doodle-bob {
+    animation: doodleBob 1.8s ease-in-out 0.2s 1;
+  }
+}
+
+@keyframes doodleDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes doodleBob {
+  50% {
+    transform: translateY(-5px);
+  }
+}

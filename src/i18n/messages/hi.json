@@ -372,5 +372,17 @@
  "Close to what you typed": "आपने जो लिखा, उसके क़रीब",
  "A project by the developer you named": "आपके बताए डेवलपर का प्रोजेक्ट",
  "A project by that developer, in that area": "उस डेवलपर का, उस इलाके में प्रोजेक्ट",
- "A project in the area you named": "आपके बताए इलाके का प्रोजेक्ट"
+ "A project in the area you named": "आपके बताए इलाके का प्रोजेक्ट",
+ "We cannot find that page": "हमें वह पेज नहीं मिल रहा",
+ "The link may be wrong, or the page may have moved. You can search for a property instead.": "हो सकता है लिंक गलत हो, या पेज हटा दिया गया हो। आप इसके बजाय किसी संपत्ति को खोज सकते हैं।",
+ "Drawing of a house with a question mark above it": "ऊपर प्रश्नचिह्न वाले घर का चित्र",
+ "Back to search": "खोज पर वापस जाएँ",
+ "We could not find this report": "हमें यह रिपोर्ट नहीं मिली",
+ "A report is kept only in the tab where it was searched. Search for the property again to get it back.": "रिपोर्ट केवल उसी टैब में रखी जाती है जहाँ खोज की गई थी। इसे वापस पाने के लिए संपत्ति को फिर से खोजें।",
+ "Drawing of an empty report page with a magnifying glass": "आवर्धक काँच के साथ एक खाली रिपोर्ट पेज का चित्र",
+ "Search for a property": "संपत्ति खोजें",
+ "Something went wrong": "कुछ गड़बड़ हो गई",
+ "Nothing was lost. Please try again.": "कुछ भी खोया नहीं है। कृपया फिर से कोशिश करें।",
+ "Drawing of a plug that has come out of its socket": "सॉकेट से निकले हुए प्लग का चित्र",
+ "Drawing of a magnifying glass over an empty list": "खाली सूची के ऊपर आवर्धक काँच का चित्र"
 }

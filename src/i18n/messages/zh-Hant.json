@@ -372,5 +372,17 @@
  "Close to what you typed": "與您輸入的內容相近",
  "A project by the developer you named": "您所指開發商的建案",
  "A project by that developer, in that area": "該開發商在該地區的建案",
- "A project in the area you named": "您所指地區的建案"
+ "A project in the area you named": "您所指地區的建案",
+ "We cannot find that page": "找不到該頁面",
+ "The link may be wrong, or the page may have moved. You can search for a property instead.": "連結可能有誤，或頁面已移動。您可以改為搜尋物件。",
+ "Drawing of a house with a question mark above it": "上方有問號的房屋插圖",
+ "Back to search": "返回搜尋",
+ "We could not find this report": "找不到這份報告",
+ "A report is kept only in the tab where it was searched. Search for the property again to get it back.": "報告只會保存在進行搜尋的分頁中。請重新搜尋該物件以取回。",
+ "Drawing of an empty report page with a magnifying glass": "帶有放大鏡的空白報告頁面插圖",
+ "Search for a property": "搜尋物件",
+ "Something went wrong": "發生錯誤",
+ "Nothing was lost. Please try again.": "沒有任何資料遺失。請再試一次。",
+ "Drawing of a plug that has come out of its socket": "從插座拔出的插頭插圖",
+ "Drawing of a magnifying glass over an empty list": "空白清單上方的放大鏡插圖"
 }
