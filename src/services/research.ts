@@ -1,7 +1,6 @@
 import { http, ApiError } from './http';
 import { solveProofOfWork } from '@/utils/proofOfWork';
 import type { PricingCountry } from '@/types/checkout';
-import type { CandidateResult, Remembered, SearchMode } from '@/types/search';
 import type {
   BriefResponse,
   CheckoutRequest,
@@ -14,13 +13,6 @@ import type {
   ResearchRequest,
   ServerQuote,
 } from '@/types/research';
-
-export type InvestigationRequest = {
-  query: string;
-  location: string;
-  country: string;
-  market: string;
-};
 
 type Challenge = { ok: boolean; token: string; bits: number };
 
@@ -39,31 +31,6 @@ const isChallenge = (e: unknown) =>
   e instanceof ApiError &&
   e.status === 428 &&
   (e.body as { code?: string } | undefined)?.code === 'challenge';
-
-/** Starts a server-side investigation and returns its reference; solves the anti-bot check when asked. */
-export async function startInvestigation(
-  payload: InvestigationRequest,
-  onChallenge?: () => void,
-): Promise<string> {
-  const post = (body: object) =>
-    http<{ ok: boolean; ref?: string }>('/api/investigate', {
-      method: 'POST',
-      body,
-      timeoutMs: 30000,
-    });
-  let data;
-  try {
-    data = await post(payload);
-  } catch (e) {
-    if (!isChallenge(e)) throw e;
-    onChallenge?.();
-    const pow = await proofOfWork();
-    if (!pow) throw new Error('POW_FAILED');
-    data = await post({ ...payload, pow });
-  }
-  if (!data.ok || !data.ref) throw new Error('START_FAILED');
-  return data.ref;
-}
 
 export const recoverAccess = (paymentId: string) =>
   http<{ ok: boolean; ref: string; token: string }>('/api/research/recover', {
@@ -86,23 +53,6 @@ export const getPricingCountries = () =>
   http<{ ok: boolean; countries: PricingCountry[]; network?: string }>('/api/pricing/countries', {
     timeoutMs: 8000,
   });
-
-/** The search mode the server runs: candidates are shown only when it says "on" (otherwise it matches in the shadow). */
-export async function getSearchMode(): Promise<SearchMode> {
-  try {
-    const d = await http<{ mode?: SearchMode }>('/api/search/config', { timeoutMs: 8000 });
-    return d.mode ?? 'shadow';
-  } catch {
-    return 'shadow';
-  }
-}
-
-export const fetchCandidates = (body: {
-  query: string;
-  location: string;
-  market: string;
-  remember?: Remembered;
-}) => http<CandidateResult>('/api/search/candidates', { method: 'POST', body, timeoutMs: 12000 });
 
 /** A search that returns the brief directly. Solves the anti-bot check when the server asks for it. */
 export async function runResearch(payload: ResearchRequest): Promise<BriefResponse> {
