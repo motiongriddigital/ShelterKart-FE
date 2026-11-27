@@ -4,9 +4,7 @@ import { NO_RESULTS_LABEL } from '@/constants/emptyStates';
 import { useT } from '@/hooks/useT';
 import { groupByCountry } from '@/utils/demoSearch';
 import type { SearchView } from '@/hooks/useSearch';
-import type { Candidate, DemoHit, DemoRecord, Remembered } from '@/types/search';
-import { leadsClearly, whyText } from '@/utils/searchWhy';
-import { RememberForm } from './RememberForm';
+import type { DemoHit, DemoRecord } from '@/types/search';
 
 type Props = {
   view: SearchView;
@@ -14,10 +12,6 @@ type Props = {
   onDidYouMean: (name: string) => void;
   onPick: (record: DemoRecord, back: DemoHit[]) => void;
   onBack: () => void;
-  onChoose: (c: Candidate) => void;
-  onNoneOfThese: (q: string) => void;
-  onRemember: (q: string, r: Remembered) => void;
-  onResearchAnyway: (q: string) => void;
 };
 
 const ITEM =
@@ -36,36 +30,6 @@ const Hint = ({ children, empty }: { children: React.ReactNode; empty?: boolean 
   </p>
 );
 
-function CandidateRow({
-  c,
-  best,
-  onChoose,
-}: {
-  c: Candidate;
-  best: boolean;
-  onChoose: (c: Candidate) => void;
-}) {
-  const t = useT();
-  const meta = [
-    c.developer ? `${t('Developer')}: ${c.developer}` : '',
-    c.registration ? `${t('Registration number')}: ${c.registration}` : '',
-    whyText(c, t),
-  ].filter(Boolean);
-  return (
-    <button type="button" className={ITEM} onClick={() => onChoose(c)}>
-      <span className="font-semibold text-slate-900">
-        {[c.name + (c.phase ? ` · ${c.phase}` : ''), c.locality, c.city].filter(Boolean).join(', ')}
-      </span>
-      {best && (
-        <span className="rounded-md bg-emerald-50 px-1.5 py-0.5 text-sm font-bold text-emerald-700">
-          {t('Best match')}
-        </span>
-      )}
-      <span className="w-full text-sm text-slate-600">{meta.join(' · ')}</span>
-    </button>
-  );
-}
-
 const Line = ({ label, value }: { label: string; value: string }) => (
   <p className="px-4 py-0.5 text-base text-slate-700">
     <strong>{label}: </strong>
@@ -73,71 +37,13 @@ const Line = ({ label, value }: { label: string; value: string }) => (
   </p>
 );
 
-function Body({
-  view,
-  onDidYouMean,
-  onPick,
-  onBack,
-  onChoose,
-  onNoneOfThese,
-  onRemember,
-  onResearchAnyway,
-}: Omit<Props, 'visible'>) {
+function Body({ view, onDidYouMean, onPick, onBack }: Omit<Props, 'visible'>) {
   const t = useT();
   switch (view.mode) {
     case 'idle':
       return null;
     case 'live':
       return <Hint>{view.message}</Hint>;
-    case 'candidates': {
-      const { data, q } = view;
-      const best =
-        leadsClearly(data.candidates) &&
-        (data.confidence === 'sure' || data.confidence === 'likely');
-      return (
-        <>
-          <Hint>
-            {data.confidence === 'sure'
-              ? t('Is this the project you mean?')
-              : t('Which of these do you mean? Choose one.')}
-          </Hint>
-          {data.candidates.map((c, i) => (
-            <CandidateRow
-              key={`${c.name}${c.registration}${i}`}
-              c={c}
-              best={i === 0 && best}
-              onChoose={onChoose}
-            />
-          ))}
-          <button type="button" className={LINK_BTN} onClick={() => onNoneOfThese(q)}>
-            {t('None of these')}
-          </button>
-        </>
-      );
-    }
-    case 'notfound':
-    case 'remember': {
-      const { q } = view;
-      const closest = view.mode === 'notfound' ? (view.data.notFound?.closest ?? []) : [];
-      return (
-        <>
-          {view.mode === 'notfound' && (
-            <>
-              <NoResults />
-              <Hint empty>{t('We could not find “{q}” in our list of projects yet.', { q })}</Hint>
-              {closest.length > 0 && <Hint>{t('Closest projects we know')}</Hint>}
-              {closest.map((c, i) => (
-                <CandidateRow key={`${c.name}${i}`} c={c} best={false} onChoose={onChoose} />
-              ))}
-            </>
-          )}
-          <RememberForm onSubmit={(r) => onRemember(q, r)} />
-          <button type="button" className={LINK_BTN} onClick={() => onResearchAnyway(q)}>
-            {t('Research “{q}” anyway', { q })}
-          </button>
-        </>
-      );
-    }
     case 'empty':
       return (
         <>

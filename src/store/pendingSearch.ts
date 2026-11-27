@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-type PendingSearch = { query: string; place?: string };
+type PendingSearch = { query: string };
 
 type PendingSearchState = {
   /** The search that met the sign-in wall; it runs again once the reader is back signed in. */

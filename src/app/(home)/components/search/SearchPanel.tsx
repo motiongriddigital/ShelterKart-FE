@@ -99,10 +99,6 @@ export function SearchPanel() {
             onDidYouMean={search.pickDidYouMean}
             onPick={search.showRecord}
             onBack={search.backToResults}
-            onChoose={search.chooseCandidate}
-            onNoneOfThese={search.askToRemember}
-            onRemember={(q, r) => search.showCandidates(q, r)}
-            onResearchAnyway={search.researchAnyway}
           />
           <VoicePanel
             panel={voice.panel}
